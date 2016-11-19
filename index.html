@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8">
+	<title>Sword Art Online Hollow Realization - Guide</title>
+
+	<link rel="stylesheet" href="resources/vendor/bootstrap/css/bootstrap.min.css">
+	<!--<link rel="stylesheet" href="resources/vendor/bootstrap/css/bootstrap-theme.min.css">-->
+	<link rel="stylesheet" href="resources/vendor/fontAwesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="resources/css/styles.css">
+
+	<script src="resources/vendor/jquery/jquery-2.2.2.min.js"></script>
+	<script src="resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="resources/vendor/bootstrap/plugins/context-menu.js"></script>
+	<script src="resources/vendor/bootstrap3-dialog-1.35.3/dist/js/bootstrap-dialog.min.js"></script>
+	<script src="resources/vendor/knockout/knockout-3.4.0.min.js"></script>
+
+	<script src="resources/js/helpers.js"></script>
+	<script src="resources/js/MAIN_DATA.js"></script>
+	<script src="resources/ko/baseModel/GearModel.js"></script>
+	<script src="resources/ko/baseModel/ChestModel.js"></script>
+	<script src="resources/ko/baseModel/EventModel.js"></script>
+	<script src="resources/ko/baseModel/MonsterModel.js"></script>
+	<script src="resources/ko/subModel/EffectModel.js"></script>
+	<script src="resources/ko/subModel/GoalModel.js"></script>
+	<script src="resources/ko/subModel/RewardModel.js"></script>
+	<script src="resources/ko/subModel/LocationModel.js"></script>
+	<script src="resources/ko/RootViewModel.js"></script>
+</head>
+<body>
+<div data-lists>
+	<datalist id="listGear" data-bind="foreach: data.gear">
+		<option data-bind="value: name"></option>
+	</datalist>
+	<datalist id="listMonster" data-bind="foreach: data.monster">
+		<option data-bind="value: name"></option>
+	</datalist>
+
+	<datalist id="listAreas" data-bind="foreach: $root.OPTIONS().areas">
+		<option data-bind="value: $data"></option>
+	</datalist>
+	<datalist id="listGearEffect" data-bind="foreach: $root.OPTIONS().gearEffect">
+		<option data-bind="value: $data"></option>
+	</datalist>
+	<datalist id="listItemOther" data-bind="foreach: $root.OPTIONS().itemOther">
+		<option data-bind="value: $data"></option>
+	</datalist>
+	<datalist id="listGearType" data-bind="foreach: $root.OPTIONS().itemTypeGear">
+		<option data-bind="value: $data"></option>
+	</datalist>
+	<datalist id="listChestRarity" data-bind="foreach: $root.OPTIONS().chestRarity">
+		<option data-bind="value: $data, text: $index"></option>
+	</datalist>
+	<datalist id="listItemUse" data-bind="foreach: $root.OPTIONS().itemUse">
+		<option data-bind="value: $data"></option>
+	</datalist>
+	<datalist id="listItemRarity" data-bind="foreach: $root.OPTIONS().itemRarity">
+		<option data-bind="value: $data, text: $index"></option>
+	</datalist>
+
+	<datalist id="listMonsterType">
+		<option value="M">
+		<option value="NM">
+		<option value="HNM">
+		<option value="Boss">
+	</datalist>
+	<datalist id="listStars">
+		<option value="0">-</option>
+		<option value="1">★</option>
+		<option value="2">★★</option>
+		<option value="3">★★★</option>
+		<option value="4">★★★★</option>
+		<option value="5">★★★★★</option>
+	</datalist>
+	<datalist id="listLocation">
+		<option value="Top"></option>
+		<option value="Right"></option>
+		<option value="Bottom"></option>
+		<option value="Left"></option>
+		<option value="NM: "></option>
+		<option value="HNM: "></option>
+		<option value="E: "></option>
+		<option value="Events"></option>
+	</datalist>
+	<datalist id="listGoalType">
+		<option value="Kill">
+		<option value="Protect">
+		<option value="Stealth">
+	</datalist>
+	<datalist id="listRewardType">
+		<option value="EXP">EXP</option>
+		<option value="Col">Col</option>
+		<option value="Item">Item</option>
+		<option value="Chest">Chest</option>
+		<option value="Gear">Gear</option>
+		<option value="LastHit">LastHit</option>
+	</datalist>
+</div>
+<div data-templates>
+<script type="text/template" id="preset-list">
+	<input type="text" class="" list="list" placeholder="" data-bind="attr:{list: 'list'+list, placeholder: placeholder}, css: list, value: value">
+</script>
+<script type="text/template" id="preset-contextmenu">
+	<ul class="dropdown-menu" role="menu" style="display:none" data-bind="attr: {id: 'contextMenu-'+id}">
+		<li data-bind="click: $root.removeGear, visible: !locked()">
+			<div class="inputBox">
+					<span class="inputBtn btn-danger">
+						<span class="fa fa-trash"></span>
+					</span>
+				<span class="inputName">Delete</span>
+			</div>
+		</li>
+		<li data-bind="click: switchLock">
+			<div class="inputBox">
+					<span class="inputBtn btn-danger">
+						<span class="fa" data-bind="css: {'fa-lock': !locked(), 'fa-unlock': locked()}"></span>
+					</span>
+				<span class="inputName" data-bind="html: locked()?'Unlock':'Lock'">&nbsp;</span>
+			</div>
+		</li>
+	</ul>
+</script>
+<script type="text/template" id="preset-location">
+	<!-- ko with: location -->
+	<div class="inputBox location">
+		<input type="text" list="listAreas" class="Areas" data-bind="value: area, event: {change:setLast}" />
+		<input type="text" list="listStages-1" class="Stages" data-bind="attr: {list: 'listStages-'+id}, value: stage, event: {change:setLast}" />
+	</div>
+	<datalist id="listStages-1" data-bind="attr: {id: 'listStages-'+id}, foreach: listStages">
+		<option data-bind="value: $data">
+	</datalist>
+	<!-- /ko -->
+</script>
+<script type="text/template" id="preset-locations">
+	<div>
+		<!-- ko foreach: locations -->
+			<div class="inputBox location">
+				<input type="text" list="listAreas" class="Areas" data-bind="value: area, event: {change:setLast}" />
+				<input type="text" list="listStages-2" class="Stages" data-bind="attr: {list: 'listStages-'+id}, value: stage, event: {change:setLast}" />
+				<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeLocation">
+					<span class="fa fa-minus"></span>
+				</button>
+			</div>
+			<datalist id="listStages-2" data-bind="attr: {id: 'listStages-'+id}, foreach: listStages">
+				<option data-bind="value: $data">
+			</datalist>
+			<br>
+		<!-- /ko -->
+		<div class="inputBox">
+			<button type="button" class="inputBtn btn-primary" data-bind="click: addLocation">
+				<span class="fa fa-plus"></span>
+			</button>
+		</div>
+	</div>
+</script>
+<script type="text/template" id="preset-gear-stat">
+	<div class="inputBox effect">
+		<span class="inputName statName" data-bind="html: name, css: {small3: baseStat}">&nbsp;</span>
+		<input type="number" class="stat" data-bind="value: value"/>
+	</div>
+</script>
+<script type="text/template" id="preset-goal">
+	<div class="inputBox">
+		<input type="text" list="listGoalType" class="GoalType" data-bind="value: type, valueAllowUnset: true">
+		<span class="inputName monsterType" data-bind="html: monsterType">&nbsp;</span>
+		<input type="text" class="monsterName" placeholder="Monster" data-bind="value: name"/>
+		<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addNewMonster, visible: checkIfNew()">
+			<span class="fa fa-plus"></span>
+		</button>
+		<input type="number" class="goalAmount" data-bind="value: amount, visible: amountShow"/>
+		<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeGoal" tabindex="-1">
+			<span class="fa fa-minus"></span>
+		</button>
+	</div>
+	<br>
+</script>
+<script type="text/template" id="preset-reward">
+	<div class="inputBox">
+		<input type="text" list="listRewardType" class="RewardType" data-bind="value: type"/>
+		<!-- ko if: isItem() -->
+		<input type="text" list="listItemOther" class="ItemOther" data-bind="value: name, visible: nameShow"/>
+		<!-- /ko -->
+		<!-- ko if: isChest() -->
+		<input type="text" list="listChestRarity" class="ChestRarity" data-bind="value: name"/>
+		<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addNewChest" tabindex="-1">
+			<span class="fa fa-plus"></span>
+		</button>
+		<!-- /ko -->
+		<!-- ko if: isGear() || isLastHit() -->
+		<span class="inputName GearType" data-bind="html: gearType">&nbsp;</span>
+		<input type="text" list="listGear" class="Gear" data-bind="value: name"/>
+		<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addNewGear">
+			<span class="fa fa-plus"></span>
+		</button>
+		<!-- /ko -->
+		<input type="number" class="amount" data-bind="value: amount, visible: amountShow"/>
+		<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeReward" tabindex="-1">
+			<span class="fa fa-minus"></span>
+		</button>
+	</div>
+	<br>
+</script>
+
+<script type="text/template" id="item-gear">
+	<div id="tempGearId" class="media" data-bind="css: 'bg-'+rarity().toLowerCase(), attr: {id: id}">
+		<div class="media-body">
+			<fieldset class="row" data-bind="disable: locked">
+				<div class="col-xs-12 col-sm-2">
+					<div class="inputBox block">
+						<input type="text" class="GearType" list="listGearType" data-bind="value: type"/>
+					</div>
+					<div class="inputBox block">
+						<input type="text" class="" data-bind="value: name" placeholder="Name">
+					</div>
+					<div class="inputBox">
+						<input type="text" class="ItemRarity" list="listItemRarity" data-bind="value: rarity"/>
+						<input type="text" class="Stars" list="listStars" data-bind="value: stars"/>
+					</div>
+					<div class="inputBox">
+						<button type="button" class="inputBtn btn-danger" data-bind="click:$root.removeGear">
+							<span class="fa fa-trash"></span>
+						</button>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-10">
+					<div data-bind="template: {name: 'preset-gear-stat', foreach: groupedEffects().base}"></div>
+					<div data-bind="template: {name: 'preset-gear-stat', foreach: groupedEffects().resistance}"></div>
+					<div>
+						<!-- ko foreach: groupedEffects().other -->
+						<div class="inputBox effect">
+							<input class="inputName GearEffect" type="text" list="listGearEffect" placeholder="Effect" data-bind="value: name"/>
+							<button type="button" class="inputBtn btn-primary" data-bind="visible: checkIfNew, click: addNew">
+								<span class="fa fa-plus"></span>
+							</button>
+							<input type="number" class="stat" data-bind="value: value"/>
+							<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeEffect" tabindex="-1">
+								<span class="fa fa-remove"></span>
+							</button>
+						</div>
+						<!-- /ko -->
+						<div class="inputBox">
+							<button type="button" class="inputBtn btn-primary" data-bind="click: addEffect">
+								<span class="fa fa-plus"></span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+	</div>
+</script>
+<script type="text/template" id="item-chest">
+	<div id="tempChestId" class="media" data-bind="css: 'bg-'+rarity().toLowerCase(), attr: {id: id}">
+		<div class="media-body">
+			<div class="row">
+				<div class="col-xs-12 col-sm-5">
+					<!-- ko template: 'preset-location' --><!-- /ko -->
+					<div class="inputBox">
+						<input type="text" class="ChestRarity" list="listChestRarity" data-bind="value: rarity"/>
+						<input type="text" list="listLocation" class="Location" data-bind="value: where" placeholder="Location/Event/Monster">
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-4">
+					<div class="inputBox">
+						<span type="text" class="inputName GearType" data-bind="html: itemType">&nbsp;</span>
+						<input type="text" list="listGear" class="Gear" placeholder="Gear" data-bind="value: item"/>
+						<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addNewGear, visible: isNewItem()">
+							<span class="fa fa-plus"></span>
+						</button>
+					</div>
+				</div>
+				<div class="col-xs-4 col-sm-3" data-bind="if: rarity()=='Blue'">
+					<div class="inputBox">
+						<input type="text" class="ItemUse" list="listItemUse" data-bind="value: alternative"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+<script type="text/template" id="item-event">
+	<div id="tempEventId" class="media" data-bind="attr: {id: id}">
+		<div class="media-body">
+			<div class="row">
+				<div class="col-xs-12 col-sm-5">
+					<!-- ko template: 'preset-location' --><!-- /ko -->
+					<div class="inputBox event">
+						<input type="text" class="name" data-bind="value: name" placeholder="Name">
+						<input type="number" min="0" class="lv" data-bind="value: lv" placeholder="Lv">
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-3">
+					<!-- ko template: {name: 'preset-goal', foreach: goals} --><!-- /ko -->
+					<div class="inputBox">
+						<button type="button" class="inputBtn btn-primary" data-bind="click: addGoal">
+							<span class="fa fa-plus"></span>
+						</button>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-4">
+					<!-- ko template: {name: 'preset-reward', foreach: rewards} --><!-- /ko -->
+					<div class="inputBox">
+						<button type="button" class="inputBtn btn-primary" data-bind="click: addReward">
+							<span class="fa fa-plus"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+<script type="text/template" id="item-monster">
+	<div id="tempMonsterId" class="media" data-bind="attr: {id: id}">
+		<div class="media-body">
+			<fieldset class="row" data-bind="disable: locked">
+				<div class="col-xs-12 col-sm-4" data-bind="template: 'preset-locations'"></div>
+				<div class="col-xs-12 col-sm-2">
+					<div class="inputBox block">
+						<input type="text" class="MonsterType" list="listMonsterType" data-bind="value: type"/>
+					</div>
+					<div class="inputBox block">
+						<input type="text" class="monsterName" data-bind="value: name" placeholder="Name">
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-2">
+					<div class="inputBox">
+						<span class="inputName difficulty">Singleplayer</span>
+						<input type="number" min="0" class="lv" data-bind="value: lv.sp.min" placeholder="Lv">
+						<span class="inputName">-</span>
+						<input type="number" min="0" class="lv" data-bind="value: lv.sp.max" placeholder="Lv">
+					</div>
+					<br>
+					<div class="inputBox">
+						<span class="inputName difficulty">Normal</span>
+						<input type="number" min="0" class="lv" data-bind="value: lv.n.min" placeholder="Lv">
+						<span class="inputName">-</span>
+						<input type="number" min="0" class="lv" data-bind="value: lv.n.max" placeholder="Lv">
+					</div>
+					<br>
+					<div class="inputBox">
+						<span class="inputName difficulty">Hard</span>
+						<input type="number" min="0" class="lv" data-bind="value: lv.h.min" placeholder="Lv">
+						<span class="inputName">-</span>
+						<input type="number" min="0" class="lv" data-bind="value: lv.h.max" placeholder="Lv">
+					</div>
+					<br>
+					<div class="inputBox">
+						<span class="inputName difficulty">Nightmare</span>
+						<input type="number" min="0" class="lv" data-bind="value: lv.nm.min" placeholder="Lv">
+						<span class="inputName">-</span>
+						<input type="number" min="0" class="lv" data-bind="value: lv.nm.max" placeholder="Lv">
+					</div>
+				</div>
+			</fieldset>
+		</div>
+	</div>
+</script>
+<script type="text/template" id="preset"></script>
+</div>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container-fluid">
+		<ul class="nav navbar-nav nav-tabs">
+			<li class="active"><a data-toggle="tab" href="#gear">Gear</a></li>
+			<li><a data-toggle="tab" href="#chests">Chests</a></li>
+			<li><a data-toggle="tab" href="#events">Events</a></li>
+			<li><a data-toggle="tab" href="#monster">Monster</a></li>
+			<li><a href="#export" data-bind="click: exportData">Export</a></li>
+		</ul>
+	</div>
+</nav>
+<main class="container-fluid">
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="gear">
+			<div class="media-list" data-bind="template: {name: 'item-gear', foreach: data.gear}"></div>
+			<div class="inputBox block">
+				<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addGear">
+					<span class="fa fa-plus"></span>
+				</button>
+			</div>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="chests">
+			<div class="media-list" data-bind="template: {name: 'item-chest', foreach: data.chests}"></div>
+			<div class="inputBox block">
+				<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addChest">
+					<span class="fa fa-plus"></span>
+				</button>
+			</div>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="events">
+			<div class="media-list" data-bind="template: {name: 'item-event', foreach: data.events}"></div>
+			<div class="inputBox block">
+				<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addEvent">
+					<span class="fa fa-plus"></span>
+				</button>
+			</div>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="monster">
+			<div class="media-list" data-bind="template: {name: 'item-monster', foreach: data.monster}"></div>
+			<div class="inputBox block">
+				<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addMonster">
+					<span class="fa fa-plus"></span>
+				</button>
+			</div>
+		</div>
+	</div>
+</main>
+
+<script src="resources/js/initRoot.js"></script>
+</body>
+</html>

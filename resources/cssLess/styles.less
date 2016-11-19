@@ -1,0 +1,163 @@
+@import "_variables";
+@import "_mixins";
+
+body {
+	background: #111;
+	color: #fff;
+	font-size: 12px;
+}
+main {
+	margin-top: 60px;
+}
+.navbar-form-no-border {
+	border: none;
+	margin-top: 0;
+	margin-bottom: 0;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+.tag-square {
+	width: 20px;
+	height: 20px;
+}
+.panel {
+	background: #333;
+	.table {
+		> tbody:first-child {
+			> tr:first-child {
+				td, th {
+					border-top: 1px solid #ddd
+				}
+			}
+		}
+		&-bordered {
+			thead, tbody, tfoot {
+				tr:first-child {
+					td, th {
+						border-bottom: 1px solid #ddd
+					}
+				}
+			}
+		}
+		&-responsive > .table-bordered {
+			thead, tbody, tfoot {
+				tr:first-child {
+					td, th {
+						border-bottom: 1px solid #ddd
+					}
+				}
+			}
+		}
+	}
+}
+.media-list .media {
+	background: #222;
+	padding: 5px;
+	border-bottom: 5px solid #111;
+}
+.modal-content {
+	background: #111;
+	border: 1px solid #fff;
+	border-radius: 0;
+}
+.modal-body {
+	padding: 5px 5px 0;
+}
+.modal-header, .modal-footer {
+	padding: 5px;
+}
+.btn {
+	border: none;
+	border-radius: 0;
+}
+option {
+	background: #000;
+	color: #fff;
+}
+.inputBox {
+	display: inline-block;
+	margin-bottom: 2px;
+	> * {
+		display: block;
+		float: left;
+		padding: 0 5px;
+		border: 1px solid #fff;
+		+ * {
+			border-left: none !important;
+		}
+	}
+	select, input, textarea, [contenteditable] {
+		background: #222;
+		color: #fff;
+	}
+	input {
+		&[type=number] {
+			font-family: Consolas;
+			text-align: right;
+			&::-webkit-outer-spin-button,
+			&::-webkit-inner-spin-button {
+				display: none;
+			}
+		}
+	}
+	> [list], > select {
+		 background: #555;
+		 -webkit-appearance: none;
+		 width: auto;
+		&::-webkit-calendar-picker-indicator {
+			display: none;
+		}
+	 }
+	.inputName {
+		background: #000;
+		color: #fff;
+		&[readonly] {
+			background: #FFF;
+			color: #000;
+		}
+	}
+	.inputBtn {
+		border: 1px solid #fff;
+		padding: 0 5px;
+	}
+
+	> .Areas { width: 145px; }
+	> .Stages { width: 160px; }
+	> .Location { width: auto; }
+	> .Gear { width: auto; }
+	> .GearType { width: 90px; }
+	> .Stars { width: 20px; }
+	> .ItemUse { width: 145px; }
+	> .ItemOther { width: 100px; }
+	> .ItemRarity { width: 52px; }
+	> .ChestRarity { width: 46px; }
+	> .GoalType { width: 20px; }
+	> .RewardType { width: 50px; }
+	> .MonsterType { width: 40px; }
+
+	> .statName, > .difficulty { width: 80px; }
+	> .small3 { width: 40px; }
+	> .stat { width: 50px; }
+	> .lv { width: 31px; }
+	> .amount { width: 37px; }
+	> .goalAmount { width: 24px; }
+	> .monsterName { width: 188px; }
+
+	&.block {
+		display: block;
+		> * {
+			width: 100% !important;
+			float: none;
+			+ * {
+				border-left: 1px solid #fff !important;
+			}
+		}
+	}
+}
+
+.size-extra-wide .modal-dialog {
+	width: 100%;
+	padding: 10px;
+}
+
+@import "_overrides";

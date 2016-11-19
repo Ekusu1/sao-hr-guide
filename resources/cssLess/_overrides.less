@@ -1,0 +1,42 @@
+
+.form-horizontal .control-label.text-left { text-align: left; }
+
+.form-horizontal .control-label.text-center { text-align: center; }
+
+.form-horizontal .control-label.text-justify { text-align: justify; }
+
+.form-horizontal .control-label.text-right { text-align: right; }
+
+.media {
+	margin-top: 0;
+	&.bg-normal { background: @color-normal; }
+	&.bg-purple { background: @color-purple; }
+	&.bg-blue { background: @color-blue; }
+	&.bg-green { background: @color-green; }
+	&.bg-brown { background: @color-brown; }
+	&.bg-red { background: @color-red; }
+	&.bg-silver { background: @color-silver; }
+	&.bg-gold { background: @color-gold; }
+}
+
+.col {
+	&-xs, &-sm, &-md, &-lg {
+		&-1, &-2, &-3, &-4,
+		&-5, &-6, &-7, &-8,
+		&-9, &-10, &-11, &-12 {
+			padding-right: 5px;
+			padding-left: 5px;
+			&:first-child { padding-left: 15px; }
+			&:last-child { padding-right: 15px; }
+		}
+	}
+}
+
+.padding-mix(~'n', ~'', 0px);
+.padding-mix(~'', ~'-5', 5px);
+.padding-mix(~'', ~'-10', 10px);
+.padding-mix(~'', ~'-15', 15px);
+.margin-mix(~'n', ~'', 0px);
+.margin-mix(~'', ~'-5', 5px);
+.margin-mix(~'', ~'-10', 10px);
+.margin-mix(~'', ~'-15', 15px);

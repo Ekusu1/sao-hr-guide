@@ -1,0 +1,29 @@
+@import "_variables";
+
+//region mixins
+.color-class(@name, @color) {
+	.color-@{name} { color: @color; }
+}
+.bg-class(@name, @color) {
+	.bg-@{name} { background: @color; }
+}
+
+.padding-mix (@prefix, @suffix, @value) {
+	.@{prefix}p@{suffix}   { padding: @value !important; }
+	.@{prefix}p-t@{suffix} { padding-top: @value !important; }
+	.@{prefix}p-r@{suffix} { padding-right: @value !important; }
+	.@{prefix}p-b@{suffix} { padding-bottom: @value !important; }
+	.@{prefix}p-l@{suffix} { padding-left: @value !important; }
+	.@{prefix}p-x@{suffix} { padding-right: @value !important; padding-left: @value !important; }
+	.@{prefix}p-y@{suffix} { padding-top: @value !important; padding-bottom: @value !important; }
+}
+.margin-mix (@prefix: '', @suffix: '', @value) {
+	.@{prefix}m@{suffix}   { margin: @value !important; }
+	.@{prefix}m-t@{suffix} { margin-top: @value !important; }
+	.@{prefix}m-r@{suffix} { margin-right: @value !important; }
+	.@{prefix}m-b@{suffix} { margin-bottom: @value !important; }
+	.@{prefix}m-l@{suffix} { margin-left: @value !important; }
+	.@{prefix}m-x@{suffix} { margin-right: @value !important; margin-left: @value !important; }
+	.@{prefix}m-y@{suffix} { margin-top: @value !important; margin-bottom: @value !important; }
+}
+//endregion mixins
