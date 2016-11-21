@@ -154,6 +154,9 @@ option {
 .inputBox > .MonsterType {
   width: 40px;
 }
+.inputBox > .starsText {
+  width: 61px;
+}
 .inputBox > .statName,
 .inputBox > .difficulty {
   width: 80px;
@@ -186,9 +189,44 @@ option {
 .inputBox.block > * + * {
   border-left: 1px solid #fff !important;
 }
+.inputBox.smallBtn {
+  margin: 0;
+  line-height: 1px;
+}
+.inputBox.smallBtn > * {
+  padding: 2px;
+  font-size: 10px;
+}
+.inputBox > *.bg-normal {
+  background: #1a1a1a;
+}
+.inputBox > *.bg-purple {
+  background: #660066;
+}
+.inputBox > *.bg-blue {
+  background: #004466;
+}
+.inputBox > *.bg-green {
+  background: #006600;
+}
+.inputBox > *.bg-brown {
+  background: #663300;
+}
+.inputBox > *.bg-red {
+  background: #660000;
+}
+.inputBox > *.bg-silver {
+  background: #666666;
+}
+.inputBox > *.bg-gold {
+  background: #666600;
+}
 .size-extra-wide .modal-dialog {
   width: 100%;
   padding: 10px;
+}
+.duplicate {
+  background: #f00 !important;
 }
 .form-horizontal .control-label.text-left {
   text-align: left;
@@ -206,28 +244,28 @@ option {
   margin-top: 0;
 }
 .media.bg-normal {
-  background: #595959;
+  background: #1a1a1a;
 }
 .media.bg-purple {
-  background: #590059;
+  background: #660066;
 }
 .media.bg-blue {
-  background: #005959;
+  background: #004466;
 }
 .media.bg-green {
-  background: #005900;
+  background: #006600;
 }
 .media.bg-brown {
-  background: #592d00;
+  background: #663300;
 }
 .media.bg-red {
-  background: #590000;
+  background: #660000;
 }
 .media.bg-silver {
-  background: #595959;
+  background: #666666;
 }
 .media.bg-gold {
-  background: #594900;
+  background: #666600;
 }
 .col-xs-1,
 .col-sm-1,

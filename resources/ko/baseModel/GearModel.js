@@ -41,7 +41,6 @@ function GearModel(data = {
 	self.locked          = ko.observable(false);
 	self.switchLock      = ()=> self.locked(!self.locked());
 	self.initContextmenu = ()=> {
-		console.log($('#' + self.id));
 		$('#' + self.id).contextMenu({menuSelector: '#contextMenu-' + self.id, menuSelected: ()=> {}})
 	};
 
@@ -49,6 +48,13 @@ function GearModel(data = {
 	self.type    = ko.observable(data.type);
 	self.rarity  = ko.observable(data.rarity);
 	self.stars   = ko.observable(data.stars);
+	self.starsText = ko.computed(()=>{
+		var text ='';
+		for (var i = 0; i < self.stars(); i++) {
+			text += '★';
+		}
+		return text.length > 0 ? text : '-';
+	})
 	self.effects = ko.observableArray(data.effects.map((data)=>new EffectModel(data)));
 	self.groupedEffects = ko.pureComputed(()=> {
 		var grouped = {

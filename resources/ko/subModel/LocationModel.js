@@ -7,15 +7,24 @@ function LocationModel(data = {
 	var self = this;
 
 	self.id         = helpers.newGuid();
-	self.area       = ko.observable(data.area || helpers.getLast("area"));
-	self.stage      = ko.observable(data.stage || helpers.getLast("stage"));
-	self.listStages = ko.pureComputed(()=>rootView.OPTIONS().stages[self.area()] || []);
+	self.area       = ko.observable(data.area || rootView.last.area);
+	self.stage      = ko.observable(data.stage || rootView.last.stage);
+	self.listAreas = rootView.OPTIONS().areas;
+	self.listStages = ko.pureComputed(()=>{
+		var stages = rootView.OPTIONS().stages,
+		    currentStage = self.stage(),
+		    allStages = [],
+		    selectable = [];
+		$.each(stages, (k,area)=>area.forEach((v)=>allStages.push(v)));
+		selectable = self.area() !== '' ? stages[self.area()] : allStages;
+		selectable.includes(currentStage) || selectable.push(currentStage);
+		return selectable;
+	});
 
 	self.setLast = ()=> {
-		helpers.setLast('area', self.area());
-		helpers.setLast('stage', self.stage());
+		rootView.last.area = self.area();
+		rootView.last.stage = self.stage();
 	};
-	self.setLast();
 
 	self.export = ()=>({
 		area:  self.area(),

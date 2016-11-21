@@ -83,24 +83,8 @@
 		<option value="E: "></option>
 		<option value="Events"></option>
 	</datalist>
-	<datalist id="listGoalType">
-		<option value="Kill">
-		<option value="Protect">
-		<option value="Stealth">
-	</datalist>
-	<datalist id="listRewardType">
-		<option value="EXP">EXP</option>
-		<option value="Col">Col</option>
-		<option value="Item">Item</option>
-		<option value="Chest">Chest</option>
-		<option value="Gear">Gear</option>
-		<option value="LastHit">LastHit</option>
-	</datalist>
 </div>
 <div data-templates>
-<script type="text/template" id="preset-list">
-	<input type="text" class="" list="list" placeholder="" data-bind="attr:{list: 'list'+list, placeholder: placeholder}, css: list, value: value">
-</script>
 <script type="text/template" id="preset-contextmenu">
 	<ul class="dropdown-menu" role="menu" style="display:none" data-bind="attr: {id: 'contextMenu-'+id}">
 		<li data-bind="click: $root.removeGear, visible: !locked()">
@@ -124,27 +108,21 @@
 <script type="text/template" id="preset-location">
 	<!-- ko with: location -->
 	<div class="inputBox location">
-		<input type="text" list="listAreas" class="Areas" data-bind="value: area, event: {change:setLast}" />
-		<input type="text" list="listStages-1" class="Stages" data-bind="attr: {list: 'listStages-'+id}, value: stage, event: {change:setLast}" />
+		<select class="Areas" data-bind="options: listAreas, value: area, event: {change:setLast}"></select>
+		<select class="Stages" data-bind="options: listStages, value: stage, event: {change:setLast}"></select>
 	</div>
-	<datalist id="listStages-1" data-bind="attr: {id: 'listStages-'+id}, foreach: listStages">
-		<option data-bind="value: $data">
-	</datalist>
 	<!-- /ko -->
 </script>
 <script type="text/template" id="preset-locations">
 	<div>
 		<!-- ko foreach: locations -->
 			<div class="inputBox location">
-				<input type="text" list="listAreas" class="Areas" data-bind="value: area, event: {change:setLast}" />
-				<input type="text" list="listStages-2" class="Stages" data-bind="attr: {list: 'listStages-'+id}, value: stage, event: {change:setLast}" />
+				<select class="Areas" data-bind="options: listAreas, value: area, event: {change:setLast}"></select>
+				<select class="Stages" data-bind="options: listStages, value: stage, event: {change:setLast}"></select>
 				<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeLocation">
 					<span class="fa fa-minus"></span>
 				</button>
 			</div>
-			<datalist id="listStages-2" data-bind="attr: {id: 'listStages-'+id}, foreach: listStages">
-				<option data-bind="value: $data">
-			</datalist>
 			<br>
 		<!-- /ko -->
 		<div class="inputBox">
@@ -162,7 +140,7 @@
 </script>
 <script type="text/template" id="preset-goal">
 	<div class="inputBox">
-		<input type="text" list="listGoalType" class="GoalType" data-bind="value: type, valueAllowUnset: true">
+		<select class="GoalType" data-bind="options: listGoalType, value: type"></select>
 		<span class="inputName monsterType" data-bind="html: monsterType">&nbsp;</span>
 		<input type="text" class="monsterName" placeholder="Monster" data-bind="value: name"/>
 		<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addNewMonster, visible: checkIfNew()">
@@ -177,12 +155,12 @@
 </script>
 <script type="text/template" id="preset-reward">
 	<div class="inputBox">
-		<input type="text" list="listRewardType" class="RewardType" data-bind="value: type"/>
+		<select class="RewardType" data-bind="options: listRewardType, value: type"></select>
 		<!-- ko if: isItem() -->
-		<input type="text" list="listItemOther" class="ItemOther" data-bind="value: name, visible: nameShow"/>
+		<select class="ItemOther" data-bind="options: listItemOther, value: name"></select>
 		<!-- /ko -->
 		<!-- ko if: isChest() -->
-		<input type="text" list="listChestRarity" class="ChestRarity" data-bind="value: name"/>
+		<select class="ChestRarity" data-bind="options: listChestRarity, value: name"></select>
 		<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addNewChest" tabindex="-1">
 			<span class="fa fa-plus"></span>
 		</button>
@@ -208,14 +186,15 @@
 			<fieldset class="row" data-bind="disable: locked">
 				<div class="col-xs-12 col-sm-2">
 					<div class="inputBox block">
-						<input type="text" class="GearType" list="listGearType" data-bind="value: type"/>
+						<select class="GearType" data-bind="options: $root.OPTIONS().itemTypeGear, value: type"></select>
 					</div>
 					<div class="inputBox block">
-						<input type="text" class="" data-bind="value: name" placeholder="Name">
+						<input type="text" data-bind="value: name" placeholder="Name">
 					</div>
 					<div class="inputBox">
 						<input type="text" class="ItemRarity" list="listItemRarity" data-bind="value: rarity"/>
 						<input type="text" class="Stars" list="listStars" data-bind="value: stars"/>
+						<span class="inputName starsText" data-bind="text: starsText"></span>
 					</div>
 					<div class="inputBox">
 						<button type="button" class="inputBtn btn-danger" data-bind="click:$root.removeGear">
@@ -229,7 +208,7 @@
 					<div>
 						<!-- ko foreach: groupedEffects().other -->
 						<div class="inputBox effect">
-							<input class="inputName GearEffect" type="text" list="listGearEffect" placeholder="Effect" data-bind="value: name"/>
+							<input class="inputName GearEffect" type="text" list="listGearEffect" placeholder="Effect" data-bind="value: name, valueUpdate: 'input'"/>
 							<button type="button" class="inputBtn btn-primary" data-bind="visible: checkIfNew, click: addNew">
 								<span class="fa fa-plus"></span>
 							</button>
@@ -257,22 +236,17 @@
 				<div class="col-xs-12 col-sm-5">
 					<!-- ko template: 'preset-location' --><!-- /ko -->
 					<div class="inputBox">
-						<input type="text" class="ChestRarity" list="listChestRarity" data-bind="value: rarity"/>
-						<input type="text" list="listLocation" class="Location" data-bind="value: where" placeholder="Location/Event/Monster">
+						<select class="ChestRarity" data-bind="options: $root.OPTIONS().chestRarity, value: rarity"></select>
+						<input type="text" list="listLocation" class="Location" data-bind="value: where, valueUpdate: 'input'" placeholder="Location/Event/Monster">
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-4">
 					<div class="inputBox">
-						<span type="text" class="inputName GearType" data-bind="html: itemType">&nbsp;</span>
-						<input type="text" list="listGear" class="Gear" placeholder="Gear" data-bind="value: item"/>
+						<span type="text" class="inputName GearType" data-bind="css: 'bg-'+itemInfo().rarity.toLowerCase(),html: itemInfo().type">&nbsp;</span>
+						<input type="text" list="listGear" class="Gear" placeholder="Gear" data-bind="value: item, valueUpdate: 'input'"/>
 						<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addNewGear, visible: isNewItem()">
 							<span class="fa fa-plus"></span>
 						</button>
-					</div>
-				</div>
-				<div class="col-xs-4 col-sm-3" data-bind="if: rarity()=='Blue'">
-					<div class="inputBox">
-						<input type="text" class="ItemUse" list="listItemUse" data-bind="value: alternative"/>
 					</div>
 				</div>
 			</div>
@@ -280,7 +254,7 @@
 	</div>
 </script>
 <script type="text/template" id="item-event">
-	<div id="tempEventId" class="media" data-bind="attr: {id: id}">
+	<div id="tempEventId" class="media" data-bind="css: {duplicate: isDuplicate()}, attr: {id: id}">
 		<div class="media-body">
 			<div class="row">
 				<div class="col-xs-12 col-sm-5">
@@ -317,7 +291,7 @@
 				<div class="col-xs-12 col-sm-4" data-bind="template: 'preset-locations'"></div>
 				<div class="col-xs-12 col-sm-2">
 					<div class="inputBox block">
-						<input type="text" class="MonsterType" list="listMonsterType" data-bind="value: type"/>
+						<input type="text" class="MonsterType" list="listMonsterType" data-bind="value: type, valueUpdate: 'input'"/>
 					</div>
 					<div class="inputBox block">
 						<input type="text" class="monsterName" data-bind="value: name" placeholder="Name">
@@ -362,11 +336,56 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid">
 		<ul class="nav navbar-nav nav-tabs">
-			<li class="active"><a data-toggle="tab" href="#gear">Gear</a></li>
-			<li><a data-toggle="tab" href="#chests">Chests</a></li>
-			<li><a data-toggle="tab" href="#events">Events</a></li>
-			<li><a data-toggle="tab" href="#monster">Monster</a></li>
-			<li><a href="#export" data-bind="click: exportData">Export</a></li>
+			<li class="active"><a data-toggle="tab" href="#gear">
+				Gear
+				<div class="inputBox smallBtn">
+					<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addGear">
+						<span class="fa fa-plus"></span>
+					</button>
+				</div>
+			</a></li>
+			<li><a data-toggle="tab" href="#chests">
+				Chests
+				<div class="inputBox smallBtn">
+					<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addChest">
+						<span class="fa fa-plus"></span>
+					</button>
+				</div>
+			</a></li>
+			<li><a data-toggle="tab" href="#events">
+				Events
+				<div class="inputBox smallBtn">
+					<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addEvent">
+						<span class="fa fa-plus"></span>
+					</button>
+				</div>
+			</a></li>
+			<li><a data-toggle="tab" href="#monster">
+				Monster
+				<div class="inputBox smallBtn">
+					<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addMonster">
+						<span class="fa fa-plus"></span>
+					</button>
+				</div>
+			</a></li>
+			<li>
+				<a href="#export">
+					<div class="inputBox smallBtn">
+						<button type="button" class="inputBtn btn-primary" title="Sort Data" data-bind="click: $root.sortData">
+							<span class="fa fa-sort"></span>
+						</button>
+					</div>
+					<div class="inputBox smallBtn">
+						<button type="button" class="inputBtn btn-success" title="Save Data" data-bind="click: $root.saveData">
+							<span class="fa fa-floppy-o"></span>
+						</button>
+					</div>
+					<div class="inputBox smallBtn">
+						<button type="button" class="inputBtn btn-success" title="export Data" data-bind="click: $root.exportData">
+							<span class="fa fa-download"></span>
+						</button>
+					</div>
+				</a></li>
 		</ul>
 	</div>
 </nav>

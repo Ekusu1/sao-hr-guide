@@ -77,7 +77,7 @@ var helpers = new function () {
 		return self.findByKeyValue(dataName, 'name', name);
 	};
 
-	self.padNumber = function(number, width = 4, padChar = '0') {
+	self.padNumber = function (number, width = 4, padChar = '0') {
 		number = number + '';
 		return number.length >= width ? number : new Array(width - number.length + 1).join(padChar) + number;
 	}
@@ -89,7 +89,7 @@ var helpers = new function () {
 	 * @returns {number}
 	 */
 	self.getSortNumber = function (type, key) {
-		var sort = rootView.OPTIONS().sort[type];
+		var sort       = rootView.OPTIONS().sort[type];
 		var sortNumber = sort[key] !== undefined ? sort[key] : 0;
 		return self.padNumber(sortNumber);
 	}
@@ -105,7 +105,7 @@ var helpers = new function () {
 		 * @param model
 		 */
 		edit:   function (model) {
-			var index = self.findById(model.dataName, model.id());
+			var index = self.findById(model.dataName, model.id);
 			window.rootView.data[model.dataName].replace(index, model);
 		},
 		/**
@@ -138,11 +138,6 @@ var helpers = new function () {
 		localStorage.setItem(key, JSON.stringify(value))
 	}
 	self.getLocalStorage = (key)=>JSON.parse(localStorage.getItem(key) || '{}');
-
-
-	self.setLast = (key, value)=>self.setLocalStorage('last', {key: value});
-	self.getLast = (key)=>key === undefined ? self.getLocalStorage('last') : self.getLocalStorage('last')[key];
-
 
 	return self;
 };

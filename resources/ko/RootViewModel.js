@@ -30,6 +30,10 @@ function RootViewModel() {
 		events:  ko.observableArray(),
 		monster: ko.observableArray()
 	};
+	self.last = {
+		area: '',
+		stage: '',
+	}
 
 	self.sortData = ()=>{
 		$.each(self.data, (key,data)=>{
@@ -60,18 +64,12 @@ function RootViewModel() {
 			event:   ()=>new EventModel(),
 			monster: ()=>new MonsterModel()
 		};
-		console.log(presetData);
 		self.tmpModelType(type);
 		var newModel = types[type]();
 		$.each(presetData, (k, v)=>newModel[k](v));
 		self.tmpModel.push(newModel);
 		addNewDialogInstance.open();
 	}
-
-	self.addGear    = ()=>{self.saveData(); self.data.gear.push(new GearModel());};
-	self.addChest   = ()=>{self.saveData(); self.data.chests.push(new ChestModel());};
-	self.addEvent   = ()=>{self.saveData(); self.data.events.push(new EventModel())};
-	self.addMonster = ()=>{self.saveData(); self.data.monster.push(new MonsterModel());};
 
 	self.removeGear    = (m)=>confirmRemoveDialog(m, (r)=>(r && self.data.gear.remove(m)));
 	self.removeChest   = (m)=>confirmRemoveDialog(m, (r)=>(r && self.data.chests.remove(m)));
@@ -82,6 +80,11 @@ function RootViewModel() {
 	self.addNewChest   = (m)=>addNewDialog('chest', m.getTmpPreset());
 	self.addNewEvent   = (m)=>addNewDialog('event', m.getTmpPreset());
 	self.addNewMonster = (m)=>addNewDialog('monster', m.getTmpPreset());
+
+	self.addGear    = ()=>{addNewDialog('gear', {});};
+	self.addChest   = ()=>{addNewDialog('chest', {});};
+	self.addEvent   = ()=>{addNewDialog('event', {});};
+	self.addMonster = ()=>{addNewDialog('monster', {});};
 
 	self.init = function () {
 		self.loadData();

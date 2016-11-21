@@ -16,32 +16,41 @@ function EventModel(data = {
 	self.tmpType         = 'item-event';
 	self.id              = helpers.newGuid();
 	self.sortKey         = ko.pureComputed(()=>[
-			helpers.getSortNumber('stages', self.location().stage()),
-			helpers.getSortNumber('eventType', self.type()),
-			helpers.padNumber(self.lv())
-		].join('-')
-	);
+		helpers.getSortNumber('stages', self.location().stage()),
+		helpers.getSortNumber('eventType', self.type()),
+		helpers.padNumber(self.lv())
+	].join('-'));
 	self.locked          = ko.observable(false);
 	self.switchLock      = ()=> self.locked(!self.locked());
-	self.initContextmenu = ()=>$('#' + self.id).contextMenu({menuSelector: '#contextMenu-' + self.id});
+	self.initContextmenu = ()=> $('#' + self.id).contextMenu({menuSelector: '#contextMenu-' + self.id});
 
 	self.location = ko.observable(new LocationModel(data.location));
 	self.type     = ko.observable(data.type)
 	self.name     = ko.observable(data.name);
 	self.lv       = ko.observable(data.lv);
-	self.goals    = ko.observableArray(data.goals.map((v)=>new GoalModel(v)));
-	self.rewards  = ko.observableArray(data.rewards.map((v)=>new RewardModel(v, self)));
 
-	self.goals().length == 0 && self.goals.push(new GoalModel());
-	self.rewards().length == 0 && self.rewards.push(new RewardModel(undefined, self));
-
-	self.addGoal   = ()=>self.goals.push(new GoalModel());
-	self.addReward = ()=>self.rewards.push(new RewardModel(undefined, self));
-
+	self.goals    = ko.observableArray(data.goals.map((v)=>new GoalModel(v, self)));
+	self.goals().length == 0 && self.goals.push(new GoalModel(undefined, self));
+	self.addGoal   = ()=>self.goals.push(new GoalModel(undefined, self));
 	self.removeGoal   = (goal)=>self.goals.remove(goal);
+
+	self.rewards  = ko.observableArray(data.rewards.map((v)=>new RewardModel(v, self)));
+	self.rewards().length == 0 && self.rewards.push(new RewardModel(undefined, self));
+	self.addReward = ()=>self.rewards.push(new RewardModel(undefined, self));
 	self.removeReward = (reward)=>self.rewards.remove(reward);
 
-	self.getTmpPreset = ()=>({});
+	self.getTmpPreset = ()=>({location: self.location().export()});
+
+	self.getDuplicateCheckData = ko.computed(()=>[
+		self.location().area(),
+		self.location().stage(),
+		self.name(),
+		helpers.padNumber(self.lv())
+	].join('|'));
+	self.isDuplicate           = ko.computed(()=>rootView.data.events().some((m)=>
+		self.id !== m.id &&
+		self.getDuplicateCheckData() === m.getDuplicateCheckData()
+	));
 
 	self.export = ()=>({
 		location: self.location().export(),

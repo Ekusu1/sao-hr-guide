@@ -7,13 +7,12 @@ function ChestModel(data = {
 	},
 	rarity:     'Brown',
 	where:      '',
-	item:       '',
-	alternatve: ''
+	item:       ''
 }) {
 	var self             = this;
+	self.id              = helpers.newGuid();
 	self.dataType        = 'chests';
 	self.tmpType         = 'item-chest';
-	self.id              = helpers.newGuid();
 	self.sortKey         = ko.pureComputed(()=>[
 			helpers.getSortNumber('stages', self.location().stage()),
 			helpers.getSortNumber('chestRarity', self.rarity())
@@ -26,15 +25,21 @@ function ChestModel(data = {
 	self.location    = ko.observable(new LocationModel(data.location));
 	self.rarity      = ko.observable(data.rarity);
 	self.where       = ko.observable(data.where);
-	self.itemType    = ko.pureComputed(()=>{
-		var result = helpers.findByKeyValue('gear', 'name', self.item());
-		return result.length > 0 ? result[0].model.type() : '&nbsp;';
+	self.itemInfo = ko.pureComputed(()=> {
+		var info = {type: '&nbsp;', rarity: '&nbsp;'},
+		    result = helpers.findByKeyValue('gear', 'name', self.item());
+		if (result.length > 0) {
+			var m = result[0].model;
+			info.type = m.type();
+			info.rarity = m.rarity();
+		}
+		return info;
 	});
+
 	self.item        = ko.observable(data.item);
-	self.alternative = ko.observable(data.alternative);
 	self.isNewItem   = ko.pureComputed(()=> {
 		var curItem   = self.item();
-		var isNewItem = !rootView.data.gear().some((m)=>m.name() === curItem);
+		var isNewItem = !(rootView.data.gear().some((m)=>m.name() === curItem));
 		return curItem !== '' && isNewItem;
 	});
 
@@ -44,7 +49,6 @@ function ChestModel(data = {
 		location:   self.location().export(),
 		rarity:     self.rarity(),
 		where:      self.where(),
-		item:       self.item(),
-		alternatve: self.alternative()
+		item:       self.item()
 	});
 };

@@ -135,6 +135,7 @@ option {
 	> .RewardType { width: 50px; }
 	> .MonsterType { width: 40px; }
 
+	> .starsText { width: 61px; }
 	> .statName, > .difficulty { width: 80px; }
 	> .small3 { width: 40px; }
 	> .stat { width: 50px; }
@@ -153,11 +154,35 @@ option {
 			}
 		}
 	}
+
+	&.smallBtn {
+		margin: 0;
+		line-height: 1px;
+		> * {
+			padding: 2px;
+			font-size: 10px;
+		}
+	}
+
+	> * {
+		&.bg-normal { background: @color-normal; }
+		&.bg-purple { background: @color-purple; }
+		&.bg-blue { background: @color-blue; }
+		&.bg-green { background: @color-green; }
+		&.bg-brown { background: @color-brown; }
+		&.bg-red { background: @color-red; }
+		&.bg-silver { background: @color-silver; }
+		&.bg-gold { background: @color-gold; }
+	}
 }
 
 .size-extra-wide .modal-dialog {
 	width: 100%;
 	padding: 10px;
+}
+
+.duplicate {
+	background: #f00 !important;
 }
 
 @import "_overrides";
