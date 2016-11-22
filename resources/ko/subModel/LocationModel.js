@@ -2,7 +2,9 @@
 
 function LocationModel(data = {
 	area:  '',
-	stage: ''
+	stage: '',
+	lvMin: 0,
+	lvMax: 0,
 }) {
 	var self = this;
 
@@ -20,6 +22,10 @@ function LocationModel(data = {
 		selectable.includes(currentStage) || selectable.push(currentStage);
 		return selectable;
 	});
+	console.log(data);
+	console.log(typeof data.lvMin !== 'undefined');
+	self.lvMin = ko.observable(typeof data.lvMin !== 'undefined' ? data.lvMin : 0);
+	self.lvMax = ko.observable(typeof data.lvMax !== 'undefined' ? data.lvMax : 0);
 
 	self.setLast = ()=> {
 		rootView.last.area = self.area();
@@ -29,5 +35,7 @@ function LocationModel(data = {
 	self.export = ()=>({
 		area:  self.area(),
 		stage: self.stage(),
+		lvMin: self.lvMin(),
+		lvMax: self.lvMax()
 	});
 };

@@ -10,10 +10,11 @@ function RootViewModel() {
 	}
 	self.exportData = function () {
 		self.saveData();
-		var regex = /"([A-Za-z0-9_]*)":/gm;
+		var regex1 = /"([A-Za-z0-9_]*)":/gm;
+		var regex2 = /\{:/gm;
 		var exportData =
-			    `var OPTIONS = ${localStorage.getItem('OPTIONS').replace(regex, "$1:")};\n`+
-			    `var MAIN_DATA = ${localStorage.getItem('MAIN_DATA').replace(regex, "$1:")};`;
+			    `var OPTIONS = ${localStorage.getItem('OPTIONS').replace(regex1, "$1:").replace(regex2, '{"":')};\n`+
+			    `var MAIN_DATA = ${localStorage.getItem('MAIN_DATA').replace(regex1, "$1:")};`;
 		helpers.export.createFile('MAIN_DATA.txt', exportData)
 	}
 	self.loadData = function () {

@@ -18,6 +18,8 @@ function MonsterModel(data = {
 	self.sortKey         = ko.pureComputed(()=>[
 		helpers.getSortNumber('stages', self.locations()[0].stage()),
 		helpers.getSortNumber('monsterType', self.type()),
+		helpers.padNumber(self.locations()[0].lvMin()),
+		helpers.padNumber(self.locations()[0].lvMax()),
 		self.name()
 	].join('-'));
 	self.locked          = ko.observable(false);
