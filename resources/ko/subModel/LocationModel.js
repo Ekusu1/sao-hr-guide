@@ -22,8 +22,6 @@ function LocationModel(data = {
 		selectable.includes(currentStage) || selectable.push(currentStage);
 		return selectable;
 	});
-	console.log(data);
-	console.log(typeof data.lvMin !== 'undefined');
 	self.lvMin = ko.observable(typeof data.lvMin !== 'undefined' ? data.lvMin : 0);
 	self.lvMax = ko.observable(typeof data.lvMax !== 'undefined' ? data.lvMax : 0);
 

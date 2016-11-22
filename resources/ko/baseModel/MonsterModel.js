@@ -28,6 +28,14 @@ function MonsterModel(data = {
 
 	self.locations = ko.observableArray(data.locations.map((v)=>new LocationModel(v)));
 	self.addLocation    = ()=>self.locations.push(new LocationModel());
+	self.sortLocations = function (location) {
+		location.setLast();
+		self.locations.sort((a,b)=>{
+			a = helpers.getSortNumber('stages', a.stage());
+			b = helpers.getSortNumber('stages', b.stage());
+			return a == b ? 0 : a <  b ? -1 : 1
+		});
+	};
 	self.removeLocation = (location)=>self.locations.remove(location);
 
 	self.type      = ko.observable(data.type)

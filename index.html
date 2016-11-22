@@ -106,7 +106,7 @@
 		<!-- ko foreach: locations -->
 			<div class="inputBox location">
 				<select class="Areas" data-bind="options: listAreas, value: area, event: {change:setLast}"></select>
-				<select class="Stages" data-bind="options: listStages, value: stage, event: {change:setLast}"></select>
+				<select class="Stages" data-bind="options: listStages, value: stage, event: {change:$parent.sortLocations}"></select>
 			</div>
 			<div class="inputBox">
 				<input type="number" class="lv" data-bind="value: lvMin" placeholder="lv"/>
