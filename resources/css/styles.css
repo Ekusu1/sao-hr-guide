@@ -259,7 +259,7 @@ option {
   background: #666600;
 }
 .modal-dialog {
-  margin: 0px;
+  margin: 5px auto 0;
 }
 .np {
   padding: 0px !important;

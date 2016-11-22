@@ -23,6 +23,22 @@ function RootViewModel() {
 		!$.isEmptyObject(options) && (OPTIONS = options);
 		!$.isEmptyObject(main_data) && (MAIN_DATA = main_data);
 	}
+	self.clearSaveData = function () {
+		var dialog = BootstrapDialog.confirm({
+			title:    false,
+			size:     BootstrapDialog.SIZE_SMALL,
+			message:  '<div class="text-center"><h5>Are you sure you want to clear all saved Data?</h5></div>',
+			closable: true,
+			type:     BootstrapDialog.TYPE_WARNING,
+			callback: function (result) {
+				if (result) {
+					localStorage.clear();
+					location.reload();
+				}
+			}
+		});
+		dialog.getModalHeader().hide();
+	}
 
 	self.OPTIONS = ko.observable();
 	self.data    = {

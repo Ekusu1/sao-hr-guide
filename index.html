@@ -195,7 +195,7 @@
 						<span class="inputName starsText" data-bind="text: starsText"></span>
 					</div>
 					<div class="inputBox">
-						<button type="button" class="inputBtn btn-danger" data-bind="click:$root.removeGear">
+						<button type="button" class="inputBtn btn-danger" data-bind="click:$root.removeGear" tabindex="-1">
 							<span class="fa fa-trash"></span>
 						</button>
 					</div>
@@ -374,7 +374,13 @@
 							<span class="fa fa-download"></span>
 						</button>
 					</div>
-				</a></li>
+					<div class="inputBox smallBtn">
+						<button type="button" class="inputBtn btn-danger" title="clear Save Data" data-bind="click: $root.clearSaveData">
+							<span class="fa fa-remove"></span>
+						</button>
+					</div>
+				</a>
+			</li>
 		</ul>
 	</div>
 </nav>
