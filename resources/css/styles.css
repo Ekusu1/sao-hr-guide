@@ -226,22 +226,10 @@ option {
 }
 .size-extra-wide .modal-dialog {
   width: 100%;
-  padding: 10px;
+  padding: 0px;
 }
 .duplicate {
   background: #f00 !important;
-}
-.form-horizontal .control-label.text-left {
-  text-align: left;
-}
-.form-horizontal .control-label.text-center {
-  text-align: center;
-}
-.form-horizontal .control-label.text-justify {
-  text-align: justify;
-}
-.form-horizontal .control-label.text-right {
-  text-align: right;
 }
 .media {
   margin-top: 0;
@@ -269,6 +257,9 @@ option {
 }
 .media.bg-gold {
   background: #666600;
+}
+.modal-dialog {
+  margin: 0px;
 }
 .np {
   padding: 0px !important;
