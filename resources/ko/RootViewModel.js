@@ -66,7 +66,15 @@ function RootViewModel() {
 		};
 		self.tmpModelType(type);
 		var newModel = types[type]();
-		$.each(presetData, (k, v)=>newModel[k](v));
+		$.each(presetData, (k, v)=>{
+			switch (k) {
+				case 'location':
+					newModel[k].area(v.area);
+					newModel[k].stage(v.stage);
+					break;
+				default: newModel[k](v); break;
+			}
+		});
 		self.tmpModel.push(newModel);
 		addNewDialogInstance.open();
 	}

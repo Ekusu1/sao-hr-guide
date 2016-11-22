@@ -84,7 +84,7 @@ var helpers = new function () {
 
 	/**
 	 *
-	 * @param {stages|itemType|itemRarity|chestRarity|eventType|string} type stages / chestRarity / itemType
+	 * @param {stages|itemType|itemRarity|chestRarity|monsterType|string} type stages / chestRarity / itemType
 	 * @param {string} key
 	 * @returns {number}
 	 */

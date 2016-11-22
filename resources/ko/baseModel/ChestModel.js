@@ -14,7 +14,7 @@ function ChestModel(data = {
 	self.dataType        = 'chests';
 	self.tmpType         = 'item-chest';
 	self.sortKey         = ko.pureComputed(()=>[
-			helpers.getSortNumber('stages', self.location().stage()),
+			helpers.getSortNumber('stages', self.location.stage()),
 			helpers.getSortNumber('chestRarity', self.rarity())
 		].join('-')
 	);
@@ -22,7 +22,7 @@ function ChestModel(data = {
 	self.switchLock      = ()=>self.locked(!self.locked());
 	self.initContextmenu = ()=>$('#' + self.id).contextMenu({menuSelector: '#contextMenu-' + self.id});
 
-	self.location    = ko.observable(new LocationModel(data.location));
+	self.location    = new LocationModel(data.location);
 	self.rarity      = ko.observable(data.rarity);
 	self.where       = ko.observable(data.where);
 	self.itemInfo = ko.pureComputed(()=> {
@@ -37,16 +37,16 @@ function ChestModel(data = {
 	});
 
 	self.item        = ko.observable(data.item);
-	self.isNewItem   = ko.pureComputed(()=> {
+	self.isNewGear   = ko.pureComputed(()=> {
 		var curItem   = self.item();
-		var isNewItem = !(rootView.data.gear().some((m)=>m.name() === curItem));
-		return curItem !== '' && isNewItem;
+		var isNew = !(rootView.data.gear().some((m)=>m.name() === curItem));
+		return curItem !== '' && isNew;
 	});
 
-	self.getTmpPreset = ()=>{name: self.item()};
+	self.getTmpPreset = ()=>({name: self.item()});
 
 	self.export = ()=>({
-		location:   self.location().export(),
+		location:   self.location.export(),
 		rarity:     self.rarity(),
 		where:      self.where(),
 		item:       self.item()

@@ -31,13 +31,13 @@ function GoalModel(data = {
 
 	self.listGoalType = ["Kill", "Protect", "Stealth"];
 
-	self.checkIfNew = ko.computed(()=> {
+	self.isNew = ko.computed(()=> {
 		var curMonster   = self.name();
 		var isNewMonster = !rootView.data.monster().some((m)=>m.name() === curMonster);
 		return curMonster !== '' && isNewMonster;
 	});
 
-	self.getTmpPreset = ()=>({locations: [new LocationModel(parent.location().export())], name: self.name()});
+	self.getTmpPreset = ()=>({locations: [new LocationModel(parent.location.export())], name: self.name()});
 
 	self.export = ()=>({
 		type:   self.type(),

@@ -41,7 +41,7 @@ function RewardModel(data = {
 		preset: {
 			'Gear':    ()=>({name: self.name()}),
 			'LastHit': ()=>({name: self.name()}),
-			'Chest':   ()=>({location: parent.location().export(), rarity: self.name()})
+			'Chest':   ()=>({location: parent.location.export(), rarity: self.name()})
 		}
 	}
 
@@ -70,13 +70,9 @@ function RewardModel(data = {
 	self.amount     = ko.observable(data.amount);
 	self.amountShow = ko.pureComputed(()=>types.amount[self.getType()]());
 
-	self.isNewItem
-
 	self.listRewardType  = [
 		'EXP', 'Col', 'Item', 'Chest', 'Gear', 'LastHit', 'GearSP', 'LastHitSP', 'GearMP', 'LastHitMP'
 	];
-	self.listItemOther   = rootView.OPTIONS().itemOther;
-	self.listChestRarity = rootView.OPTIONS().chestRarity;
 
 	self.isEXP     = ()=>['EXP'].includes(self.type());
 	self.isCol     = ()=>['Col'].includes(self.type());
@@ -84,6 +80,26 @@ function RewardModel(data = {
 	self.isGear    = ()=>['Gear', 'GearSP', 'GearMP'].includes(self.type());
 	self.isLastHit = ()=>['LastHit', 'LastHitSP', 'LastHitMP'].includes(self.type());
 	self.isChest   = ()=>['Chest'].includes(self.type());
+
+	self.isNewGear   = ko.pureComputed(()=> {
+		var curItem   = self.item();
+		var isNew = !(rootView.data.gear().some((m)=>m.name() === curItem));
+		return curItem !== '' && isNew;
+	});
+
+	self.isNewOre = ko.pureComputed(()=> {
+		var curName = self.name();
+		var isNewName = !rootView.OPTIONS().itemOre.includes(curName)
+		return curName !== '' && isNewName;
+	});
+
+	self.addNewOre = function () {
+		var OPTIONS = rootView.OPTIONS();
+		OPTIONS.itemOre.push(self.name());
+		OPTIONS.itemOre = OPTIONS.itemOre.sort();
+		rootView.OPTIONS(OPTIONS);
+		rootView.saveData();
+	};
 
 	self.getTmpPreset = ()=>types.preset[self.getType()]();
 

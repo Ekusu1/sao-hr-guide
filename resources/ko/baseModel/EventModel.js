@@ -16,15 +16,15 @@ function EventModel(data = {
 	self.tmpType         = 'item-event';
 	self.id              = helpers.newGuid();
 	self.sortKey         = ko.pureComputed(()=>[
-		helpers.getSortNumber('stages', self.location().stage()),
-		helpers.getSortNumber('eventType', self.type()),
+		helpers.getSortNumber('stages', self.location.stage()),
+		helpers.getSortNumber('monsterType', self.type()),
 		helpers.padNumber(self.lv())
 	].join('-'));
 	self.locked          = ko.observable(false);
 	self.switchLock      = ()=> self.locked(!self.locked());
 	self.initContextmenu = ()=> $('#' + self.id).contextMenu({menuSelector: '#contextMenu-' + self.id});
 
-	self.location = ko.observable(new LocationModel(data.location));
+	self.location = new LocationModel(data.location);
 	self.type     = ko.observable(data.type)
 	self.name     = ko.observable(data.name);
 	self.lv       = ko.observable(data.lv);
@@ -39,11 +39,11 @@ function EventModel(data = {
 	self.addReward = ()=>self.rewards.push(new RewardModel(undefined, self));
 	self.removeReward = (reward)=>self.rewards.remove(reward);
 
-	self.getTmpPreset = ()=>({location: self.location().export()});
+	self.getTmpPreset = ()=>({location: self.location.export()});
 
 	self.getDuplicateCheckData = ko.computed(()=>[
-		self.location().area(),
-		self.location().stage(),
+		self.location.area(),
+		self.location.stage(),
 		self.name(),
 		helpers.padNumber(self.lv())
 	].join('|'));
@@ -53,7 +53,7 @@ function EventModel(data = {
 	));
 
 	self.export = ()=>({
-		location: self.location().export(),
+		location: self.location.export(),
 		type:     self.type(),
 		name:     self.name(),
 		lv:       self.lv(),

@@ -11,7 +11,7 @@ function EffectModel(data = {
 	self.value    = ko.observable(data.value);
 	self.baseStat = ko.observable(data.baseStat);
 
-	self.checkIfNew = ko.pureComputed(()=> {
+	self.isNewEffect = ko.pureComputed(()=> {
 		var curName = self.name();
 		var options = rootView.OPTIONS();
 		options = options.gearEffect.concat(options.baseEffect);
@@ -19,7 +19,7 @@ function EffectModel(data = {
 		return curName !== '' && newName;
 	});
 
-	self.addNew = function () {
+	self.addNewEffect = function () {
 		var OPTIONS = rootView.OPTIONS();
 		OPTIONS.gearEffect.push(self.name());
 		OPTIONS.gearEffect = OPTIONS.gearEffect.sort();
