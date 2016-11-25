@@ -47,6 +47,7 @@ function RootViewModel() {
 		events:  ko.observableArray(),
 		monster: ko.observableArray()
 	};
+	self.filters = new FiltersModel();
 	self.last = {
 		area: '',
 		stage: '',
@@ -74,24 +75,31 @@ function RootViewModel() {
 		});
 		dialog.getModalHeader().hide();
 	};
-	function addNewDialog(type, presetData) {
+	function addNewDialog(type, presetData, clone = false) {
 		var types = {
-			gear:    ()=>new GearModel(),
-			chest:   ()=>new ChestModel(),
-			event:   ()=>new EventModel(),
-			monster: ()=>new MonsterModel()
+			gear:    GearModel,
+			chest:   ChestModel,
+			event:   EventModel,
+			monster: MonsterModel
 		};
 		self.tmpModelType(type);
-		var newModel = types[type]();
-		$.each(presetData, (k, v)=>{
-			switch (k) {
-				case 'location':
-					newModel[k].area(v.area);
-					newModel[k].stage(v.stage);
-					break;
-				default: newModel[k](v); break;
-			}
-		});
+		var newModel = null;
+		if (!clone) {
+			newModel = new types[type]();
+			$.each(presetData, (k, v)=>{
+				switch (k) {
+					case 'location':
+						newModel[k].area(v.area);
+						newModel[k].stage(v.stage);
+						break;
+					default: newModel[k](v); break;
+				}
+			});
+		} else {
+			newModel = new types[type](presetData);
+		}
+		newModel.isNew(true);
+		newModel.locked(false);
 		self.tmpModel.push(newModel);
 		addNewDialogInstance.open();
 	}
@@ -105,6 +113,11 @@ function RootViewModel() {
 	self.addNewChest   = (m)=>addNewDialog('chest', m.getTmpPreset());
 	self.addNewEvent   = (m)=>addNewDialog('event', m.getTmpPreset());
 	self.addNewMonster = (m)=>addNewDialog('monster', m.getTmpPreset());
+
+	self.cloneGear    = (m)=>addNewDialog('gear', m.export(), true);
+	self.cloneChest   = (m)=>addNewDialog('chest', m.export(), true);
+	self.cloneEvent   = (m)=>addNewDialog('event', m.export(), true);
+	self.cloneMonster = (m)=>addNewDialog('monster', m.export(), true);
 
 	self.addGear    = ()=>{addNewDialog('gear', {});};
 	self.addChest   = ()=>{addNewDialog('chest', {});};
@@ -125,7 +138,7 @@ function RootViewModel() {
 			autodestroy: false,
 			onshown:     ()=>self.tmpModel.valueHasMutated(),
 			onhidden:    ()=>self.tmpModelType('item-gear').tmpModel([]),
-			message:     `<div class="media-list" data-bind="foreach: $root.tmpModel"><div data-bind="template: tmpType"></div></div>`,
+			message:     `<div class="media-list" data-bind="foreach: $root.tmpModel"><div data-bind="template: tmpType"></div></div><div class="row" data-bind="template: 'preset-modal-new'"></div>`,
 			buttons:     [{
 				label:  'Cancel',
 				cssClass: 'btn-sm btn-default col-xs-4 pull-left',

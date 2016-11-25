@@ -16,9 +16,10 @@ function ChestModel(data = {
 	self.sortKey         = ko.pureComputed(()=>[
 			helpers.getSortNumber('stages', self.location.stage()),
 			helpers.getSortNumber('chestRarity', self.rarity())
-		].join('-')
+		].join('|')
 	);
-	self.locked          = ko.observable(false);
+	self.isNew           = ko.observable(false);
+	self.locked          = ko.observable(true);
 	self.switchLock      = ()=>self.locked(!self.locked());
 	self.initContextmenu = ()=>$('#' + self.id).contextMenu({menuSelector: '#contextMenu-' + self.id});
 
@@ -42,6 +43,18 @@ function ChestModel(data = {
 		var isNew = !(rootView.data.gear().some((m)=>m.name() === curItem));
 		return curItem !== '' && isNew;
 	});
+
+	self.getDuplicateCheckData = ko.computed(()=>[
+		self.location.stage(),
+		self.rarity(),
+		self.where()
+	].join('|'));
+	self.isDuplicate           = ko.computed(()=>rootView.data.chests().some((m)=>
+		self.id !== m.id &&
+		self.getDuplicateCheckData() === m.getDuplicateCheckData()
+	));
+
+	self.mediaCss = ko.pureComputed(()=>`bg-${self.rarity().toLowerCase()} ${self.isDuplicate() ? 'duplicate' : ''}`);
 
 	self.getTmpPreset = ()=>({name: self.item()});
 

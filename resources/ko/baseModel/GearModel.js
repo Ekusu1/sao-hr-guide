@@ -38,7 +38,8 @@ function GearModel(data = {
 			self.name(),
 		].join('-')
 	);
-	self.locked          = ko.observable(false);
+	self.isNew           = ko.observable(false);
+	self.locked          = ko.observable(true);
 	self.switchLock      = ()=> self.locked(!self.locked());
 	self.initContextmenu = ()=> {
 		$('#' + self.id).contextMenu({menuSelector: '#contextMenu-' + self.id, menuSelected: ()=> {}})
@@ -79,6 +80,17 @@ function GearModel(data = {
 
 	self.addEffect    = ()=>self.effects.push(new EffectModel());
 	self.removeEffect = (effect)=>self.effects.remove(effect);
+
+
+	self.getDuplicateCheckData = ko.computed(()=>[
+		self.name()
+	].join('|'));
+	self.isDuplicate           = ko.computed(()=>rootView.data.chests().some((m)=>
+		self.id !== m.id &&
+		self.getDuplicateCheckData() === m.getDuplicateCheckData()
+	));
+
+	self.mediaCss = ko.pureComputed(()=>`bg-${self.rarity().toLowerCase()} ${self.isDuplicate() ? 'duplicate' : ''}`);
 
 	self.export = ()=>({
 		name:    self.name(),

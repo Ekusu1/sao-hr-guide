@@ -1,5 +1,18 @@
 .media {
+	position: relative;
 	margin-top: 0;
+
+	.media-actions {
+		opacity: .1;
+		position: absolute;
+		right: 0;
+		top: 0;
+		transition: opacity .5s;
+	}
+	&:hover .media-actions {
+		opacity: 1;
+	}
+
 	&.bg-normal { background: @color-normal; }
 	&.bg-purple { background: @color-purple; }
 	&.bg-blue { background: @color-blue; }
@@ -12,6 +25,10 @@
 
 .modal-dialog {
 	margin: 5px auto 0;
+}
+
+input[type="radio"], input[type="checkbox"] {
+	 margin: 0;
 }
 
 .padding-mix(~'n', ~'', 0px);

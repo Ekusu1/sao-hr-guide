@@ -19,8 +19,9 @@ function EventModel(data = {
 		helpers.getSortNumber('stages', self.location.stage()),
 		helpers.getSortNumber('monsterType', self.type()),
 		helpers.padNumber(self.lv())
-	].join('-'));
-	self.locked          = ko.observable(false);
+	].join('|'));
+	self.isNew           = ko.observable(false);
+	self.locked          = ko.observable(true);
 	self.switchLock      = ()=> self.locked(!self.locked());
 	self.initContextmenu = ()=> $('#' + self.id).contextMenu({menuSelector: '#contextMenu-' + self.id});
 
@@ -51,6 +52,8 @@ function EventModel(data = {
 		self.id !== m.id &&
 		self.getDuplicateCheckData() === m.getDuplicateCheckData()
 	));
+
+	self.mediaCss = ko.pureComputed(()=>`${self.isDuplicate() ? 'duplicate' : ''}`);
 
 	self.export = ()=>({
 		location: self.location.export(),

@@ -15,6 +15,7 @@
 	<script src="resources/vendor/bootstrap-3.3.7/plugins/context-menu.js"></script>
 	<script src="resources/vendor/bootstrap3-dialog-1.35.3/dist/js/bootstrap-dialog.min.js"></script>
 	<script src="resources/vendor/knockout/knockout-3.4.0.min.js"></script>
+	<script src="resources/vendor/knockout/extension/foreachprop.js"></script>
 
 	<script src="resources/js/helpers.js"></script>
 	<script src="resources/js/MAIN_DATA.js"></script>
@@ -22,6 +23,7 @@
 	<script src="resources/ko/baseModel/ChestModel.js"></script>
 	<script src="resources/ko/baseModel/EventModel.js"></script>
 	<script src="resources/ko/baseModel/MonsterModel.js"></script>
+	<script src="resources/ko/baseModel/FiltersModel.js"></script>
 	<script src="resources/ko/subModel/EffectModel.js"></script>
 	<script src="resources/ko/subModel/GoalModel.js"></script>
 	<script src="resources/ko/subModel/RewardModel.js"></script>
@@ -73,25 +75,35 @@
 	</datalist>
 </div>
 <div data-templates>
-<script type="text/template" id="preset-contextmenu">
-	<ul class="dropdown-menu" role="menu" style="display:none" data-bind="attr: {id: 'contextMenu-'+id}">
-		<li data-bind="click: $root.removeGear, visible: !locked()">
-			<div class="inputBox">
-					<span class="inputBtn btn-danger">
-						<span class="fa fa-trash"></span>
-					</span>
-				<span class="inputName">Delete</span>
-			</div>
-		</li>
-		<li data-bind="click: switchLock">
-			<div class="inputBox">
-					<span class="inputBtn btn-danger">
-						<span class="fa" data-bind="css: {'fa-lock': !locked(), 'fa-unlock': locked()}"></span>
-					</span>
-				<span class="inputName" data-bind="html: locked()?'Unlock':'Lock'">&nbsp;</span>
-			</div>
-		</li>
-	</ul>
+<script type="text/template" id="preset-modal-new">
+	<div class="col-xs-6 col-sm-3">
+		<div class="inputBox block">
+			<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addGear">
+				<span class="fa fa-plus"></span> Gear
+			</button>
+		</div>
+	</div>
+	<div class="col-xs-6 col-sm-3">
+		<div class="inputBox block">
+			<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addChest">
+				<span class="fa fa-plus"></span> Chest
+			</button>
+		</div>
+	</div>
+	<div class="col-xs-6 col-sm-3">
+		<div class="inputBox block">
+			<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addEvent">
+				<span class="fa fa-plus"></span> Event
+			</button>
+		</div>
+	</div>
+	<div class="col-xs-6 col-sm-3">
+		<div class="inputBox block">
+			<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addMonster">
+				<span class="fa fa-plus"></span> Monster
+			</button>
+		</div>
+	</div>
 </script>
 <script type="text/template" id="preset-location">
 	<!-- ko with: location -->
@@ -137,7 +149,7 @@
 	<div class="inputBox">
 		<select class="GoalType" data-bind="options: listGoalType, value: type"></select>
 		<span class="inputName monsterType" data-bind="html: monsterType">&nbsp;</span>
-		<input type="text" class="monsterName" placeholder="Monster" data-bind="value: name"/>
+		<input type="text" class="monsterName" list="listMonster" placeholder="Monster" data-bind="value: name, valueUpdate: 'input'"/>
 		<button type="button" class="inputBtn btn-success" data-bind="click: $root.addNewMonster, visible: isNew()">
 			<span class="fa fa-sign-in"></span>
 		</button>
@@ -179,7 +191,7 @@
 </script>
 
 <script type="text/template" id="item-gear">
-	<div id="tempGearId" class="media" data-bind="css: 'bg-'+rarity().toLowerCase(), attr: {id: id}">
+	<div id="tempGearId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
 				<div class="col-xs-12 col-sm-2">
@@ -194,13 +206,8 @@
 						<input type="text" class="Stars" list="listStars" data-bind="value: stars, valueUpdate: 'input'"/>
 						<span class="inputName starsText" data-bind="text: starsText"></span>
 					</div>
-					<div class="inputBox">
-						<button type="button" class="inputBtn btn-danger" data-bind="click:$root.removeGear" tabindex="-1">
-							<span class="fa fa-trash"></span>
-						</button>
-					</div>
 				</div>
-				<div class="col-xs-12 col-sm-10">
+				<div class="col-xs-12 col-sm-9">
 					<div data-bind="template: {name: 'preset-gear-stat', foreach: groupedEffects().base}"></div>
 					<div data-bind="template: {name: 'preset-gear-stat', foreach: groupedEffects().resistance}"></div>
 					<div>
@@ -224,13 +231,32 @@
 					</div>
 				</div>
 			</fieldset>
+			<div class="media-actions" data-bind="visible: !isNew()">
+				<span data-bind="visible: !locked()">
+					<div class="inputBox">
+						<button type="button" class="inputBtn btn-info" data-bind="click: $root.cloneGear">
+							<span class="fa fa-code-fork"></span>
+						</button>
+					</div>
+					<div class="inputBox">
+						<button type="button" class="inputBtn btn-danger" data-bind="click: $root.removeGear">
+							<span class="fa fa-trash"></span>
+						</button>
+					</div>
+				</span>
+				<div class="inputBox">
+					<button type="button" class="inputBtn btn-warning" data-bind="click: switchLock">
+						<span class="fa" data-bind="css: {'fa-lock': !locked(), 'fa-unlock': locked()}"></span>
+					</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </script>
 <script type="text/template" id="item-chest">
-	<div id="tempChestId" class="media" data-bind="css: 'bg-'+rarity().toLowerCase(), attr: {id: id}">
+	<div id="tempChestId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
-			<div class="row">
+			<fieldset class="row" data-bind="disable: locked">
 				<div class="col-xs-12 col-sm-5">
 					<!-- ko template: 'preset-location' --><!-- /ko -->
 					<div class="inputBox">
@@ -247,14 +273,33 @@
 						</button>
 					</div>
 				</div>
+			</fieldset>
+			<div class="media-actions" data-bind="visible: !isNew()">
+				<span data-bind="visible: !locked()">
+					<div class="inputBox">
+						<button type="button" class="inputBtn btn-info" data-bind="click: $root.cloneChest">
+							<span class="fa fa-code-fork"></span>
+						</button>
+					</div>
+					<div class="inputBox">
+						<button type="button" class="inputBtn btn-danger" data-bind="click: $root.removeChest">
+							<span class="fa fa-trash"></span>
+						</button>
+					</div>
+				</span>
+				<div class="inputBox">
+					<button type="button" class="inputBtn btn-warning" data-bind="click: switchLock">
+						<span class="fa" data-bind="css: {'fa-lock': !locked(), 'fa-unlock': locked()}"></span>
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
 </script>
 <script type="text/template" id="item-event">
-	<div id="tempEventId" class="media" data-bind="css: {duplicate: isDuplicate()}, attr: {id: id}">
+	<div id="tempEventId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
-			<div class="row">
+			<fieldset class="row" data-bind="disable: locked">
 				<div class="col-xs-12 col-sm-5">
 					<!-- ko template: 'preset-location' --><!-- /ko -->
 					<div class="inputBox event">
@@ -270,7 +315,7 @@
 						</button>
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-4">
+				<div class="col-xs-12 col-sm-3">
 					<!-- ko template: {name: 'preset-reward', foreach: rewards} --><!-- /ko -->
 					<div class="inputBox">
 						<button type="button" class="inputBtn btn-primary" data-bind="click: addReward">
@@ -278,18 +323,41 @@
 						</button>
 					</div>
 				</div>
+			</fieldset>
+			<div class="media-actions" data-bind="visible: !isNew()">
+				<span data-bind="visible: !locked()">
+					<div class="inputBox">
+						<button type="button" class="inputBtn btn-info" data-bind="click: $root.cloneEvent">
+							<span class="fa fa-code-fork"></span>
+						</button>
+					</div>
+					<div class="inputBox">
+						<button type="button" class="inputBtn btn-danger" data-bind="click: $root.removeEvent">
+							<span class="fa fa-trash"></span>
+						</button>
+					</div>
+				</span>
+				<div class="inputBox">
+					<button type="button" class="inputBtn btn-warning" data-bind="click: switchLock">
+						<span class="fa" data-bind="css: {'fa-lock': !locked(), 'fa-unlock': locked()}"></span>
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
 </script>
 <script type="text/template" id="item-monster">
-	<div id="tempMonsterId" class="media" data-bind="attr: {id: id}">
+	<div id="tempMonsterId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
 				<div class="col-xs-12 col-sm-4" data-bind="template: 'preset-locations'"></div>
 				<div class="col-xs-12 col-sm-2">
 					<div class="inputBox block">
 						<select class="MonsterType" data-bind="options: $root.OPTIONS().monsterType, value: type"></select>
+					</div>
+					<div class="inputBox">
+						<select class="MonsterRace" data-bind="options: $root.OPTIONS().monsterRace, value: race"></select>
+						<input type="text" class="MonsterFamily" data-bind="value: family">
 					</div>
 					<div class="inputBox block">
 						<input type="text" class="monsterName" data-bind="value: name" placeholder="Name">
@@ -313,9 +381,32 @@
 						<button type="button" class="inputBtn btn-primary" data-bind="click: addDrop">
 							<span class="fa fa-plus"></span>
 						</button>
+						<button type="button" class="inputBtn btn-primary" data-bind="click: addRaceDrops, visible: hasMissingRaceDrop()">
+							<span class="fa fa-plus"></span>
+							<span class="fa fa-plus"></span>
+						</button>
 					</div>
 				</div>
 			</fieldset>
+			<div class="media-actions" data-bind="visible: !isNew()">
+				<span data-bind="visible: !locked()">
+					<div class="inputBox">
+						<button type="button" class="inputBtn btn-info" data-bind="click: $root.cloneMonster">
+							<span class="fa fa-code-fork"></span>
+						</button>
+					</div>
+					<div class="inputBox">
+						<button type="button" class="inputBtn btn-danger" data-bind="click: $root.removeMonster">
+							<span class="fa fa-trash"></span>
+						</button>
+					</div>
+				</span>
+				<div class="inputBox">
+					<button type="button" class="inputBtn btn-warning" data-bind="click: switchLock">
+						<span class="fa" data-bind="css: {'fa-lock': !locked(), 'fa-unlock': locked()}"></span>
+					</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </script>
@@ -354,6 +445,14 @@
 				<div class="inputBox smallBtn">
 					<button type="button" class="inputBtn btn-primary" data-bind="click: $root.addMonster">
 						<span class="fa fa-plus"></span>
+					</button>
+				</div>
+			</a></li>
+			<li><a data-toggle="tab" href="#filter">
+				Filter
+				<div class="inputBox smallBtn">
+					<button type="button" class="inputBtn btn-default" data-bind="">
+						<i class="fa fa-toggle-off"></i>
 					</button>
 				</div>
 			</a></li>
@@ -418,6 +517,39 @@
 				</button>
 			</div>
 		</div>
+		<div role="tabpanel" class="tab-pane" id="filter" data-bind="with: filters">
+			<h3>Areas</h3>
+			<div data-bind="foreach: areasList">
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" data-bind="value: $data, checked: $parent.areas">
+						<span data-bind="text: $data"></span>
+					</label>
+				</div>
+			</div>
+			<h3>Stages</h3>
+			<div class="row" data-bind="foreachprop: stagesList">
+				<div class="col-xs-12 col-sm-2">
+					<h4 data-bind="text: key"></h4>
+					<div data-bind="foreach: value">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" data-bind="value: $data, checked: $parents[1].stages">
+								<span data-bind="text: $data"></span>
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<h3>Gear Types</h3>
+			<div data-bind="foreach: gearTypesList">
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" data-bind="value: $data, checked: $parent.gearTypes">
+						<span data-bind="text: $data"></span>
+					</label>
+				</div>
+			</div>
 	</div>
 </main>
 

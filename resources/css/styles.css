@@ -157,6 +157,12 @@ option {
 .inputBox > .MonsterType {
   width: 40px;
 }
+.inputBox > .MonsterRace {
+  width: auto;
+}
+.inputBox > .MonsterFamily {
+  width: 144px;
+}
 .inputBox > .starsText {
   width: 61px;
 }
@@ -229,10 +235,22 @@ option {
   padding: 0px;
 }
 .duplicate {
+  outline: 2px #f00;
   background: #f00 !important;
 }
 .media {
+  position: relative;
   margin-top: 0;
+}
+.media .media-actions {
+  opacity: .1;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: opacity .5s;
+}
+.media:hover .media-actions {
+  opacity: 1;
 }
 .media.bg-normal {
   background: #1a1a1a;
@@ -260,6 +278,10 @@ option {
 }
 .modal-dialog {
   margin: 5px auto 0;
+}
+input[type="radio"],
+input[type="checkbox"] {
+  margin: 0;
 }
 .np {
   padding: 0px !important;
