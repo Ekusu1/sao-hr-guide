@@ -12,7 +12,7 @@ and email them to me (Ekusu1@gmail.com).
 - Monster List drops
 - export function 
 
-PS: I'm working on all of the list so they are not complete, infact a lot is missing.
+PS: I'm working on all of the lists so they are not complete, infact a lot is missing.
 
 ## Planned Features
 
