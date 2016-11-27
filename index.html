@@ -24,8 +24,11 @@
 	<datalist id="listGear" data-bind="foreach: DATA.gear">
 		<option data-bind="value: name"></option>
 	</datalist>
-	<datalist id="listMonster" data-bind="foreach: DATA.monster">
+	<datalist id="listMonsterName" data-bind="foreach: DATA.monster">
 		<option data-bind="value: name"></option>
+	</datalist>
+	<datalist id="listMonsterFamily" data-bind="foreach: DATA.monster">
+		<option data-bind="value: family"></option>
 	</datalist>
 	<datalist id="listEvents" data-bind="foreach: DATA.events">
 		<option data-bind="value: name, text: location.area()+' - '+location.stage()"></option>
@@ -161,7 +164,7 @@
 	<div class="inputBox">
 		<select class="GoalType" data-bind="options: listGoalType, value: type"></select>
 		<span class="inputName MonsterType" data-bind="html: monsterType">&nbsp;</span>
-		<input type="text" class="MonsterName" list="listMonster" placeholder="Monster" data-bind="value: name, valueUpdate: 'input'"/>
+		<input type="text" class="MonsterName" list="listMonsterName" placeholder="Monster" data-bind="value: name, valueUpdate: 'input'"/>
 		<button type="button" class="inputBtn btn-success" data-bind="click: $root.createPresetModel, visible: isNew()">
 			<span class="fa fa-sign-in"></span>
 		</button>
@@ -370,10 +373,10 @@
 					</div>
 					<div class="inputBox">
 						<select class="MonsterRace" data-bind="options: $root.OPTIONS().monsterRace, value: race"></select>
-						<input type="text" class="MonsterFamily" data-bind="value: family">
+						<input type="text" list="listMonsterFamily" class="MonsterFamily" data-bind="value: family">
 					</div>
 					<div class="inputBox block">
-						<input type="text" class="MonsterName" data-bind="value: name" placeholder="Name">
+						<input type="text" list="listMonsterName" class="MonsterName" data-bind="value: name" placeholder="Name">
 					</div>
 				</div>
 				<div class="col-xs-12 col-md-4">
