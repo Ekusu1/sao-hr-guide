@@ -55,34 +55,18 @@ main {
 	}
 }
 
-.media-list .media {
-	background: #222;
-	padding: 5px;
-	border-bottom: 5px solid #111;
-}
-
-.modal-content {
-	background: #111;
-	border: 1px solid #fff;
-	border-radius: 0;
-}
-
-.modal-body {
-	padding: 5px 5px 0;
-}
-
-.modal-header, .modal-footer {
-	padding: 5px;
-}
-
-.btn {
-	border: none;
-	border-radius: 0;
-}
-
 option {
 	background: #000;
 	color: #fff;
+	&[value=Common] {background: @color-normal;}
+	&[value=Uncommon] {background: @color-purple;}
+	&[value=Rare], &[value=Blue] {background: @color-blue;}
+	&[value=Exotic] {background: @color-green;}
+	&[value=Legendary] {background: @color-gold;}
+	&[value=Brown] {background: @color-brown;}
+	&[value=Red] {background: @color-red;}
+	&[value=Silver] {background: @color-silver;}
+	&[value=Gold] {background: @color-gold;}
 }
 
 .inputBox {
@@ -141,13 +125,13 @@ option {
 	> .ItemUse { width: 145px; }
 	> .ItemOre { width: 100px; }
 	> .ItemMaterial { width: 170px; }
-	> .ItemRarity { width: 52px; }
+	> .ItemRarity { width: 75px; }
 	> .ChestRarity { width: 46px; }
 	> .GoalType { width: 20px; }
 	> .RewardType { width: 50px; }
 	> .MonsterType { width: 40px; }
-	> .MonsterRace { width: auto; }
-	> .MonsterFamily { width: 144px; }
+	> .MonsterRace { width: 66px; }
+	> .MonsterFamily { width: 139px; }
 
 	> .starsText { width: 61px; }
 	> .statName, > .difficulty { width: 80px; }
@@ -156,7 +140,7 @@ option {
 	> .lv { width: 31px; }
 	> .amount { width: 37px; }
 	> .goalAmount { width: 24px; }
-	> .monsterName { width: 188px; }
+	> .MonsterName { width: 180px; }
 
 	&.block {
 		display: block;
@@ -178,16 +162,7 @@ option {
 		}
 	}
 
-	> * {
-		&.bg-normal { background: @color-normal; }
-		&.bg-purple { background: @color-purple; }
-		&.bg-blue { background: @color-blue; }
-		&.bg-green { background: @color-green; }
-		&.bg-brown { background: @color-brown; }
-		&.bg-red { background: @color-red; }
-		&.bg-silver { background: @color-silver; }
-		&.bg-gold { background: @color-gold; }
-	}
+	> * { .bgs-mixin(); }
 }
 
 .size-extra-wide .modal-dialog {
@@ -195,9 +170,19 @@ option {
 	padding: 0px;
 }
 
-.duplicate {
-	outline: 2px #f00;
-	background: #f00 !important;
+
+#loading {
+	z-index: 20000;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-image: url('../images/loading.gif');
+	background-size: 100% 100%;
+	transition: opacity 2s;
+	display: block;
+	opacity: .95;
 }
 
 @import "_overrides";

@@ -5,14 +5,13 @@ and email them to me (Ekusu1@gmail.com).
 
 ## Current Features
 
-- Gear List
+- Gear List + Transformation
 - Chest List
-- Event List with rewards
-- Monster List
-- export function 
+- Event List + Rewards
+- Monster List + Drops
+- export function
 
 ## Planned Features
 
 - Craftsmen List
-- Monster List drops
 - filter for the lists

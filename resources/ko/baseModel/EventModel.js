@@ -1,43 +1,40 @@
 "use strict";
 
-function EventModel(data = {
+function EventModel(newData = {
 	location: {
 		area:  '',
 		stage: '',
 	},
 	type:     'M',
 	name:     '',
-	lv:       0,
 	goals:    [],
 	rewards:  []
 }) {
-	var self             = this;
-	self.dataType        = 'events';
-	self.tmpType         = 'item-event';
-	self.id              = helpers.newGuid();
-	self.sortKey         = ko.pureComputed(()=>[
-		helpers.getSortNumber('stages', self.location.stage()),
-		helpers.getSortNumber('monsterType', self.type()),
-		helpers.padNumber(self.lv())
+	var self        = this;
+	self.dataType   = 'events';
+	self.template   = 'item-event';
+	self.id         = ko.observable(GH.newGuid());
+	self.isTmp      = ko.observable(false);
+	self.isNew      = ko.observable(false);
+	self.locked     = ko.observable(DEFAULT_LOCK_STATUS);
+	self.switchLock = ()=> self.locked(!self.locked());
+	self.sortKey    = ko.pureComputed(()=>[
+		GH.getSortNumber('stages', self.location.stage()),
+		GH.getSortNumber('monsterType', self.type())
 	].join('|'));
-	self.isNew           = ko.observable(false);
-	self.locked          = ko.observable(true);
-	self.switchLock      = ()=> self.locked(!self.locked());
-	self.initContextmenu = ()=> $('#' + self.id).contextMenu({menuSelector: '#contextMenu-' + self.id});
 
-	self.location = new LocationModel(data.location);
-	self.type     = ko.observable(data.type)
-	self.name     = ko.observable(data.name);
-	self.lv       = ko.observable(data.lv);
+	self.location = new LocationModel(newData.location);
+	self.type     = ko.observable(newData.type);
+	self.name     = ko.observable(newData.name);
 
-	self.goals    = ko.observableArray(data.goals.map((v)=>new GoalModel(v, self)));
+	self.goals = ko.observableArray(newData.goals.map((v)=>new GoalModel(v, self)));
 	self.goals().length == 0 && self.goals.push(new GoalModel(undefined, self));
-	self.addGoal   = ()=>self.goals.push(new GoalModel(undefined, self));
-	self.removeGoal   = (goal)=>self.goals.remove(goal);
+	self.addGoal    = ()=>self.goals.push(new GoalModel(undefined, self));
+	self.removeGoal = (goal)=>self.goals.remove(goal);
 
-	self.rewards  = ko.observableArray(data.rewards.map((v)=>new RewardModel(v, self)));
+	self.rewards = ko.observableArray(newData.rewards.map((v)=>new RewardModel(v, self)));
 	self.rewards().length == 0 && self.rewards.push(new RewardModel(undefined, self));
-	self.addReward = ()=>self.rewards.push(new RewardModel(undefined, self));
+	self.addReward    = ()=>self.rewards.push(new RewardModel(undefined, self));
 	self.removeReward = (reward)=>self.rewards.remove(reward);
 
 	self.getTmpPreset = ()=>({location: self.location.export()});
@@ -45,22 +42,23 @@ function EventModel(data = {
 	self.getDuplicateCheckData = ko.computed(()=>[
 		self.location.area(),
 		self.location.stage(),
-		self.name(),
-		helpers.padNumber(self.lv())
+		self.name()
 	].join('|'));
-	self.isDuplicate           = ko.computed(()=>rootView.data.events().some((m)=>
-		self.id !== m.id &&
-		self.getDuplicateCheckData() === m.getDuplicateCheckData()
-	));
+	self.isDuplicate = ko.computed(()=>GH.findDuplicates(self).length>0);
 
-	self.mediaCss = ko.pureComputed(()=>`${self.isDuplicate() ? 'duplicate' : ''}`);
+	self.hasMissingData = ko.pureComputed(()=>
+		self.location.stage() == '' ||
+		self.name() == ''
+	);
+
+	self.additionalCss = ko.observable('');
+	self.mediaCss      = ko.pureComputed(()=>`${self.isDuplicate() ? 'duplicateModel' : ''} ${self.additionalCss()} ${self.hasMissingData() ? 'hasMissingData' : ''}`);
 
 	self.export = ()=>({
 		location: self.location.export(),
 		type:     self.type(),
 		name:     self.name(),
-		lv:       self.lv(),
 		goals:    self.goals().map((m)=>m.export()),
 		rewards:  self.rewards().map((m)=>m.export()),
 	});
-};
+}

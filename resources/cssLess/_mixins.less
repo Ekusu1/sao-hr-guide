@@ -8,6 +8,17 @@
 	.bg-@{name} { background: @color; }
 }
 
+.bgs-mixin() {
+	&.bg-common { background: @color-normal; }
+	&.bg-uncommon { background: @color-purple; }
+	&.bg-blue, &.bg-rare { background: @color-blue; }
+	&.bg-exotix { background: @color-green; }
+	&.bg-gold, &.bg-legendary { background: @color-gold; }
+	&.bg-brown { background: @color-brown; }
+	&.bg-red { background: @color-red; }
+	&.bg-silver { background: @color-silver; }
+}
+
 .padding-mix (@prefix, @suffix, @value) {
 	.@{prefix}p@{suffix}   { padding: @value !important; }
 	.@{prefix}p-t@{suffix} { padding-top: @value !important; }

@@ -1,19 +1,21 @@
 "use strict";
 
-function GoalModel(data = {
+function GoalModel(newData = {
 	type:   'Kill',
 	name:   '',
 	amount: 1
 }, parent) {
-	var self = this;
-	self.tmpType     = 'item-monster';
-	self.type        = ko.observable(data.type);
+	var self      = this;
+	self.dataType = 'monster';
+	self.template = 'item-monster';
+	self.type     = ko.observable(newData.type);
+
 	self.monsterType = ko.pureComputed(()=> {
-		var result = helpers.findByKeyValue('monster', 'name', self.name());
+		var result = GH.findByKeyValue('monster', 'name', self.name());
 		return result.length > 0 ? result[0].model.type() : 'M';
 	});
-	self.name        = ko.observable(data.name);
-	self.amount      = ko.observable(data.amount);
+	self.name        = ko.observable(newData.name);
+	self.amount      = ko.observable(newData.amount);
 	self.amountShow  = ko.pureComputed(()=> {
 		var types = {
 			Kill:    ()=> {return true;},
@@ -33,7 +35,7 @@ function GoalModel(data = {
 
 	self.isNew = ko.computed(()=> {
 		var curMonster   = self.name();
-		var isNewMonster = !rootView.data.monster().some((m)=>m.name() === curMonster);
+		var isNewMonster = !GH.getData('monster')().some((m)=>m.name() === curMonster);
 		return curMonster !== '' && isNewMonster;
 	});
 
@@ -44,4 +46,4 @@ function GoalModel(data = {
 		name:   self.name(),
 		amount: self.amount()
 	});
-};
+}

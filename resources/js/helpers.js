@@ -1,8 +1,15 @@
-var helpers = new function () {
+var GH = new function () {
 	var self = this;
 
 	/** @param {boolean} show */
-	self.showLoader = (show) => $('#loading')['fade' + show ? 'In' : 'Out'](50);
+	self.showLoader = function (show = true) {
+		var $loading = $('#loading');
+		if (show) {
+			$loading.fadeIn(50);
+		} else {
+			$loading.fadeOut(50);
+		}
+	}
 
 	/**
 	 * @param {number} duration in ms
@@ -32,22 +39,13 @@ var helpers = new function () {
 
 	/**
 	 * @param {string} dataName
-	 * @returns {number}
-	 */
-	self.getNewId = (dataName) => {
-		var ids = window.rootView.data[dataName]().filter((v)=>v.id());
-		return Math.max(0, ...ids) + 1;
-	};
-
-	/**
-	 * @param {string} dataName
 	 * @param {string} searchKey
 	 * @param {*} searchValue
 	 * @returns {Array}
 	 */
 	self.findByKeyValue = function (dataName, searchKey, searchValue) {
 		var returnValue = [];
-		var data        = window.rootView.data[dataName]();
+		var data        = self.getData(dataName)().slice();
 
 		data.forEach((model, index)=> {
 			if (model[searchKey]() === searchValue) {
@@ -77,6 +75,48 @@ var helpers = new function () {
 		return self.findByKeyValue(dataName, 'name', name);
 	};
 
+	self.getOptions = function (tree = '') {
+		var options = JSON.parse(JSON.stringify(rootView.OPTIONS()));
+		tree && tree.split(DEFAULT_TREE_SEPERATOR).forEach((k)=>options = options[k]);
+		return options;
+	}
+	self.getData = function (dataType = '') {
+		return rootView.DATA[dataType];
+	}
+	self.getLast = function (key) {
+		return rootView.LAST[key] || undefined;
+	}
+	self.setLast = function (key, value) {
+		rootView.LAST[key] = value;
+	}
+
+	self.findDuplicates = function (m1) {
+		var id = m1.id(),
+		    checkData = m1.getDuplicateCheckData();
+		return self.getData(m1.dataType)().filter((m2)=>
+			id != m2.id() &&
+			checkData == m2.getDuplicateCheckData()
+		);
+	};
+
+	self.isNewOption = function (optionTree, value) {
+		return value !== '' && !self.getOptions(optionTree).includes(value);
+	}
+	/**
+	 *
+	 * @param m1 current model
+	 * @param m1Identifier current value to check
+	 * @param m2DataType dataType to check, defaults to "m1.dataType"
+	 * @param m2Identifier other value to check , defaults to "m1Identifier"
+	 * @returns {boolean}
+	 */
+	self.isNewData = function (m1, m1Identifier, m2DataType = m1.dataType, m2Identifier = m1Identifier) {
+		if (!m1Identifier) return false;
+		var current = m1[m1Identifier]();
+		return current != '' &&
+			!(self.getData(m2DataType)().some((m2)=>current === m2[m2Identifier]()));
+	}
+
 	self.padNumber = function (number, width = 4, padChar = '0') {
 		number = number + '';
 		return number.length >= width ? number : new Array(width - number.length + 1).join(padChar) + number;
@@ -89,32 +129,10 @@ var helpers = new function () {
 	 * @returns {number}
 	 */
 	self.getSortNumber = function (type, key) {
-		var sort       = rootView.OPTIONS().sort[type];
+		var sort       = self.getOptions("sort."+type);
 		var sortNumber = sort[key] !== undefined ? sort[key] : 0;
 		return self.padNumber(sortNumber);
 	}
-
-	self.data = {
-		/**
-		 * @param model
-		 */
-		create: function (model) {
-			window.rootView.data[model.dataName].push(model);
-		},
-		/**
-		 * @param model
-		 */
-		edit:   function (model) {
-			var index = self.findById(model.dataName, model.id);
-			window.rootView.data[model.dataName].replace(index, model);
-		},
-		/**
-		 * @param model
-		 */
-		remove: function (model) {
-			window.rootView.data[model.dataName].remove(model);
-		}
-	};
 
 	self.export = {
 		/**
@@ -138,6 +156,42 @@ var helpers = new function () {
 		localStorage.setItem(key, JSON.stringify(value))
 	}
 	self.getLocalStorage = (key)=>JSON.parse(localStorage.getItem(key) || '{}');
+	self.clearLocalStorage = function (altMsg = false) {
+		!altMsg && (altMsg = "Are you sure you want to clear all saved Data?");
+		var dialog = BootstrapDialog.confirm({
+			title:    false,
+			size:     BootstrapDialog.SIZE_SMALL,
+			message:  `<div class="text-center"><h5>${altMsg}</h5></div>`,
+			closable: true,
+			type:     BootstrapDialog.TYPE_WARNING,
+			callback: function (result) {
+				if (result) {
+					localStorage.clear();
+					self.notify('Data cleared.');
+					location.reload();
+				}
+			}
+		});
+		dialog.getModalHeader().hide();
+	};
+
+	self.saveData = function () {
+		rootView.saveData();
+	};
+
+	self.notify = function (msg = '', type = 'success') {
+		// $.notify(
+		// 	msg,
+		// 	{
+		// 		type: type,
+		// 		delay: 2000,
+		// 		animate: {
+		// 			enter: 'animated fadeInDown',
+		// 			exit: 'animated fadeOutUp'
+		// 		}
+		// 	}
+		// );
+	}
 
 	return self;
 };

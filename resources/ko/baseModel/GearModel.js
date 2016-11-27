@@ -1,9 +1,9 @@
 "use strict";
 
-function GearModel(data = {
+function GearModel(newData = {
 	name:    '',
 	type:    '',
-	rarity:  'Purple',
+	rarity:  'Uncommon',
 	stars:   0,
 	effects: [
 		{name: 'ATK', value: 0, baseStat: true},
@@ -25,38 +25,44 @@ function GearModel(data = {
 		{name: 'Physical', value: 0, baseStat: false},
 		{name: 'Soul', value: 0, baseStat: false},
 		{name: 'Debuff', value: 0, baseStat: false}
-	]
+	],
+	transformedFrom: '',
+	transformations: []
 }) {
-	var self             = this;
-	self.dataType        = 'gear';
-	self.tmpType         = 'item-gear';
-	self.id              = helpers.newGuid();
-	self.sortKey         = ko.pureComputed(()=>[
-			helpers.getSortNumber('itemType', self.type()),
-			helpers.getSortNumber('itemRarity', self.rarity()),
-			helpers.padNumber(self.stars()),
-			self.name(),
-		].join('-')
-	);
-	self.isNew           = ko.observable(false);
-	self.locked          = ko.observable(true);
-	self.switchLock      = ()=> self.locked(!self.locked());
-	self.initContextmenu = ()=> {
-		$('#' + self.id).contextMenu({menuSelector: '#contextMenu-' + self.id, menuSelected: ()=> {}})
-	};
+	//region require
+	var self           = this;
+	self.id            = ko.observable(GH.newGuid());
+	self.isTmp         = ko.observable(false);
+	self.isNew         = ko.observable(false);
+	self.locked        = ko.observable(DEFAULT_LOCK_STATUS);
+	self.switchLock    = ()=> self.locked(!self.locked());
+	self.sortKey       = ko.pureComputed(()=>[
+		GH.getSortNumber('itemType', self.type()),
+		GH.getSortNumber('itemRarity', self.rarity()),
+		GH.padNumber(self.stars()),
+		self.name(),
+	].join('-'));
+	self.additionalCss = ko.observable('');
+	//endregion
+	//region require (probably has to be edited!)
+	self.dataType = 'gear';
+	self.template = 'item-gear';
+	//endregion
 
-	self.name    = ko.observable(data.name);
-	self.type    = ko.observable(data.type);
-	self.rarity  = ko.observable(data.rarity);
-	self.stars   = ko.observable(data.stars);
-	self.starsText = ko.computed(()=>{
-		var text ='';
+	self.name   = ko.observable(newData.name);
+	self.type   = ko.observable(newData.type);
+	self.rarity = ko.observable(newData.rarity);
+
+	self.stars     = ko.observable(newData.stars);
+	self.starsText = ko.computed(()=> {
+		var text = '';
 		for (var i = 0; i < self.stars(); i++) {
 			text += '★';
 		}
 		return text.length > 0 ? text : '-';
-	})
-	self.effects = ko.observableArray(data.effects.map((data)=>new EffectModel(data)));
+	});
+
+	self.effects        = ko.observableArray(newData.effects.map((data)=>new EffectModel(data)));
 	self.groupedEffects = ko.pureComputed(()=> {
 		var grouped = {
 			base:       [],
@@ -65,7 +71,10 @@ function GearModel(data = {
 		};
 		self.effects().forEach((stat)=> {
 			var baseStats       = ['ATK', 'DEF', 'HP', 'SP', 'STR', 'VIT', 'AGI', 'DEX'],
-			    resistanceStats = ['Slashing', 'Thrusting', 'Crushing', 'Knockdown', 'Stun', 'Numb', 'Poison', 'Bleed', 'Physical', 'Soul', 'Debuff'];
+			    resistanceStats = [
+				    'Slashing', 'Thrusting', 'Crushing', 'Knockdown', 'Stun', 'Numb', 'Poison', 'Bleed', 'Physical',
+				    'Soul', 'Debuff'
+			    ];
 
 			if (baseStats.includes(stat.name())) {
 				grouped.base.push(stat);
@@ -77,26 +86,38 @@ function GearModel(data = {
 		});
 		return grouped;
 	});
+	self.addEffect      = ()=>self.effects.push(new EffectModel());
+	self.removeEffect   = (effect)=>self.effects.remove(effect);
 
-	self.addEffect    = ()=>self.effects.push(new EffectModel());
-	self.removeEffect = (effect)=>self.effects.remove(effect);
+	self.transformedFrom      = ko.observable(newData.transformedFrom);
+	self.transformations      = ko.observableArray(newData.transformations.map((data)=>new TransformationModel(data, self)));
+	self.addTransformation    = ()=>self.transformations.push(new TransformationModel(undefined, self));
+	self.removeTransformation = (transformation)=>self.transformations.remove(transformation);
 
-
+	//region require
 	self.getDuplicateCheckData = ko.computed(()=>[
 		self.name()
 	].join('|'));
-	self.isDuplicate           = ko.computed(()=>rootView.data.chests().some((m)=>
-		self.id !== m.id &&
-		self.getDuplicateCheckData() === m.getDuplicateCheckData()
-	));
 
-	self.mediaCss = ko.pureComputed(()=>`bg-${self.rarity().toLowerCase()} ${self.isDuplicate() ? 'duplicate' : ''}`);
+	self.hasMissingData = ko.pureComputed(()=>
+		self.type() == '' ||
+		self.rarity() == '' ||
+		self.name() == ''
+	);
+
+	self.mediaCss = ko.pureComputed(()=>`bg-${self.rarity().toLowerCase()} ${self.isDuplicate() ? 'duplicateModel' : ''} ${self.additionalCss()} ${self.hasMissingData() ? 'hasMissingData' : ''}`);
 
 	self.export = ()=>({
-		name:    self.name(),
-		type:    self.type(),
-		rarity:  self.rarity(),
-		stars:   self.stars(),
-		effects: self.effects().map((m)=>m.export())
+		name:            self.name(),
+		type:            self.type(),
+		rarity:          self.rarity(),
+		stars:           self.stars(),
+		transformedFrom: self.transformedFrom(),
+		transformations: self.transformations().map((m)=>m.export()),
+		effects:         self.effects().map((m)=>m.export())
 	});
-};
+	//endregion
+	//region required bottom
+	self.isDuplicate = ko.computed(()=>GH.findDuplicates(self).length > 0);
+	//endregion
+}

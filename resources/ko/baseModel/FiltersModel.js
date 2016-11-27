@@ -10,7 +10,7 @@ function FiltersModel() {
 	self.gearTypes = ko.observableArray();
 
 	self.areasList = ko.pureComputed(()=> {
-		var areas = rootView.OPTIONS().areas.slice(0);
+		var areas = GH.getOptions('areas').slice(0);
 		areas.shift();
 		areas.shift();
 		areas.unshift('all');
@@ -19,12 +19,12 @@ function FiltersModel() {
 
 	self.stagesList = ko.pureComputed(()=> {
 		var selectedAreas = self.areas();
-		var allStages     = $.extend(true, {}, rootView.OPTIONS().stages);
+		var allStages     = $.extend(true, {}, GH.getOptions('stages'));
 		delete allStages['Town of Beginnings'];
 		var filteredStages = {};
 		$.each(allStages, (area, stages)=> {
 			stages.shift();
-			stages.unshift('all')
+			stages.unshift('all');
 			allStages[area] = stages;
 		});
 		if (!selectedAreas.includes('all')) {
@@ -38,9 +38,9 @@ function FiltersModel() {
 	});
 
 	self.gearTypesList = ko.pureComputed(()=> {
-		var gearTypes = rootView.OPTIONS().itemTypeGear.slice(0);
+		var gearTypes = GH.getOptions('itemTypeGear').slice(0);
 		gearTypes.shift();
 		gearTypes.unshift('all');
 		return gearTypes;
 	});
-};
+}

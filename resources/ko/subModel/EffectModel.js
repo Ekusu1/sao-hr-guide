@@ -1,21 +1,20 @@
 "use strict";
 
-function EffectModel(data = {
+function EffectModel(newData = {
 	name:     '',
 	value:    0,
 	baseStat: false
 }) {
 	var self = this;
 
-	self.name     = ko.observable(data.name);
-	self.value    = ko.observable(data.value);
-	self.baseStat = ko.observable(data.baseStat);
+	self.name     = ko.observable(newData.name);
+	self.value    = ko.observable(newData.value);
+	self.baseStat = ko.observable(newData.baseStat);
 
 	self.isNewEffect = ko.pureComputed(()=> {
 		var curName = self.name();
-		var options = rootView.OPTIONS();
-		options = options.gearEffect.concat(options.baseEffect);
-		var newName = !options.includes(curName)
+		var options = GH.getOptions('gearEffect').concat(GH.getOptions('baseEffect'));
+		var newName = !options.includes(curName);
 		return curName !== '' && newName;
 	});
 
@@ -32,4 +31,4 @@ function EffectModel(data = {
 		value:    self.value(),
 		baseStat: self.baseStat()
 	});
-};
+}

@@ -1,0 +1,2 @@
+const DEFAULT_TREE_SEPERATOR = '.';
+const DEFAULT_LOCK_STATUS    = false;

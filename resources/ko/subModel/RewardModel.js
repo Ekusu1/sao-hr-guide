@@ -1,11 +1,12 @@
 "use strict";
 
-function RewardModel(data = {
+function RewardModel(newData = {
 	type:   'EXP',
 	name:   'EXP',
 	amount: 0
 }, parent) {
 	var self  = this;
+	self.dataType = undefined;
 	var types = {
 		name:   {
 			'EXP':     ()=> {
@@ -16,7 +17,7 @@ function RewardModel(data = {
 				self.name('Col');
 				return false;
 			},
-			'Item':    ()=> {return true;},
+			'Item':    ()=> {self.name(''); return true;},
 			'Gear':    ()=> {return true;},
 			'LastHit': ()=> {return true;},
 			'Chest':   ()=> {return true;}
@@ -43,31 +44,34 @@ function RewardModel(data = {
 			'LastHit': ()=>({name: self.name()}),
 			'Chest':   ()=>({location: parent.location.export(), rarity: self.name()})
 		}
-	}
+	};
 
-	self.type       = ko.observable(data.type);
+	self.type       = ko.observable(newData.type);
 	self.getType = ()=>{
 		switch (self.type()) {
 			case 'Gear':
 			case 'GearSP':
 			case 'GearMP':
+				self.dataType = 'gear';
 				return 'Gear';
 			case 'LastHit':
 			case 'LastHitSP':
 			case 'LastHitMP':
+				self.dataType = 'gear';
 				return 'LastHit';
 			default:
+				self.dataType = undefined;
 				return self.type();
 		}
-	}
+	};
 	self.gearType   = ko.pureComputed(()=> {
 		if (!(self.isGear() || self.isLastHit())) { return "&nbsp;"; }
-		var result = helpers.findByKeyValue('gear', 'name', self.name());
+		var result = GH.findByKeyValue('gear', 'name', self.name());
 		return result.length > 0 ? result[0].model.type() : "&nbsp;";
-	})
-	self.name       = ko.observable(data.name);
+	});
+	self.name       = ko.observable(newData.name);
 	self.nameShow   = ko.pureComputed(()=>types.name[self.getType()]());
-	self.amount     = ko.observable(data.amount);
+	self.amount     = ko.observable(newData.amount);
 	self.amountShow = ko.pureComputed(()=>types.amount[self.getType()]());
 
 	self.listRewardType  = [
@@ -82,14 +86,14 @@ function RewardModel(data = {
 	self.isChest   = ()=>['Chest'].includes(self.type());
 
 	self.isNewGear   = ko.pureComputed(()=> {
-		var curItem   = self.item();
-		var isNew = !(rootView.data.gear().some((m)=>m.name() === curItem));
-		return curItem !== '' && isNew;
+		var curName   = self.name();
+		var isNew = !(GH.getData('gear')().some((m)=>m.name() === curName));
+		return curName !== '' && isNew;
 	});
 
 	self.isNewOre = ko.pureComputed(()=> {
 		var curName = self.name();
-		var isNewName = !rootView.OPTIONS().itemOre.includes(curName)
+		var isNewName = !rootView.OPTIONS().itemOre.includes(curName);
 		return curName !== '' && isNewName;
 	});
 
@@ -108,4 +112,4 @@ function RewardModel(data = {
 		name:   self.name(),
 		amount: self.amount()
 	});
-};
+}

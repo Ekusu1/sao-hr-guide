@@ -1,4 +1,4 @@
-var OPTIONS   = {
+var OPTIONS = {
 	sort:                  {
 		stages:      {
 			"":                             0,
@@ -118,7 +118,7 @@ var OPTIONS   = {
 			Event:          24,
 			"ADD-ON":       25
 		},
-		itemRarity:  {"": 0, Normal: 1, Purple: 2, Blue: 3, Green: 4},
+		itemRarity:  {"": 0, Common: 1, Uncommon: 2, Rare: 3, Exotic: 4, Legendary: 5},
 		chestRarity: {"": 0, Brown: 1, Blue: 2, Red: 3, Silver: 4, Gold: 5},
 		monsterType: {"": 0, M: 1, MS: 2, NM: 3, HNM: 4, Boss: 5}
 	},
@@ -168,20 +168,23 @@ var OPTIONS   = {
 		"Head", "Body/Armor", "Legs/Greaves", "Neck", "Wrist", "Ring/Finger", "Waist", "Charm"
 	],
 	itemTypeOther:         ["", "Medicine", "Crystal", "Material", "Ore", "Sellable", "Event", "ADD-ON"],
-	itemRarity:            ["", "Normal", "Purple", "Blue", "Green"],
+	itemRarity:            ["", "Common", "Uncommon", "Rare", "Exotic", "Legendary"],
 	chestRarity:           ["", "Brown", "Blue", "Red", "Silver", "Gold"],
 	monsterType:           ["", "M", "MS", "NM", "HNM", "Boss"],
 	monsterRace:           [
-		"", "Boar", "Beast", "Wasp", "Insect", "Crab", "Scorpion", "Treant", "Plant", "Tortoise", "Lizard", "Dragon",
-		"Slime", "Squide", "Reaper", "Skeleton", "Golem", "Knight", "Taurus", "Eye", "Flame"
+		"", "Boar", "Beast", "Buffalo", "Crab", "Bug", "Scorpion", "Wasp", "Insect", "Treant", "Plant", "Tortoise",
+		"Lizard", "Dragon", "Slime", "Squide", "Fungus", "Bat", "Demon", "Knight", "Gremlin", "Succubus", "Kobold",
+		"Taurus", "Reaper", "Skeleton", "Golem", "Sentry", "Eye", "Scourge", "Other"
 	],
 	monsterRaceDropPrefix: {
 		"":       "",
 		Boar:     "Bestial",
 		Beast:    "Bestial",
+		Buffalo:  "Bestial",
 		Wasp:     "Insectoid",
 		Insect:   "Insectoid",
 		Crab:     "Crustacean",
+		Bug:      "Crustacean",
 		Scorpion: "Crustacean",
 		Treant:   "Plant",
 		Plant:    "Plant",
@@ -193,33 +196,69 @@ var OPTIONS   = {
 		Reaper:   "Spectral",
 		Skeleton: "Spectral",
 		Golem:    "Inanimate",
+		Sentry:   "Inanimate",
 		Knight:   "Demonic",
-		Taurus:   "",
-		Eye:      ""
+		Gremlin:  "Demonic",
+		Succubus: "Demonic",
+		Demon:    "Demonic",
+		Eye:      "Mal",
+		Scourge:  "Mal",
+		Other:    ""
 	},
 	monsterRaceDrops:      {
 		"":       [],
-		Wasp:     ["Insectoid Exoskeleton", "Insectoid Stinger"],
-		Insect:   ["Insectoid Feeler"],
-		Golem:    ["Inanimate Arm Chunk", "Inanimate Leg Chunk"],
-		Knight:   ["Demonic Claw"],
 		Boar:     ["Bestial Fang", "Bestial Hoof", "Bestial Tail", "Bestial Tusk"],
-		Beast:    ["Bestial Mane"],
-		Treant:   ["Plant Bark", "Plant Bough"],
+		Beast:    ["Bestial Mane", "Bestial Pelt"],
+		Buffalo:  ["Bestial Bone Fragment", "Bestial Horn"],
+		Crab:     ["Crustacean Pincer", "Crustacean Soft Shell"],
+		Bug:      ["Crustacean Pincer", "Crustacean Soft Shell"],
+		Scorpion: ["Crustacean Claw", "Crustacean Leg"],
+		Wasp:     ["Insectoid Exoskeleton", "Insectoid Stinger", "Insect Gold Wing"],
+		Insect:   ["Insectoid Feeler", "Insectoid Simple Eye", "Insect Gold Wing"],
+		Treant:   ["Plant Bark", "Plant Bough", "Plant Petal"],
 		Plant:    ["Plant Chloroplast", "Plant Pod"],
 		Tortoise: ["Saurian Bone Fragment", "Saurian Claw"],
-		Slime:    ["Amorphous Algae", "Amorphous Membrane"],
-		Squide:   ["Amorphous Cell", "Amorphous Tentacle"],
-		Reaper:   ["Spectral Essence", "Spectral Wrappings"],
-		Skeleton: ["Spectral Armor Fragment", "Spectral Femur Fragment"],
-		Crab:     ["Crustacean Pincer", "Crustacean Soft Shell"],
-		Scorpion: ["Crustacean Claw", "Crustacean Leg"],
-		Lizard:   ["Saurian Fang", "Saurian Jaw"],
-		Dragon:   [],
-		Taurus:   [],
-		Eye:      [],
-		Flame:    []
+		Lizard:   ["Saurian Claw", "Saurian Fang", "Saurian Jaw", "Bestial Pure Blood Crys."],
+		Dragon:   ["Saurian Dragonscale"],
+		Slime:    ["Amorphous Algae", "Amorphous Membrane", "Amorphous Primal Nucleus"],
+		Squide:   ["Amorphous Cell", "Amorphous Nucleus", "Amorphous Tentacle"],
+		Fungus:   ["Amorphous Barb", "Amorphous Plastid", "Amorphous Primal Nucleus"],
+		Bat:      ["Demonic Claw", "Demonic Horn", "Demonic Pelt", "Demonic Remains"],
+		Demon:    ["Demonic Pelt", "Demonic Claw"],
+		Knight:   ["Demonic Claw", "Demonic Remains"],
+		Gremlin:  ["Demonic Remains", "Demonic Retrix", "Demonic Wing"],
+		Succubus: ["Demonic Horn", "Demonic Retrix"],
+		Kobold:   ["Demihuman Weapon Scrap", "Demihuman Armor Scrap", "Demihuman Rare Claw"],
+		Taurus:   ["Demihuman Claw", "Demihuman Fang", "Demihuman Rare Fang"],
+		Reaper:   ["Spectral Essence", "Spectral Hell Essence", "Spectral Wrappings"],
+		Skeleton: ["Spectral Armor Fragment", "Spectral Femur Fragment", "Spectral Defiled Essence"],
+		Golem:    ["Inanimate Arm Chunk", "Inanimate Leg Chunk"],
+		Sentry:   ["Inanimate Chest Chunk", "Inanimate Head Chunk", "Inanimate Powerstone"],
+		Eye:      ["Malicious Antenna", "Malicious Evolved Core", "Malicious Eye"],
+		Scourge:  ["Malicious Fluid", "Malicious Skin"],
+		Other:    []
 	},
+	itemMaterial:          [
+		"", "Amorphous", "Amorphous Algae", "Amorphous Barb", "Amorphous Cell", "Amorphous Membrane",
+		"Amorphous Nucleus", "Amorphous Plastid", "Amorphous Primal Nucleus", "Amorphous Tentacle", "Bestial",
+		"Bestial Bone Fragment", "Bestial Fang", "Bestial Hoof", "Bestial Horn", "Bestial Mane", "Bestial Pelt",
+		"Bestial Pure Blood Crys.", "Bestial Tail", "Bestial Tusk", "Crustacean", "Crustacean Claw", "Crustacean Gills",
+		"Crustacean Jaw", "Crustacean Leg", "Crustacean Pincer", "Crustacean Robust Gills", "Crustacean Robust Shell",
+		"Crustacean Soft Shell", "Demihuman", "Demihuman Armor Scrap", "Demihuman Bone Fragment", "Demihuman Claw",
+		"Demihuman Fang", "Demihuman Weapon Scrap", "Demihuman Rare Fang", "Demonic", "Demonic Claw", "Demonic Horn",
+		"Demonic Pelt", "Demonic Remains", "Demonic Retrix", "Demonic Wing", "Demonic Wings", "Inanimate",
+		"Inanimate Arm Chunk", "Inanimate Chest Chunk", "Inanimate Core", "Inanimate Head Chunk", "Inanimate Leg Chunk",
+		"Inanimate Powerstone", "Insectoid", "Insectoid Exoskeleton", "Insectoid Feeler", "Insectoid Gold Scale",
+		"Insectoid Gold Wing", "Insectoid Simple Eye", "Insectoid Soft Shell", "Insectoid Stinger",
+		"Mal. Pris. Blood Crystal", "Mal", "Malicious Antenna", "Malicious Evolved Core", "Malicious Eye",
+		"Malicious Fluid", "Malicious Skin", "Plant", "Plant Bark", "Plant Bough", "Plant Chloroplast", "Plant Petal",
+		"Plant Pod", "Saurian", "Saurian Bone Fragment", "Saurian Claw", "Saurian Dragon Eye", "Saurian Dragonbone",
+		"Saurian Dragonscale", "Saurian Fang", "Saurian Jaw", "Saurian Pair of Eyes", "Spectral",
+		"Spectral Armor Fragment", "Spectral Defiled Essence", "Spectral Essence", "Spectral Femur Fragment",
+		"Spectral Hell Essence", "Spectral Weapon Fragment", "Spectral Wrappings", "Iron Ore", "Aincrite Ore",
+		"Bluesteel Ore", "Darantite Ore", "Silver Ore", "The MurmurStone", "Platinum Ore", "Adamantite Ore",
+		"Blackguard's Amethyst", "Aetherial Ore", "Luxurian Ore", "Crystal of Light", "Dark Crystal"
+	],
 	baseEffect:            [
 		"ATK", "DEF", "HP", "SP", "STR", "VIT", "AGI", "DEX", "Slashing", "Thrusting", "Crushing", "Knockdown", "Stun",
 		"Numb", "Poison", "Bleed", "Physical", "Soul", "Debuff"
@@ -239,35 +278,17 @@ var OPTIONS   = {
 		"", "Iron Ore", "Aincrite Ore", "Bluesteel Ore", "Darantite Ore", "Silver Ore", "The MurmurStone",
 		"Platinum Ore", "Adamantite Ore", "Blackguard's Amethyst", "Aetherial Ore", "Luxurian Ore", "Crystal of Light",
 		"Dark Crystal"
-	],
-	itemMaterial:          [
-		"", "Amorphous", "Amorphous Algae", "Amorphous Barb", "Amorphous Cell", "Amorphous Membrane",
-		"Amorphous Nucleus", "Amorphous Plastid", "Amorphous Primal Nucleus", "Amorphous Tentacle", "Bestial",
-		"Bestial Bone Fragment", "Bestial Fang", "Bestial Hoof", "Bestial Horn", "Bestial Mane", "Bestial Pelt",
-		"Bestial Pure Blood Crys.", "Bestial Tail", "Bestial Tusk", "Crustacean", "Crustacean Claw", "Crustacean Gills",
-		"Crustacean Leg", "Crustacean Pincer", "Crustacean Robust Gills", "Crustacean Robust Shell",
-		"Crustacean Soft Shell", "Demihuman", "Demihuman Armor Scrap", "Demihuman Bone Fragment", "Demihuman Claw",
-		"Demihuman Fang", "Demihuman Weapon Scrap", "Demonic", "Demonic Claw", "Demonic Horn", "Demonic Pelt",
-		"Demonic Remains", "Demonic Retrix", "Demonic Wing", "Demonic Wings", "Inanimate", "Inanimate Arm Chunk",
-		"Inanimate Chest Chunk", "Inanimate Core", "Inanimate Head Chunk", "Inanimate Leg Chunk",
-		"Inanimate Powerstone", "Insectoid", "Insectoid Exoskeleton", "Insectoid Feeler", "Insectoid Gold Scale",
-		"Insectoid Gold Wing", "Insectoid Simple Eye", "Insectoid Soft Shell", "Insectoid Stinger",
-		"Mal. Pris. Blood Crystal", "Malicious", "Malicious Antenna", "Malicious Evolved Core", "Malicious Eye",
-		"Malicious Fluid", "Malicious Skin", "Plant", "Plant Bark", "Plant Bough", "Plant Chloroplast", "Plant Pod",
-		"Saurian", "Saurian Bone Fragment", "Saurian Claw", "Saurian Dragon Eye", "Saurian Dragonbone",
-		"Saurian Dragonscale", "Saurian Fang", "Saurian Jaw", "Saurian Pair of Eyes", "Spectral",
-		"Spectral Armor Fragment", "Spectral Defiled Essence", "Spectral Essence", "Spectral Femur Fragment",
-		"Spectral Hell Essence", "Spectral Weapon Fragment", "Spectral Wrappings"
 	]
 };
-var MAIN_DATA = {
+var DATA    = {
 	gear:    [
 		{
-			name:    "Ain Restorer",
-			type:    "1H Sword",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Ain Restorer",
+			type:            "1H Sword",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 75, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 1800, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -280,11 +301,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Stone Carver",
-			type:    "1H Sword",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Stone Carver",
+			type:            "1H Sword",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 91, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 5, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -297,11 +319,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Vulcan Blade",
-			type:    "1H Sword",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Vulcan Blade",
+			type:            "1H Sword",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 59, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 1, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -314,11 +337,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Mercenary Sword",
-			type:    "1H Sword",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Mercenary Sword",
+			type:            "1H Sword",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 97, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 16, baseStat: true}, {name: "VIT", value: 14, baseStat: true},
@@ -331,11 +355,49 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Valiant Rapier",
-			type:    "Rapier",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Final Espada",
+			type:            "1H Sword",
+			rarity:          "Uncommon",
+			stars:           "4",
+			transformedFrom: "",
+			transformations: [{name: "", requiredMaterials: []}],
+			effects:         [
+				{name: "ATK", value: "152", baseStat: true}, {name: "DEF", value: 0, baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: "31", baseStat: true},
+				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: "40", baseStat: true}, {name: "AGI", value: 0, baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Prima Sabre",
+			type:            "Rapier",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: "146", baseStat: true}, {name: "DEF", value: 0, baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: "8", baseStat: true},
+				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: 0, baseStat: true}, {name: "AGI", value: "12", baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Valiant Rapier",
+			type:            "Rapier",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 112, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 4, baseStat: true},
@@ -348,11 +410,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Celestial Fleuret",
-			type:    "Rapier",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Celestial Fleuret",
+			type:            "Rapier",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 30, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 8, baseStat: true},
 				{name: "STR", value: 1, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -365,11 +428,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Calm Foil",
-			type:    "Rapier",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Calm Foil",
+			type:            "Rapier",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 73, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 1500, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 17, baseStat: true},
@@ -382,11 +446,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Cardinal Ray",
-			type:    "Rapier",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Cardinal Ray",
+			type:            "Rapier",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 95, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 23, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -399,11 +464,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Feather Thruster",
-			type:    "Rapier",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Feather Thruster",
+			type:            "Rapier",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 112, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 13, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -416,11 +482,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Controlled Reaver",
-			type:    "Scimitar",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Controlled Reaver",
+			type:            "Scimitar",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 68, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 2700, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -433,11 +500,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Flexed Edge",
-			type:    "Scimitar",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Flexed Edge",
+			type:            "Scimitar",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 93, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -450,11 +518,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Moonstruck Saber",
-			type:    "Scimitar",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Moonstruck Saber",
+			type:            "Scimitar",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: "119", baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: "48", baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -467,11 +536,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Weiss Scimitar",
-			type:    "Scimitar",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Weiss Scimitar",
+			type:            "Scimitar",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: "79", baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: "5", baseStat: true}, {name: "VIT", value: "24", baseStat: true},
@@ -484,11 +554,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Raptor Saber",
-			type:    "Scimitar",
-			rarity:  "Purple",
-			stars:   "5",
-			effects: [
+			name:            "Raptor Saber",
+			type:            "Scimitar",
+			rarity:          "Uncommon",
+			stars:           "5",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 73, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 18, baseStat: true}, {name: "VIT", value: 22, baseStat: true},
@@ -501,11 +572,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Royal Defender",
-			type:    "Dagger",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Royal Defender",
+			type:            "Dagger",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: "149", baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: "25", baseStat: true}, {name: "VIT", value: "4", baseStat: true},
@@ -518,11 +590,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Talon Knife",
-			type:    "Dagger",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Talon Knife",
+			type:            "Dagger",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 79, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 4, baseStat: true},
@@ -535,11 +608,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Assassin's Gale",
-			type:    "Dagger",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Assassin's Gale",
+			type:            "Dagger",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 96, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 5, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -552,11 +626,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Garuda Edge",
-			type:    "Dagger",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Garuda Edge",
+			type:            "Dagger",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: "51", baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: "11", baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -569,11 +644,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Howling Beater",
-			type:    "1H Club",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Howling Beater",
+			type:            "1H Club",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 58, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -586,11 +662,30 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Maximum Impact",
-			type:    "1H Club",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Lunatic Press",
+			type:            "1H Club",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: "112", baseStat: true}, {name: "DEF", value: 0, baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: "39", baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: "12", baseStat: true}, {name: "AGI", value: 0, baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Maximum Impact",
+			type:            "1H Club",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 89, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 11, baseStat: true}, {name: "VIT", value: 32, baseStat: true},
@@ -603,11 +698,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Rage Diffuser",
-			type:    "1H Club",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Rage Diffuser",
+			type:            "1H Club",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 55, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 1400, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 11, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -620,11 +716,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Innocent Shell",
-			type:    "Shield",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Innocent Shell",
+			type:            "Shield",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 60, baseStat: true}, {name: "DEF", value: 17, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 3, baseStat: true},
@@ -637,11 +734,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Deep Shell",
-			type:    "Shield",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Deep Shell",
+			type:            "Shield",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 58, baseStat: true}, {name: "DEF", value: 17, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: -6, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -654,11 +752,31 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Aegis Guard",
-			type:    "Shield",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Spiked Buckler",
+			type:            "Shield",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformedFrom: "",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: "91", baseStat: true}, {name: "DEF", value: "26", baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: "15", baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: 0, baseStat: true}, {name: "AGI", value: "-19", baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}, {name: "Damage Reduction %", value: "16", baseStat: false}
+			]
+		}, {
+			name:            "Aegis Guard",
+			type:            "Shield",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: "24", baseStat: true}, {name: "DEF", value: "4", baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: "8", baseStat: true},
@@ -671,11 +789,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}, {name: "Damage Reduction %", value: "9", baseStat: false}
 			]
 		}, {
-			name:    "Dark Moon Buckler",
-			type:    "Shield",
-			rarity:  "Purple",
-			stars:   "4",
-			effects: [
+			name:            "Dark Moon Buckler",
+			type:            "Shield",
+			rarity:          "Uncommon",
+			stars:           "4",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: "109", baseStat: true}, {name: "DEF", value: "20", baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: "-12", baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -688,11 +807,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}, {name: "Damage Reduction %", value: "5", baseStat: false}
 			]
 		}, {
-			name:    "Shell Buckler",
-			type:    "Shield",
-			rarity:  "Purple",
-			stars:   "4",
-			effects: [
+			name:            "Shell Buckler",
+			type:            "Shield",
+			rarity:          "Uncommon",
+			stars:           "4",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 88, baseStat: true}, {name: "DEF", value: 25, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: -2, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -705,11 +825,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Chevalier Guard",
-			type:    "Shield",
-			rarity:  "Purple",
-			stars:   "5",
-			effects: [
+			name:            "Chevalier Guard",
+			type:            "Shield",
+			rarity:          "Uncommon",
+			stars:           "5",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 58, baseStat: true}, {name: "DEF", value: 11, baseStat: true},
 				{name: "HP", value: 2500, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -722,11 +843,30 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Okisho-Garasu",
-			type:    "Katana",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Asayuki Kabuse",
+			type:            "Katana",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: "134", baseStat: true}, {name: "DEF", value: 0, baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: "27", baseStat: true},
+				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: 0, baseStat: true}, {name: "AGI", value: "11", baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Okisho-Garasu",
+			type:            "Katana",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 85, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -739,11 +879,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Ukide-Gumo",
-			type:    "Katana",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Ukide-Gumo",
+			type:            "Katana",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 146, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 2900, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 18, baseStat: true},
@@ -756,11 +897,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Hidoh",
-			type:    "Katana",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Hidoh",
+			type:            "Katana",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 134, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 1600, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -773,11 +915,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Kogetsu",
-			type:    "Katana",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Kogetsu",
+			type:            "Katana",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 134, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 49, baseStat: true},
 				{name: "STR", value: 4, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -790,11 +933,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Brute Force",
-			type:    "2H Sword",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Brute Force",
+			type:            "2H Sword",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 112, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 12, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -807,11 +951,31 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Raptor Blade",
-			type:    "2H Sword",
-			rarity:  "Purple",
-			stars:   "5",
-			effects: [
+			name:            "Matter Dissolver",
+			type:            "2H Sword",
+			rarity:          "Uncommon",
+			stars:           "5",
+			transformedFrom: "",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: "190", baseStat: true}, {name: "DEF", value: 0, baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: "38", baseStat: true}, {name: "AGI", value: "38", baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Raptor Blade",
+			type:            "2H Sword",
+			rarity:          "Uncommon",
+			stars:           "5",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 140, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 1400, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 30, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -824,11 +988,31 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Glowing Halberd",
-			type:    "2H Axe",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Bardiche",
+			type:            "2H Axe",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformedFrom: "",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: "151", baseStat: true}, {name: "DEF", value: 0, baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: "3", baseStat: true}, {name: "VIT", value: "", baseStat: true},
+				{name: "DEX", value: "25", baseStat: true}, {name: "AGI", value: 0, baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Glowing Halberd",
+			type:            "2H Axe",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 134, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 100, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 22, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -841,11 +1025,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Hail Chopper",
-			type:    "2H Axe",
-			rarity:  "Purple",
-			stars:   "4",
-			effects: [
+			name:            "Hail Chopper",
+			type:            "2H Axe",
+			rarity:          "Uncommon",
+			stars:           "4",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 96, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -858,11 +1043,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Altered Pike",
-			type:    "Spear",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Altered Pike",
+			type:            "Spear",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 145, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -875,11 +1061,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Ignition Lance",
-			type:    "Spear",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Ignition Lance",
+			type:            "Spear",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 151, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: -20, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -892,11 +1079,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Outsider's Lance",
-			type:    "Spear",
-			rarity:  "Purple",
-			stars:   "5",
-			effects: [
+			name:            "Outsider's Lance",
+			type:            "Spear",
+			rarity:          "Uncommon",
+			stars:           "5",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 173, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 5600, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 24, baseStat: true},
@@ -909,11 +1097,30 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Ivory Earring",
-			type:    "Head",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Elven Earring",
+			type:            "Head",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: "17", baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: 0, baseStat: true}, {name: "AGI", value: 0, baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Ivory Earring",
+			type:            "Head",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 10, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -926,11 +1133,30 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Rebuff Earring",
-			type:    "Head",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Phenomenon Earring",
+			type:            "Head",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: "17", baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: 0, baseStat: true}, {name: "AGI", value: 0, baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Rebuff Earring",
+			type:            "Head",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 11, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -943,11 +1169,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Shade Earring",
-			type:    "Head",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Shade Earring",
+			type:            "Head",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 11, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -960,11 +1187,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Lionel's Mail",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   0,
-			effects: [
+			name:            "Lionel's Mail",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           0,
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: "20", baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -977,11 +1205,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Adamant Mail",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Adamant Mail",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 49, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -994,11 +1223,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Akashic Plate",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Akashic Plate",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 51, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1011,11 +1241,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Armadillo Madness",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Armadillo Madness",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 61, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1028,11 +1259,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Banishing Coat",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Banishing Coat",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 38, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1045,11 +1277,31 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Chivalry Coat",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Calamity Stopper",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformedFrom: "",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: "75", baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: 0, baseStat: true}, {name: "AGI", value: 0, baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Chivalry Coat",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 39, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1062,11 +1314,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Clockwork Armor",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Clockwork Armor",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 61, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1079,11 +1332,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Darkness Mail",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Darkness Mail",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 48, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1096,11 +1350,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Desperado Coat",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Desperado Coat",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 36, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1113,11 +1368,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Dual Jacket",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Dual Jacket",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 28, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1130,11 +1386,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Enabled Armor",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Enabled Armor",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 34, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1147,11 +1404,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Exceed Coat",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Exceed Coat",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 37, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1164,11 +1422,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Flame Armor",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Flame Armor",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 35, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1181,11 +1440,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Fractal Mail",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Fractal Mail",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 48, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1198,11 +1458,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Galleon Armor",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Galleon Armor",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 57, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1215,11 +1476,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Gemini Coat",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Gemini Coat",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 74, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1232,11 +1494,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "General's Armor",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "General's Armor",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 59, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1249,62 +1512,13 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Mithril Plate",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
-				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 51, baseStat: true},
-				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
-				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
-				{name: "DEX", value: 0, baseStat: true}, {name: "AGI", value: 0, baseStat: true},
-				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
-				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
-				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
-				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
-				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
-				{name: "Debuff", value: 0, baseStat: false}
-			]
-		}, {
-			name:    "Night Mail",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
-				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: "74", baseStat: true},
-				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
-				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
-				{name: "DEX", value: 0, baseStat: true}, {name: "AGI", value: 0, baseStat: true},
-				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
-				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
-				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
-				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
-				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
-				{name: "Debuff", value: 0, baseStat: false}
-			]
-		}, {
-			name:    "Nomad Armor",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
-				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 57, baseStat: true},
-				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
-				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
-				{name: "DEX", value: 0, baseStat: true}, {name: "AGI", value: 0, baseStat: true},
-				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
-				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
-				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
-				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
-				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
-				{name: "Debuff", value: 0, baseStat: false}
-			]
-		}, {
-			name:    "Precarious Plate",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Juggernaut",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformedFrom: "",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: "90", baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1317,11 +1531,84 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Proxy Coat",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Mithril Plate",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 51, baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: 0, baseStat: true}, {name: "AGI", value: 0, baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Night Mail",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: "74", baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: 0, baseStat: true}, {name: "AGI", value: 0, baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Nomad Armor",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 57, baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: 0, baseStat: true}, {name: "AGI", value: 0, baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Precarious Plate",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: "90", baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: 0, baseStat: true}, {name: "AGI", value: 0, baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Proxy Coat",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 36, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1334,11 +1621,30 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Wild Thing",
-			type:    "Body/Armor",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Trusted Coverings",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: "56", baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: 0, baseStat: true}, {name: "AGI", value: 0, baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Wild Thing",
+			type:            "Body/Armor",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 46, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1351,11 +1657,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Ryonox Mail",
-			type:    "Body/Armor",
-			rarity:  "Blue",
-			stars:   "1",
-			effects: [
+			name:            "Ryonox Mail",
+			type:            "Body/Armor",
+			rarity:          "Rare",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 94, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 20, baseStat: true},
@@ -1368,11 +1675,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Shapely Jacket",
-			type:    "Body/Armor",
-			rarity:  "Blue",
-			stars:   "2",
-			effects: [
+			name:            "Shapely Jacket",
+			type:            "Body/Armor",
+			rarity:          "Rare",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: "51", baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: "-10", baseStat: true}, {name: "VIT", value: "26", baseStat: true},
@@ -1385,11 +1693,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Wanderer's Armor",
-			type:    "Body/Armor",
-			rarity:  "Blue",
-			stars:   "2",
-			effects: [
+			name:            "Wanderer's Armor",
+			type:            "Body/Armor",
+			rarity:          "Rare",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 66, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 16, baseStat: true}, {name: "VIT", value: 16, baseStat: true},
@@ -1402,11 +1711,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Ryonox Coat",
-			type:    "Body/Armor",
-			rarity:  "Blue",
-			stars:   "4",
-			effects: [
+			name:            "Ryonox Coat",
+			type:            "Body/Armor",
+			rarity:          "Rare",
+			stars:           "4",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 60, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 28, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1419,11 +1729,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Akashic Boots",
-			type:    "Legs/Greaves",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Akashic Boots",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 29, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1436,11 +1747,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Boots of Banishing",
-			type:    "Legs/Greaves",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Boots of Banishing",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 22, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1453,11 +1765,30 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Boots of Excess",
-			type:    "Legs/Greaves",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Boots of Brotherhood",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: "43", baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: 0, baseStat: true}, {name: "AGI", value: 0, baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Boots of Excess",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 21, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1470,11 +1801,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Clockwork Shank",
-			type:    "Legs/Greaves",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Clockwork Shank",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 35, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1487,11 +1819,31 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Darkness Leggings",
-			type:    "Legs/Greaves",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Confounding Leggings",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformedFrom: "",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: "43", baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: 0, baseStat: true}, {name: "AGI", value: 0, baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Darkness Leggings",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 27, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1504,11 +1856,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Desperado Boots",
-			type:    "Legs/Greaves",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Desperado Boots",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 20, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1521,11 +1874,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Dreadnought",
-			type:    "Legs/Greaves",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Dreadnought",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: "51", baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1538,11 +1892,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Flame Runner",
-			type:    "Legs/Greaves",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Flame Runner",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 20, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1555,11 +1910,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Fractal Leggings",
-			type:    "Legs/Greaves",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Fractal Leggings",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 27, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1572,11 +1928,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Galleon Greaves",
-			type:    "Legs/Greaves",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Galleon Greaves",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 34, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1589,11 +1946,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Gemini Sandals",
-			type:    "Legs/Greaves",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Gemini Sandals",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 42, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1606,11 +1964,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "General Greaves",
-			type:    "Legs/Greaves",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "General Greaves",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 34, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1623,11 +1982,31 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Lawless Boots",
-			type:    "Legs/Greaves",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Greaves of Live",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformedFrom: "",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: "52", baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: 0, baseStat: true}, {name: "AGI", value: 0, baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Lawless Boots",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 26, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1640,11 +2019,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Mithril Leggings",
-			type:    "Legs/Greaves",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Mithril Leggings",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 29, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1657,11 +2037,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Nomad's Greaves",
-			type:    "Legs/Greaves",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Nomad's Greaves",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 33, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1674,11 +2055,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Proxy Boots",
-			type:    "Legs/Greaves",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Proxy Boots",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 20, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1691,11 +2073,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Steadfast Leggings",
-			type:    "Legs/Greaves",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Steadfast Leggings",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 28, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1708,11 +2091,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Viral Feet",
-			type:    "Legs/Greaves",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Viral Feet",
+			type:            "Legs/Greaves",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: "32", baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1725,11 +2109,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Wulfen Boots",
-			type:    "Legs/Greaves",
-			rarity:  "Blue",
-			stars:   "1",
-			effects: [
+			name:            "Wulfen Boots",
+			type:            "Legs/Greaves",
+			rarity:          "Rare",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 35, baseStat: true},
 				{name: "HP", value: -3300, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 6, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1742,11 +2127,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Aura Drops",
-			type:    "Neck",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Aura Drops",
+			type:            "Neck",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: "2700", baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1759,11 +2145,30 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Reward Chain",
-			type:    "Neck",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Dragonfang Pendant",
+			type:            "Neck",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
+				{name: "HP", value: "3700", baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: "11", baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: 0, baseStat: true}, {name: "AGI", value: 0, baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Reward Chain",
+			type:            "Neck",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 1900, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 1, baseStat: true},
@@ -1776,11 +2181,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Paradise Chocker",
-			type:    "Neck",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Paradise Chocker",
+			type:            "Neck",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: "800", baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: "1", baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1793,11 +2199,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Vital Chain",
-			type:    "Neck",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Vital Chain",
+			type:            "Neck",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 300, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 9, baseStat: true},
@@ -1810,11 +2217,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Garnet Choker",
-			type:    "Neck",
-			rarity:  "Purple",
-			stars:   "4",
-			effects: [
+			name:            "Garnet Choker",
+			type:            "Neck",
+			rarity:          "Uncommon",
+			stars:           "4",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 2900, baseStat: true}, {name: "SP", value: -17, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1827,11 +2235,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Daisy Pendant",
-			type:    "Neck",
-			rarity:  "Purple",
-			stars:   "5",
-			effects: [
+			name:            "Daisy Pendant",
+			type:            "Neck",
+			rarity:          "Uncommon",
+			stars:           "5",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 1900, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1844,11 +2253,31 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Jewelry Bangle",
-			type:    "Wrist",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Lion's Tears",
+			type:            "Neck",
+			rarity:          "Uncommon",
+			stars:           "5",
+			transformedFrom: "",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
+				{name: "HP", value: "4000", baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: "16", baseStat: true}, {name: "AGI", value: 0, baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Jewelry Bangle",
+			type:            "Wrist",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 3, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 7, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1861,11 +2290,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Power Armlet",
-			type:    "Wrist",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Power Armlet",
+			type:            "Wrist",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 2, baseStat: true}, {name: "DEF", value: 4, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 7, baseStat: true}, {name: "VIT", value: 2, baseStat: true},
@@ -1878,11 +2308,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Spell Braeclet",
-			type:    "Wrist",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Spell Braeclet",
+			type:            "Wrist",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 3, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 7, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1895,11 +2326,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Wise Bracelet",
-			type:    "Wrist",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Wise Bracelet",
+			type:            "Wrist",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 2, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 2, baseStat: true},
 				{name: "STR", value: 8, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1912,11 +2344,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Heat Haze Bracelet",
-			type:    "Wrist",
-			rarity:  "Purple",
-			stars:   "4",
-			effects: [
+			name:            "Heat Haze Bracelet",
+			type:            "Wrist",
+			rarity:          "Uncommon",
+			stars:           "4",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 1, baseStat: true}, {name: "DEF", value: 1, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 4, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1929,11 +2362,30 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Royal Bangle",
-			type:    "Wrist",
-			rarity:  "Purple",
-			stars:   "5",
-			effects: [
+			name:            "Hoop of Adonis",
+			type:            "Wrist",
+			rarity:          "Uncommon",
+			stars:           "5",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: "3", baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: "9", baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: "11", baseStat: true}, {name: "AGI", value: 0, baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Royal Bangle",
+			type:            "Wrist",
+			rarity:          "Uncommon",
+			stars:           "5",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: "2", baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: "4", baseStat: true}, {name: "VIT", value: "3", baseStat: true},
@@ -1946,11 +2398,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Burst Ring",
-			type:    "Ring/Finger",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Burst Ring",
+			type:            "Ring/Finger",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 15, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1963,11 +2416,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Electrum Ring",
-			type:    "Ring/Finger",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Electrum Ring",
+			type:            "Ring/Finger",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1980,11 +2434,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Nocturne Ring",
-			type:    "Ring/Finger",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Nocturne Ring",
+			type:            "Ring/Finger",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 25, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -1997,11 +2452,31 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Euphoria Ring",
-			type:    "Ring/Finger",
-			rarity:  "Purple",
-			stars:   "4",
-			effects: [
+			name:            "Ring of El Dorado",
+			type:            "Ring/Finger",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformedFrom: "",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: "49", baseStat: true},
+				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
+				{name: "DEX", value: "5", baseStat: true}, {name: "AGI", value: 0, baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Euphoria Ring",
+			type:            "Ring/Finger",
+			rarity:          "Uncommon",
+			stars:           "4",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 4, baseStat: true},
@@ -2014,11 +2489,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Sierra Ring",
-			type:    "Ring/Finger",
-			rarity:  "Purple",
-			stars:   "4",
-			effects: [
+			name:            "Sierra Ring",
+			type:            "Ring/Finger",
+			rarity:          "Uncommon",
+			stars:           "4",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 3, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -2031,11 +2507,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Stigma Ring",
-			type:    "Ring/Finger",
-			rarity:  "Purple",
-			stars:   "4",
-			effects: [
+			name:            "Stigma Ring",
+			type:            "Ring/Finger",
+			rarity:          "Uncommon",
+			stars:           "4",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: -1400, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -2048,11 +2525,30 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Corset of Life",
-			type:    "Waist",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Sixth Sense",
+			type:            "Ring/Finger",
+			rarity:          "Uncommon",
+			stars:           "5",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: "14", baseStat: true},
+				{name: "DEX", value: "15", baseStat: true}, {name: "AGI", value: 0, baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: 0, baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: 0, baseStat: false},
+				{name: "Poison", value: 0, baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Corset of Life",
+			type:            "Waist",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 1, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 100, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 1, baseStat: true},
@@ -2065,11 +2561,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Fury Belt",
-			type:    "Waist",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Fury Belt",
+			type:            "Waist",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 10, baseStat: true}, {name: "VIT", value: 9, baseStat: true},
@@ -2082,11 +2579,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Phantasm Belt",
-			type:    "Waist",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Phantasm Belt",
+			type:            "Waist",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: -29, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 4, baseStat: true},
@@ -2099,11 +2597,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Jinn Waistcoat",
-			type:    "Waist",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Jinn Waistcoat",
+			type:            "Waist",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: "1", baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: "4", baseStat: true},
@@ -2116,11 +2615,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Reboot Belt",
-			type:    "Waist",
-			rarity:  "Purple",
-			stars:   "4",
-			effects: [
+			name:            "Reboot Belt",
+			type:            "Waist",
+			rarity:          "Uncommon",
+			stars:           "4",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 4, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 9, baseStat: true},
@@ -2133,11 +2633,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Remove Bangle",
-			type:    "Waist",
-			rarity:  "Purple",
-			stars:   "4",
-			effects: [
+			name:            "Remove Bangle",
+			type:            "Waist",
+			rarity:          "Uncommon",
+			stars:           "4",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 2, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 27, baseStat: true},
 				{name: "STR", value: 5, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -2150,11 +2651,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Demon's Cord",
-			type:    "Waist",
-			rarity:  "Purple",
-			stars:   "5",
-			effects: [
+			name:            "Demon's Cord",
+			type:            "Waist",
+			rarity:          "Uncommon",
+			stars:           "5",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: "1", baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: "14", baseStat: true},
@@ -2167,11 +2669,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Freesia Belt",
-			type:    "Waist",
-			rarity:  "Purple",
-			stars:   "5",
-			effects: [
+			name:            "Freesia Belt",
+			type:            "Waist",
+			rarity:          "Uncommon",
+			stars:           "5",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 1, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 11, baseStat: true},
@@ -2184,11 +2687,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Karma Belt",
-			type:    "Waist",
-			rarity:  "Purple",
-			stars:   "5",
-			effects: [
+			name:            "Karma Belt",
+			type:            "Waist",
+			rarity:          "Uncommon",
+			stars:           "5",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: "1", baseStat: true}, {name: "DEF", value: "1", baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: "15", baseStat: true}, {name: "VIT", value: "12", baseStat: true},
@@ -2201,11 +2705,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Belt of Metatron",
-			type:    "Waist",
-			rarity:  "Blue",
-			stars:   "1",
-			effects: [
+			name:            "Belt of Metatron",
+			type:            "Waist",
+			rarity:          "Rare",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 18, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 4, baseStat: true},
@@ -2218,11 +2723,30 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Talisman of Ares",
-			type:    "Charm",
-			rarity:  "Purple",
-			stars:   "1",
-			effects: [
+			name:            "Oath of the Tabernacle",
+			type:            "Charm",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
+				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
+				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
+				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: "-17", baseStat: true},
+				{name: "DEX", value: 0, baseStat: true}, {name: "AGI", value: "6", baseStat: true},
+				{name: "Slashing", value: 0, baseStat: false}, {name: "Thrusting", value: 0, baseStat: false},
+				{name: "Crushing", value: 0, baseStat: false}, {name: "Knockdown", value: "10", baseStat: false},
+				{name: "Stun", value: 0, baseStat: false}, {name: "Numb", value: "20", baseStat: false},
+				{name: "Poison", value: "15", baseStat: false}, {name: "Bleed", value: 0, baseStat: false},
+				{name: "Physical", value: 0, baseStat: false}, {name: "Soul", value: 0, baseStat: false},
+				{name: "Debuff", value: 0, baseStat: false}
+			]
+		}, {
+			name:            "Talisman of Ares",
+			type:            "Charm",
+			rarity:          "Uncommon",
+			stars:           "1",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: "3", baseStat: true},
@@ -2235,11 +2759,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Remembrance",
-			type:    "Charm",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Remembrance",
+			type:            "Charm",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 7, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -2252,11 +2777,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Tranquiliezer",
-			type:    "Charm",
-			rarity:  "Purple",
-			stars:   "2",
-			effects: [
+			name:            "Tranquiliezer",
+			type:            "Charm",
+			rarity:          "Uncommon",
+			stars:           "2",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 1800, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -2269,11 +2795,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Brighteness Ank",
-			type:    "Charm",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Brighteness Ank",
+			type:            "Charm",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 26, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -2286,11 +2813,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Daydream Ank",
-			type:    "Charm",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Daydream Ank",
+			type:            "Charm",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 6, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -2303,11 +2831,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Memorial Charm",
-			type:    "Charm",
-			rarity:  "Purple",
-			stars:   "3",
-			effects: [
+			name:            "Memorial Charm",
+			type:            "Charm",
+			rarity:          "Uncommon",
+			stars:           "3",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 1400, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -2320,11 +2849,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Talisman of Eternal Joy",
-			type:    "Charm",
-			rarity:  "Purple",
-			stars:   "4",
-			effects: [
+			name:            "Talisman of Eternal Joy",
+			type:            "Charm",
+			rarity:          "Uncommon",
+			stars:           "4",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: 0, baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -2337,11 +2867,12 @@ var MAIN_DATA = {
 				{name: "Debuff", value: 0, baseStat: false}
 			]
 		}, {
-			name:    "Freye's Charm",
-			type:    "Charm",
-			rarity:  "Purple",
-			stars:   "5",
-			effects: [
+			name:            "Freye's Charm",
+			type:            "Charm",
+			rarity:          "Uncommon",
+			stars:           "5",
+			transformations: [],
+			effects:         [
 				{name: "ATK", value: 0, baseStat: true}, {name: "DEF", value: 0, baseStat: true},
 				{name: "HP", value: 0, baseStat: true}, {name: "SP", value: 0, baseStat: true},
 				{name: "STR", value: "3", baseStat: true}, {name: "VIT", value: 0, baseStat: true},
@@ -2369,12 +2900,12 @@ var MAIN_DATA = {
 		}, {
 			location: {area: "Great Plains of Rustoria", stage: "Phoeniath Knoll", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: Extra Boar Commander",
+			where:    "Stage Boss",
 			item:     "Vulcan Blade"
 		}, {
 			location: {area: "Great Plains of Rustoria", stage: "Phoeniath Knoll", lvMin: 0, lvMax: 0},
-			rarity:   "Red",
-			where:    "E: Vengeful Spirit",
+			rarity:   "Gold",
+			where:    "Events",
 			item:     "Celestial Fleuret"
 		}, {
 			location: {area: "Great Plains of Rustoria", stage: "Centallia Rise", lvMin: 0, lvMax: 0},
@@ -2384,22 +2915,17 @@ var MAIN_DATA = {
 		}, {
 			location: {area: "Great Plains of Rustoria", stage: "Centallia Rise", lvMin: 0, lvMax: 0},
 			rarity:   "Blue",
-			where:    "Top",
-			item:     ""
-		}, {
-			location: {area: "Great Plains of Rustoria", stage: "Centallia Rise", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
 			where:    "Bottom",
 			item:     "Jinn Waistcoat"
 		}, {
 			location: {area: "Great Plains of Rustoria", stage: "Centallia Rise", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: Violet Thorn",
+			where:    "Stage Boss",
 			item:     "Weiss Scimitar"
 		}, {
 			location: {area: "Great Plains of Rustoria", stage: "Centallia Rise", lvMin: 0, lvMax: 0},
 			rarity:   "Silver",
-			where:    "E: Ever-Growing Anger",
+			where:    "Event Chain",
 			item:     "Shapely Jacket"
 		}, {
 			location: {area: "Great Plains of Rustoria", stage: "Lake Steschal", lvMin: 0, lvMax: 0},
@@ -2419,7 +2945,7 @@ var MAIN_DATA = {
 		}, {
 			location: {area: "Great Plains of Rustoria", stage: "Lake Steschal", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: King Claw, Lord of the Lake",
+			where:    "Stage Boss",
 			item:     "Garuda Edge"
 		}, {
 			location: {area: "Great Forest of Oldrobe", stage: "Mee Forest", lvMin: 0, lvMax: 0},
@@ -2434,17 +2960,17 @@ var MAIN_DATA = {
 		}, {
 			location: {area: "Great Forest of Oldrobe", stage: "Mee Forest", lvMin: 0, lvMax: 0},
 			rarity:   "Blue",
-			where:    "Bottom",
-			item:     "Burst Ring"
-		}, {
-			location: {area: "Great Forest of Oldrobe", stage: "Mee Forest", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
 			where:    "Top",
 			item:     "Memorial Charm"
 		}, {
 			location: {area: "Great Forest of Oldrobe", stage: "Mee Forest", lvMin: 0, lvMax: 0},
+			rarity:   "Blue",
+			where:    "Bottom",
+			item:     "Burst Ring"
+		}, {
+			location: {area: "Great Forest of Oldrobe", stage: "Mee Forest", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: Miracle Heart",
+			where:    "Stage Boss",
 			item:     "Deep Shell"
 		}, {
 			location: {area: "Great Forest of Oldrobe", stage: "Lokitalluh Ascent", lvMin: 0, lvMax: 0},
@@ -2464,7 +2990,7 @@ var MAIN_DATA = {
 		}, {
 			location: {area: "Great Forest of Oldrobe", stage: "Lokitalluh Ascent", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: Forest Dragon",
+			where:    "Stage Boss",
 			item:     "Raptor Saber"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Lynex Waterway", lvMin: 0, lvMax: 0},
@@ -2483,19 +3009,9 @@ var MAIN_DATA = {
 			item:     "Remove Bangle"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Lynex Waterway", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
-			where:    "Top",
-			item:     ""
-		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "Lynex Waterway", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: Vorpal Edge",
+			where:    "Stage Boss",
 			item:     "Rage Diffuser"
-		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "One Fall Cataract", lvMin: 0, lvMax: 0},
-			rarity:   "Brown",
-			where:    "Right",
-			item:     "Nomad Armor"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "One Fall Cataract", lvMin: 0, lvMax: 0},
 			rarity:   "Brown",
@@ -2503,24 +3019,24 @@ var MAIN_DATA = {
 			item:     "Nomad's Greaves"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "One Fall Cataract", lvMin: 0, lvMax: 0},
+			rarity:   "Brown",
+			where:    "Right",
+			item:     "Nomad Armor"
+		}, {
+			location: {area: "Jeweled Peaks Lakes", stage: "One Fall Cataract", lvMin: 0, lvMax: 0},
 			rarity:   "Blue",
 			where:    "Bottom",
 			item:     "Remembrance"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "One Fall Cataract", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
-			where:    "Top",
-			item:     ""
-		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "One Fall Cataract", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: Shock Tank",
-			item:     "Stone Carver"
-		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "One Fall Cataract", lvMin: 0, lvMax: 0},
-			rarity:   "Red",
-			where:    "E: Pricy Prey",
+			where:    "Events",
 			item:     "Hail Chopper"
+		}, {
+			location: {area: "Jeweled Peaks Lakes", stage: "One Fall Cataract", lvMin: 0, lvMax: 0},
+			rarity:   "Red",
+			where:    "Stage Boss",
+			item:     "Stone Carver"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Marceiville Water Caves", lvMin: 0, lvMax: 0},
 			rarity:   "Brown",
@@ -2539,13 +3055,8 @@ var MAIN_DATA = {
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Marceiville Water Caves", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: Jiggling Lime",
+			where:    "Stage Boss",
 			item:     "Cardinal Ray"
-		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "Turinble Road", lvMin: 0, lvMax: 0},
-			rarity:   "Brown",
-			where:    "Right",
-			item:     "Fractal Mail"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Turinble Road", lvMin: 0, lvMax: 0},
 			rarity:   "Brown",
@@ -2553,9 +3064,9 @@ var MAIN_DATA = {
 			item:     "Proxy Boots"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Turinble Road", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
+			rarity:   "Brown",
 			where:    "Right",
-			item:     ""
+			item:     "Fractal Mail"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Turinble Road", lvMin: 0, lvMax: 0},
 			rarity:   "Blue",
@@ -2564,13 +3075,13 @@ var MAIN_DATA = {
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Turinble Road", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "E: An Unwelcoming Forest",
-			item:     "Okisho-Garasu"
+			where:    "Stage Boss",
+			item:     "Brute Force"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Turinble Road", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: Rouge Needle Striker",
-			item:     "Brute Force"
+			where:    "Events",
+			item:     "Okisho-Garasu"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Paffati Hall", lvMin: 0, lvMax: 0},
 			rarity:   "Brown",
@@ -2588,13 +3099,8 @@ var MAIN_DATA = {
 			item:     "Vital Chain"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Paffati Hall", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
-			where:    "Left",
-			item:     ""
-		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "Paffati Hall", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: Ten-Ton Tortoise",
+			where:    "Stage Boss",
 			item:     "Ukide-Gumo"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Paffati Hall", lvMin: 0, lvMax: 0},
@@ -2618,13 +3124,8 @@ var MAIN_DATA = {
 			item:     "Reboot Belt"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Ellaider Geothermal Lake", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
-			where:    "Left",
-			item:     ""
-		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "Ellaider Geothermal Lake", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: Noxious Colony",
+			where:    "Stage Boss",
 			item:     "Altered Pike"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Tribei Feireese Lake Way", lvMin: 0, lvMax: 0},
@@ -2638,34 +3139,24 @@ var MAIN_DATA = {
 			item:     "Fractal Leggings"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Tribei Feireese Lake Way", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
-			where:    "Left",
-			item:     ""
-		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "Tribei Feireese Lake Way", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
-			where:    "Right",
-			item:     ""
+			rarity:   "Red",
+			where:    "Stage Boss",
+			item:     "Mercenary Sword"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Tribei Feireese Lake Way", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
 			where:    "Events",
 			item:     "Chevalier Guard"
 		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "Tribei Feireese Lake Way", lvMin: 0, lvMax: 0},
-			rarity:   "Red",
-			where:    "NM: Berserk Treant",
-			item:     "Mercenary Sword"
+			location: {area: "Jeweled Peaks Lakes", stage: "Cranvede Path", lvMin: 0, lvMax: 0},
+			rarity:   "Brown",
+			where:    "Bottom",
+			item:     "General Greaves"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Cranvede Path", lvMin: 0, lvMax: 0},
 			rarity:   "Brown",
 			where:    "Top",
 			item:     "Steadfast Leggings"
-		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "Cranvede Path", lvMin: 0, lvMax: 0},
-			rarity:   "Brown",
-			where:    "Bottom",
-			item:     "General Greaves"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Cranvede Path", lvMin: 0, lvMax: 0},
 			rarity:   "Blue",
@@ -2679,7 +3170,7 @@ var MAIN_DATA = {
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Cranvede Path", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: Queen of the Water Forest",
+			where:    "Stage Boss",
 			item:     "Flexed Edge"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Cranvede Path", lvMin: 0, lvMax: 0},
@@ -2699,17 +3190,17 @@ var MAIN_DATA = {
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Shangil Reservoir", lvMin: 0, lvMax: 0},
 			rarity:   "Blue",
-			where:    "Bottom",
-			item:     "Heat Haze Bracelet"
-		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "Shangil Reservoir", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
 			where:    "Top",
 			item:     "Garnet Choker"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Shangil Reservoir", lvMin: 0, lvMax: 0},
+			rarity:   "Blue",
+			where:    "Bottom",
+			item:     "Heat Haze Bracelet"
+		}, {
+			location: {area: "Jeweled Peaks Lakes", stage: "Shangil Reservoir", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: The Clairvoyant Abyss",
+			where:    "Stage Boss",
 			item:     "Glowing Halberd"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Cedol Lake", lvMin: 0, lvMax: 0},
@@ -2724,17 +3215,17 @@ var MAIN_DATA = {
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Cedol Lake", lvMin: 0, lvMax: 0},
 			rarity:   "Blue",
-			where:    "Top",
-			item:     "Phantasm Belt"
-		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "Cedol Lake", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
 			where:    "Bottom",
 			item:     "Euphoria Ring"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Cedol Lake", lvMin: 0, lvMax: 0},
+			rarity:   "Blue",
+			where:    "Top",
+			item:     "Phantasm Belt"
+		}, {
+			location: {area: "Jeweled Peaks Lakes", stage: "Cedol Lake", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: Grand Guardian Machine",
+			where:    "Stage Boss",
 			item:     "Ignition Lance"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fernaste Park", lvMin: 0, lvMax: 0},
@@ -2753,19 +3244,9 @@ var MAIN_DATA = {
 			item:     "Fury Belt"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fernaste Park", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
-			where:    "Bottom",
-			item:     ""
-		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "La Fernaste Park", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: Elder Dragon",
+			where:    "Stage Boss",
 			item:     "Outsider's Lance"
-		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: W. Garden", lvMin: 0, lvMax: 0},
-			rarity:   "",
-			where:    "E: An Evil Confluence",
-			item:     "Ryonox Coat"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: W. Garden", lvMin: 0, lvMax: 0},
 			rarity:   "Brown",
@@ -2779,33 +3260,28 @@ var MAIN_DATA = {
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: W. Garden", lvMin: 0, lvMax: 0},
 			rarity:   "Blue",
-			where:    "Right",
-			item:     "Tranquiliezer"
-		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: W. Garden", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
 			where:    "Left",
 			item:     "Power Armlet"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: W. Garden", lvMin: 0, lvMax: 0},
-			rarity:   "Red",
-			where:    "E: From Darkness",
-			item:     "Ain Restorer"
+			rarity:   "Blue",
+			where:    "Right",
+			item:     "Tranquiliezer"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: W. Garden", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: Drunken Nepenthe",
+			where:    "Stage Boss",
 			item:     "Maximum Impact"
 		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: E. Garden", lvMin: 0, lvMax: 0},
-			rarity:   "",
-			where:    "E: A Tenacious Blade",
-			item:     "Ryonox Mail"
+			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: W. Garden", lvMin: 0, lvMax: 0},
+			rarity:   "Red",
+			where:    "Events",
+			item:     "Ain Restorer"
 		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: E. Garden", lvMin: 0, lvMax: 0},
-			rarity:   "Brown",
-			where:    "Left",
-			item:     "Clockwork Armor"
+			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: W. Garden", lvMin: 0, lvMax: 0},
+			rarity:   "Silver",
+			where:    "Event Chain",
+			item:     "Ryonox Coat"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: E. Garden", lvMin: 0, lvMax: 0},
 			rarity:   "Brown",
@@ -2813,9 +3289,9 @@ var MAIN_DATA = {
 			item:     "Chivalry Coat"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: E. Garden", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
-			where:    "Bottom",
-			item:     "Freesia Belt"
+			rarity:   "Brown",
+			where:    "Left",
+			item:     "Clockwork Armor"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: E. Garden", lvMin: 0, lvMax: 0},
 			rarity:   "Blue",
@@ -2823,19 +3299,24 @@ var MAIN_DATA = {
 			item:     "Brighteness Ank"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: E. Garden", lvMin: 0, lvMax: 0},
-			rarity:   "Red",
-			where:    "NM: Darkmist Virus",
-			item:     "Kogetsu"
+			rarity:   "Blue",
+			where:    "Bottom",
+			item:     "Freesia Belt"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: E. Garden", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "E: Knight on the Edge",
+			where:    "Events",
 			item:     "Controlled Reaver"
 		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: N. Garden", lvMin: 0, lvMax: 0},
-			rarity:   "",
-			where:    "E: The Summoned Dragon",
-			item:     ""
+			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: E. Garden", lvMin: 0, lvMax: 0},
+			rarity:   "Red",
+			where:    "Stage Boss",
+			item:     "Kogetsu"
+		}, {
+			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: E. Garden", lvMin: 0, lvMax: 0},
+			rarity:   "Silver",
+			where:    "Event Chain",
+			item:     "Ryonox Mail"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: N. Garden", lvMin: 0, lvMax: 0},
 			rarity:   "Brown",
@@ -2853,29 +3334,14 @@ var MAIN_DATA = {
 			item:     "Stigma Ring"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: N. Garden", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
-			where:    "Right",
-			item:     ""
-		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: N. Garden", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "E: Wings of the Protector",
-			item:     "Talon Knife"
-		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: N. Garden", lvMin: 0, lvMax: 0},
-			rarity:   "Red",
-			where:    "NM: Life Force Treant",
+			where:    "Stage Boss",
 			item:     "Feather Thruster"
 		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: S. Garden", lvMin: 0, lvMax: 0},
-			rarity:   "",
-			where:    "E: Lust for Life",
-			item:     "Wulfen Boots"
-		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: S. Garden", lvMin: 0, lvMax: 0},
-			rarity:   "Brown",
-			where:    "Top",
-			item:     "Banishing Coat"
+			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: N. Garden", lvMin: 0, lvMax: 0},
+			rarity:   "Red",
+			where:    "Events",
+			item:     "Talon Knife"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: S. Garden", lvMin: 0, lvMax: 0},
 			rarity:   "Brown",
@@ -2883,9 +3349,9 @@ var MAIN_DATA = {
 			item:     "Akashic Boots"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: S. Garden", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
-			where:    "Right",
-			item:     "Spell Braeclet"
+			rarity:   "Brown",
+			where:    "Top",
+			item:     "Banishing Coat"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: S. Garden", lvMin: 0, lvMax: 0},
 			rarity:   "Blue",
@@ -2893,19 +3359,24 @@ var MAIN_DATA = {
 			item:     "Electrum Ring"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: S. Garden", lvMin: 0, lvMax: 0},
-			rarity:   "Red",
-			where:    "E: Abhorred by Nature",
-			item:     "Innocent Shell"
+			rarity:   "Blue",
+			where:    "Right",
+			item:     "Spell Braeclet"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: S. Garden", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: Ultimate Arcane Construct",
+			where:    "Stage Boss",
 			item:     "Raptor Blade"
 		}, {
-			location: {area: "Kurjiez Desert", stage: "Southern Ultana Desert", lvMin: 0, lvMax: 0},
-			rarity:   "Brown",
-			where:    "Left",
-			item:     "Armadillo Madness"
+			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: S. Garden", lvMin: 0, lvMax: 0},
+			rarity:   "Red",
+			where:    "Events",
+			item:     "Innocent Shell"
+		}, {
+			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: S. Garden", lvMin: 0, lvMax: 0},
+			rarity:   "Silver",
+			where:    "Event Chain",
+			item:     "Wulfen Boots"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Southern Ultana Desert", lvMin: 0, lvMax: 0},
 			rarity:   "Brown",
@@ -2913,23 +3384,18 @@ var MAIN_DATA = {
 			item:     "Lawless Boots"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Southern Ultana Desert", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
+			rarity:   "Brown",
 			where:    "Left",
-			item:     ""
-		}, {
-			location: {area: "Kurjiez Desert", stage: "Southern Ultana Desert", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
-			where:    "Right",
-			item:     ""
+			item:     "Armadillo Madness"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Southern Ultana Desert", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "E: Thirsty Trees",
+			where:    "Events",
 			item:     "Assassin's Gale"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Southern Ultana Desert", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: The Lizard King of the Sands",
+			where:    "Stage Boss",
 			item:     "Hidoh"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Alle Fioro", lvMin: 0, lvMax: 0},
@@ -2948,13 +3414,8 @@ var MAIN_DATA = {
 			item:     "Talisman of Eternal Joy"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Alle Fioro", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
-			where:    "Bottom",
-			item:     ""
-		}, {
-			location: {area: "Kurjiez Desert", stage: "Alle Fioro", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: Scorching Taurus Buster",
+			where:    "Stage Boss",
 			item:     "Shell Buckler"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Northern Ultana Desert", lvMin: 0, lvMax: 0},
@@ -2964,23 +3425,13 @@ var MAIN_DATA = {
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Northern Ultana Desert", lvMin: 0, lvMax: 0},
 			rarity:   "Blue",
-			where:    "Left",
-			item:     ""
-		}, {
-			location: {area: "Kurjiez Desert", stage: "Northern Ultana Desert", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
 			where:    "Right",
 			item:     "Jewelry Bangle"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Northern Ultana Desert", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: Red Sun Stinger",
+			where:    "Stage Boss",
 			item:     "Valiant Rapier"
-		}, {
-			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Orsheon", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
-			where:    "Top",
-			item:     ""
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Orsheon", lvMin: 0, lvMax: 0},
 			rarity:   "Blue",
@@ -2989,7 +3440,7 @@ var MAIN_DATA = {
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Orsheon", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: Horifying Exorcist",
+			where:    "Stage Boss",
 			item:     "Royal Defender"
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: 0, lvMax: 0},
@@ -3004,23 +3455,18 @@ var MAIN_DATA = {
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: 0, lvMax: 0},
 			rarity:   "Blue",
-			where:    "Bottom",
-			item:     ""
-		}, {
-			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
 			where:    "Top",
 			item:     "Karma Belt"
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: 0, lvMax: 0},
-			rarity:   "Red",
-			where:    "NM: The Slime Twins",
-			item:     "Moonstruck Saber"
-		}, {
-			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: 0, lvMax: 0},
-			rarity:   "Brown",
+			rarity:   "Blue",
 			where:    "Bottom",
-			item:     "Night Mail"
+			item:     "Hoop of Adonis"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: 0, lvMax: 0},
+			rarity:   "Red",
+			where:    "Stage Boss",
+			item:     "Moonstruck Saber"
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: 0, lvMax: 0},
 			rarity:   "Brown",
@@ -3028,9 +3474,9 @@ var MAIN_DATA = {
 			item:     "Dreadnought"
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: 0, lvMax: 0},
-			rarity:   "Blue",
-			where:    "Left",
-			item:     "Demon's Cord"
+			rarity:   "Brown",
+			where:    "Bottom",
+			item:     "Night Mail"
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: 0, lvMax: 0},
 			rarity:   "Blue",
@@ -3038,9 +3484,124 @@ var MAIN_DATA = {
 			item:     "Aura Drops"
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: 0, lvMax: 0},
+			rarity:   "Blue",
+			where:    "Left",
+			item:     "Demon's Cord"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: 0, lvMax: 0},
 			rarity:   "Red",
-			where:    "NM: Skeleton General",
+			where:    "Stage Boss",
 			item:     "Dark Moon Buckler"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: 0, lvMax: 0},
+			rarity:   "Brown",
+			where:    "Left",
+			item:     "Phenomenon Earring"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: 0, lvMax: 0},
+			rarity:   "Brown",
+			where:    "Right",
+			item:     "Trusted Coverings"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: 0, lvMax: 0},
+			rarity:   "Blue",
+			where:    "Left",
+			item:     "Dragonfang Pendant"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: 0, lvMax: 0},
+			rarity:   "Blue",
+			where:    "Top",
+			item:     "Oath of the Tabernacle"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: 0, lvMax: 0},
+			rarity:   "Red",
+			where:    "Stage Boss",
+			item:     "Lunatic Press"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: 0, lvMax: 0},
+			rarity:   "Red",
+			where:    "Events",
+			item:     "Asayuki Kabuse"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: 0, lvMax: 0},
+			rarity:   "Brown",
+			where:    "Left",
+			item:     "Elven Earring"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: 0, lvMax: 0},
+			rarity:   "Brown",
+			where:    "Right",
+			item:     "Boots of Brotherhood"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: 0, lvMax: 0},
+			rarity:   "Blue",
+			where:    "Left",
+			item:     "Sixth Sense"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: 0, lvMax: 0},
+			rarity:   "Red",
+			where:    "Stage Boss",
+			item:     "Prima Sabre"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: 0, lvMax: 0},
+			rarity:   "Red",
+			where:    "Events",
+			item:     "Bardiche"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: 0, lvMax: 0},
+			rarity:   "Brown",
+			where:    "Right",
+			item:     "Confounding Leggings"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: 0, lvMax: 0},
+			rarity:   "Brown",
+			where:    "Left",
+			item:     "Greaves of Live"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: 0, lvMax: 0},
+			rarity:   "Blue",
+			where:    "Right",
+			item:     "Lion's Tears"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: 0, lvMax: 0},
+			rarity:   "Blue",
+			where:    "Left",
+			item:     ""
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: 0, lvMax: 0},
+			rarity:   "Red",
+			where:    "Events",
+			item:     "Spiked Buckler"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: 0, lvMax: 0},
+			rarity:   "Red",
+			where:    "Stage Boss",
+			item:     "Final Espada"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: 0, lvMax: 0},
+			rarity:   "Brown",
+			where:    "Right",
+			item:     "Calamity Stopper"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: 0, lvMax: 0},
+			rarity:   "Brown",
+			where:    "Left",
+			item:     "Juggernaut"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: 0, lvMax: 0},
+			rarity:   "Blue",
+			where:    "Bottom",
+			item:     "Ring of El Dorado"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: 0, lvMax: 0},
+			rarity:   "Blue",
+			where:    "Top",
+			item:     ""
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: 0, lvMax: 0},
+			rarity:   "Red",
+			where:    "Stage Boss",
+			item:     "Matter Dissolver"
 		}
 	],
 	events:  [
@@ -3175,8 +3736,7 @@ var MAIN_DATA = {
 			name:     "Born of Sin",
 			lv:       30,
 			goals:    [
-				{type: "Kill", name: "NM: Vile Amalgam", amount: 1},
-				{type: "Kill", name: "Vile Amalgam Spawn", amount: 5}
+				{type: "Kill", name: "Vile Amalgam", amount: 1}, {type: "Kill", name: "Vile Amalgam Spawn", amount: 5}
 			],
 			rewards:  [{type: "EXP", name: "EXP", amount: 350}, {type: "Item", name: "Aincrite Ore", amount: 4}]
 		}, {
@@ -3205,7 +3765,7 @@ var MAIN_DATA = {
 			type:     "M",
 			name:     "Sunken Guardians",
 			lv:       34,
-			goals:    [{type: "Kill", name: "NM: Flood Temple Golem", amount: 1}],
+			goals:    [{type: "Kill", name: "Flood Temple Golem", amount: 1}],
 			rewards:  [{type: "EXP", name: "EXP", amount: 380}, {type: "Item", name: "Bluesteel Ore", amount: 4}]
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Turinble Road", lvMin: 0, lvMax: 0},
@@ -3213,7 +3773,7 @@ var MAIN_DATA = {
 			name:     "An Unwelcoming Forest",
 			lv:       40,
 			goals:    [
-				{type: "Kill", name: "NM: Natural Disaster", amount: 1}, {type: "Kill", name: "Wrathleaf", amount: 0}
+				{type: "Kill", name: "Natural Disaster", amount: 1}, {type: "Kill", name: "Wrathleaf", amount: 0}
 			],
 			rewards:  [
 				{type: "EXP", name: "EXP", amount: 430}, {type: "Item", name: "Bluesteel Ore", amount: 8},
@@ -3241,7 +3801,7 @@ var MAIN_DATA = {
 			type:     "M",
 			name:     "The Glistering Shell",
 			lv:       39,
-			goals:    [{type: "Kill", name: "NM: Thick-Shelled Turtle", amount: 1}],
+			goals:    [{type: "Kill", name: "Thick-Shelled Turtle", amount: 1}],
 			rewards:  [{type: "EXP", name: "EXP", amount: 430}, {type: "Item", name: "Platinum Ore", amount: 5}]
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Ellaider Geothermal Lake", lvMin: 0, lvMax: 0},
@@ -3269,7 +3829,7 @@ var MAIN_DATA = {
 			type:     "M",
 			name:     "The Beeing From Beyond",
 			lv:       23,
-			goals:    [{type: "Kill", name: "NM: The Cosmic Eye", amount: 1}],
+			goals:    [{type: "Kill", name: "The Cosmic Eye", amount: 1}],
 			rewards:  [{type: "EXP", name: "EXP", amount: 350}, {type: "Item", name: "Bluesteel Ore", amount: 5}]
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Tribei Feireese Lake Way", lvMin: 0, lvMax: 0},
@@ -3283,14 +3843,14 @@ var MAIN_DATA = {
 			type:     "M",
 			name:     "Ruler of a Dark World",
 			lv:       33,
-			goals:    [{type: "Kill", name: "NM: Neo Knight", amount: 1}],
+			goals:    [{type: "Kill", name: "Neo Knight", amount: 1}],
 			rewards:  [{type: "EXP", name: "EXP", amount: 380}, {type: "Item", name: "Platinum Ore", amount: 4}]
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Cranvede Path", lvMin: 0, lvMax: 0},
 			type:     "M",
 			name:     "The Beeing From Beyond",
 			lv:       24,
-			goals:    [{type: "Kill", name: "NM: The Devourer of Souls", amount: 1}],
+			goals:    [{type: "Kill", name: "The Devourer of Souls", amount: 1}],
 			rewards:  [{type: "EXP", name: "EXP", amount: 350}, {type: "Item", name: "Darantite Ore", amount: 1}]
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Cranvede Path", lvMin: 0, lvMax: 0},
@@ -3311,14 +3871,14 @@ var MAIN_DATA = {
 			type:     "M",
 			name:     "Demons of the Depth",
 			lv:       36,
-			goals:    [{type: "Kill", name: "NM: Kirkaldyian Queen", amount: 1}],
+			goals:    [{type: "Kill", name: "Kirkaldyian Queen", amount: 1}],
 			rewards:  [{type: "EXP", name: "EXP", amount: 400}, {type: "Item", name: "Darantite Ore", amount: 4}]
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Shangil Reservoir", lvMin: 0, lvMax: 0},
 			type:     "M",
 			name:     "The Beeing From Beyond",
 			lv:       24,
-			goals:    [{type: "Kill", name: "NM: Demonic Reaper", amount: 1}],
+			goals:    [{type: "Kill", name: "Demonic Reaper", amount: 1}],
 			rewards:  [{type: "EXP", name: "EXP", amount: 350}, {type: "Item", name: "Platinum Ore", amount: 5}]
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Shangil Reservoir", lvMin: 0, lvMax: 0},
@@ -3332,35 +3892,35 @@ var MAIN_DATA = {
 			type:     "M",
 			name:     "An Overzealous Guard",
 			lv:       35,
-			goals:    [{type: "Kill", name: "NM: Formatted Golem", amount: 1}],
+			goals:    [{type: "Kill", name: "Formatted Golem", amount: 1}],
 			rewards:  [{type: "EXP", name: "EXP", amount: 390}, {type: "Item", name: "Darantite Ore", amount: 7}]
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Cedol Lake", lvMin: 0, lvMax: 0},
 			type:     "M",
 			name:     "Over the Edge",
 			lv:       34,
-			goals:    [{type: "Kill", name: "NM: Undying Fighter", amount: 1}],
+			goals:    [{type: "Kill", name: "Undying Fighter", amount: 1}],
 			rewards:  [{type: "EXP", name: "EXP", amount: 380}, {type: "Item", name: "Platinum Ore", amount: 7}]
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Cedol Lake", lvMin: 0, lvMax: 0},
 			type:     "M",
 			name:     "Reboot",
 			lv:       36,
-			goals:    [{type: "Kill", name: "NM: Magi-Golem", amount: 1}],
+			goals:    [{type: "Kill", name: "Magi-Golem", amount: 1}],
 			rewards:  [{type: "EXP", name: "EXP", amount: 400}, {type: "Item", name: "Silver Ore", amount: 4}]
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fernaste Park", lvMin: 0, lvMax: 0},
 			type:     "M",
 			name:     "Submerged Desires",
 			lv:       30,
-			goals:    [{type: "Kill", name: "NM: Rusalka", amount: 1}],
+			goals:    [{type: "Kill", name: "Rusalka", amount: 1}],
 			rewards:  [{type: "EXP", name: "EXP", amount: 350}, {type: "Item", name: "Silver Ore", amount: 6}]
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fernaste Park", lvMin: 0, lvMax: 0},
 			type:     "M",
 			name:     "Primordial Entity",
 			lv:       34,
-			goals:    [{type: "Kill", name: "NM: Scavenging Sludge", amount: 1}],
+			goals:    [{type: "Kill", name: "Scavenging Sludge", amount: 1}],
 			rewards:  [{type: "EXP", name: "EXP", amount: 360}, {type: "Item", name: "Iron Ore", amount: 7}]
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: W. Garden", lvMin: 0, lvMax: 0},
@@ -3377,7 +3937,7 @@ var MAIN_DATA = {
 			type:     "M",
 			name:     "An Evil Confluence",
 			lv:       40,
-			goals:    [{type: "Kill", name: "NM: Dire Shadow Eyes", amount: 1}],
+			goals:    [{type: "Kill", name: "Dire Shadow Eyes", amount: 1}],
 			rewards:  [
 				{type: "EXP", name: "EXP", amount: 560}, {type: "Item", name: "", amount: 0},
 				{type: "Chest", name: "", amount: 1}
@@ -3387,7 +3947,7 @@ var MAIN_DATA = {
 			type:     "M",
 			name:     "Knight on the Edge",
 			lv:       35,
-			goals:    [{type: "Kill", name: "NM: Parallel Knight", amount: 1}],
+			goals:    [{type: "Kill", name: "Parallel Knight", amount: 1}],
 			rewards:  [
 				{type: "EXP", name: "EXP", amount: 390}, {type: "Item", name: "Darantite Ore", amount: 4},
 				{type: "Chest", name: "Red", amount: 1}
@@ -3397,7 +3957,7 @@ var MAIN_DATA = {
 			type:     "M",
 			name:     "A Tenacious Blade",
 			lv:       40,
-			goals:    [{type: "Kill", name: "NM: Parallel Knight Reborn", amount: 1}],
+			goals:    [{type: "Kill", name: "Parallel Knight Reborn", amount: 1}],
 			rewards:  [
 				{type: "EXP", name: "EXP", amount: 560}, {type: "Item", name: "", amount: 0},
 				{type: "Chest", name: "", amount: 1}
@@ -3407,7 +3967,7 @@ var MAIN_DATA = {
 			type:     "M",
 			name:     "The Summoned Dragon",
 			lv:       0,
-			goals:    [{type: "Kill", name: "NM: Carnage Dragon", amount: 1}],
+			goals:    [{type: "Kill", name: "Carnage Dragon", amount: 1}],
 			rewards:  [
 				{type: "EXP", name: "EXP", amount: 0}, {type: "Item", name: "?", amount: 0},
 				{type: "Chest", name: "", amount: 1}
@@ -3427,7 +3987,7 @@ var MAIN_DATA = {
 			type:     "M",
 			name:     "Abhorred by Nature",
 			lv:       33,
-			goals:    [{type: "Kill", name: "NM: Crytid Invader", amount: 1}],
+			goals:    [{type: "Kill", name: "Crytid Invader", amount: 1}],
 			rewards:  [
 				{type: "EXP", name: "EXP", amount: 380}, {type: "Item", name: "Bluesteel Ore", amount: 4},
 				{type: "Chest", name: "Red", amount: 1}
@@ -3437,7 +3997,7 @@ var MAIN_DATA = {
 			type:     "M",
 			name:     "Lust for Life",
 			lv:       43,
-			goals:    [{type: "Kill", name: "NM: Survivor", amount: 1}],
+			goals:    [{type: "Kill", name: "Survivor", amount: 1}],
 			rewards:  [
 				{type: "EXP", name: "EXP", amount: 590}, {type: "Item", name: "", amount: 0},
 				{type: "Chest", name: "", amount: 1}
@@ -3461,7 +4021,7 @@ var MAIN_DATA = {
 			type:     "M",
 			name:     "Thirsty Trees",
 			lv:       37,
-			goals:    [{type: "Kill", name: "NM: Parched Treant", amount: 1}],
+			goals:    [{type: "Kill", name: "Parched Treant", amount: 1}],
 			rewards:  [
 				{type: "EXP", name: "EXP", amount: 470}, {type: "Item", name: "Silver Ore", amount: 5},
 				{type: "Chest", name: "Red", amount: 1}
@@ -3511,17 +4071,17 @@ var MAIN_DATA = {
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: 0, lvMax: 0},
 			type:     "M",
-			name:     "Birthed by Legend",
-			lv:       0,
-			goals:    [{type: "Kill", name: "Crystal Jamer", amount: 1}],
-			rewards:  [{type: "EXP", name: "EXP", amount: "6400"}, {type: "Item", name: "Platinum Ore", amount: "10"}]
-		}, {
-			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: 0, lvMax: 0},
-			type:     "M",
 			name:     "Writhing Masses",
 			lv:       "43",
 			goals:    [{type: "Kill", name: "Rainwater Jelly", amount: "12"}],
 			rewards:  [{type: "EXP", name: "EXP", amount: "590"}, {type: "Item", name: "Darantite Ore", amount: "9"}]
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: 0, lvMax: 0},
+			type:     "M",
+			name:     "Birthed by Legend",
+			lv:       "47",
+			goals:    [{type: "Kill", name: "Crystal Jammer", amount: 1}],
+			rewards:  [{type: "EXP", name: "EXP", amount: "640"}, {type: "Item", name: "Platinum Ore", amount: "10"}]
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: 0, lvMax: 0},
 			type:     "M",
@@ -3529,6 +4089,89 @@ var MAIN_DATA = {
 			lv:       "47",
 			goals:    [{type: "Kill", name: "Digging Scorpion", amount: "6"}],
 			rewards:  [{type: "EXP", name: "EXP", amount: "640"}, {type: "Item", name: "Bluesteel Ore", amount: "6"}]
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: 0, lvMax: 0},
+			type:     "M",
+			name:     "Maneating Monsters",
+			lv:       "45",
+			goals:    [{type: "Kill", name: "Dangerous Beast", amount: "6"}],
+			rewards:  [{type: "EXP", name: "EXP", amount: "610"}, {type: "Item", name: "Platinum Ore", amount: "9"}]
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: 0, lvMax: 0},
+			type:     "M",
+			name:     "Scaled Sacrilege",
+			lv:       "48",
+			goals:    [{type: "Kill", name: "Stamping Lizard", amount: "10"}],
+			rewards:  [{type: "EXP", name: "EXP", amount: "650"}, {type: "Item", name: "Silver Ore", amount: "6"}]
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: 0, lvMax: 0},
+			type:     "M",
+			name:     "The Kidnappers",
+			lv:       "53",
+			goals:    [{type: "Kill", name: "Flying Marauder", amount: "5"}],
+			rewards:  [{type: "EXP", name: "EXP", amount: "700"}, {type: "Item", name: "Darantite Ore", amount: "11"}]
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: 0, lvMax: 0},
+			type:     "M",
+			name:     "Pests of Civilization",
+			lv:       "46",
+			goals:    [{type: "Kill", name: "Ancient Bug", amount: "11"}],
+			rewards:  [{type: "EXP", name: "EXP", amount: "62"}, {type: "Item", name: "Silver Ore", amount: "10"}]
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: 0, lvMax: 0},
+			type:     "M",
+			name:     "A Hive of Activity",
+			lv:       "52",
+			goals:    [
+				{type: "Kill", name: "The Vanquished Empress", amount: 1},
+				{type: "Kill", name: "Elite Needle Sentry", amount: 1}
+			],
+			rewards:  [{type: "EXP", name: "EXP", amount: "690"}, {type: "Item", name: "Darantite Ore", amount: "6"}]
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: 0, lvMax: 0},
+			type:     "M",
+			name:     "The False God",
+			lv:       "55",
+			goals:    [{type: "Kill", name: "Imitation God", amount: 1}],
+			rewards:  [{type: "EXP", name: "EXP", amount: "720"}, {type: "Item", name: "Bluesteel Ore", amount: "11"}]
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: 0, lvMax: 0},
+			type:     "M",
+			name:     "BloodSuckers",
+			lv:       "48",
+			goals:    [{type: "Kill", name: "Vampire Bat", amount: "10"}],
+			rewards:  [{type: "EXP", name: "EXP", amount: "650"}, {type: "Item", name: "Iron Ore", amount: "10"}]
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: 0, lvMax: 0},
+			type:     "M",
+			name:     "The Dreaming Dead",
+			lv:       "53",
+			goals:    [{type: "Kill", name: "Mythic Skeleton", amount: "8"}],
+			rewards:  [{type: "EXP", name: "EXP", amount: "700"}, {type: "Item", name: "Aincrite Ore", amount: "11"}]
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: 0, lvMax: 0},
+			type:     "M",
+			name:     "Sharp Betrayal",
+			lv:       "57",
+			goals:    [{type: "Kill", name: "Vengeful Knight", amount: 1}],
+			rewards:  [{type: "EXP", name: "EXP", amount: "750"}, {type: "Item", name: "Platinum Ore", amount: "7"}]
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: 0, lvMax: 0},
+			type:     "M",
+			name:     "Demonic Summons",
+			lv:       0,
+			goals:    [
+				{type: "Kill", name: "Summoned Devourer", amount: "4"},
+				{type: "Kill", name: "Summoning Machine", amount: 1}
+			],
+			rewards:  [{type: "EXP", name: "EXP", amount: "680"}, {type: "Item", name: "Iron Ore", amount: "11"}]
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: 0, lvMax: 0},
+			type:     "M",
+			name:     "The Boundaries of Magic",
+			lv:       "65",
+			goals:    [{type: "Kill", name: "Atomic Dragon", amount: 1}, {type: "Kill", name: "Crystal", amount: 1}],
+			rewards:  [{type: "EXP", name: "EXP", amount: "840"}, {type: "Item", name: "Iron Ore", amount: "8"}]
 		}
 	],
 	monster: [
@@ -3615,19 +4258,24 @@ var MAIN_DATA = {
 			race:      "Treant",
 			family:    "Treant",
 			name:      "Grudge Ghost Treant",
-			drops:     ["Plant Bark", "Plant Bough"]
+			drops:     ["Plant Bark", "Plant Bough", "Plant Petal"]
 		}, {
 			locations: [{area: "Great Plains of Rustoria", stage: "Phoeniath Knoll", lvMin: "95", lvMax: "95"}],
 			type:      "HNM",
 			race:      "Treant",
 			family:    "Treant",
 			name:      "Spectral Treant",
-			drops:     ["Plant Bark", "Plant Bough"]
+			drops:     ["Plant Bark", "Plant Bough", "Plant Petal"]
 		}, {
 			locations: [
 				{area: "Great Plains of Rustoria", stage: "Phoeniath Knoll", lvMin: "7", lvMax: "12"},
 				{area: "Great Plains of Rustoria", stage: "Centallia Rise", lvMin: "8", lvMax: "9"}
-			], type:   "M", race: "Treant", family: "Wood", name: "Ground Wood", drops: ["Plant Bark", "Plant Bough"]
+			],
+			type:      "M",
+			race:      "Treant",
+			family:    "Wood",
+			name:      "Ground Wood",
+			drops:     ["Plant Bark", "Plant Bough", "Plant Petal"]
 		}, {
 			locations: [
 				{area: "Great Plains of Rustoria", stage: "Phoeniath Knoll", lvMin: "1", lvMax: "7"},
@@ -3637,7 +4285,7 @@ var MAIN_DATA = {
 			race:      "Wasp",
 			family:    "Wasp",
 			name:      "Worker Wasp",
-			drops:     ["Insectoid Exoskeleton", "Insectoid Stinger"]
+			drops:     ["Insect Gold Wing", "Insectoid Exoskeleton", "Insectoid Stinger"]
 		}, {
 			locations: [
 				{area: "Great Plains of Rustoria", stage: "Phoeniath Knoll", lvMin: "2", lvMax: "8"},
@@ -3647,14 +4295,14 @@ var MAIN_DATA = {
 			race:      "Wasp",
 			family:    "Wasp",
 			name:      "Gusty Wasp",
-			drops:     ["Insectoid Exoskeleton", "Insectoid Stinger"]
+			drops:     ["Insect Gold Wing", "Insectoid Exoskeleton", "Insectoid Stinger"]
 		}, {
 			locations: [{area: "Great Plains of Rustoria", stage: "Centallia Rise", lvMin: "4", lvMax: "4"}],
 			type:      "M",
 			race:      "Beast",
 			family:    "Beast",
 			name:      "Crested Beast",
-			drops:     ["Bestial Mane"]
+			drops:     ["Bestial Mane", "Bestial Pelt"]
 		}, {
 			locations: [{area: "Great Plains of Rustoria", stage: "Centallia Rise", lvMin: "9", lvMax: "10"}],
 			type:      "M",
@@ -3716,28 +4364,31 @@ var MAIN_DATA = {
 			race:      "Treant",
 			family:    "Guardian",
 			name:      "Hive Guardian",
-			drops:     ["Plant Bark", "Plant Bough"]
+			drops:     ["Plant Bark", "Plant Bough", "Plant Petal"]
 		}, {
-			locations: [{area: "Great Plains of Rustoria", stage: "Centallia Rise", lvMin: "9", lvMax: "9"}],
+			locations: [
+				{area: "Great Plains of Rustoria", stage: "Centallia Rise", lvMin: "9", lvMax: "9"},
+				{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "40", lvMax: "41"}
+			],
 			type:      "M",
 			race:      "Treant",
 			family:    "Wildwood",
 			name:      "Wildwood",
-			drops:     ["Plant Bark", "Plant Bough"]
+			drops:     ["Plant Bark", "Plant Bough", "Plant Petal"]
 		}, {
 			locations: [{area: "Great Plains of Rustoria", stage: "Centallia Rise", lvMin: "12", lvMax: "12"}],
 			type:      "NM",
 			race:      "Wasp",
 			family:    "Hornet",
 			name:      "Hive Hornet",
-			drops:     ["Insectoid Exoskeleton", "Insectoid Stinger"]
+			drops:     ["Insect Gold Wing", "Insectoid Exoskeleton", "Insectoid Stinger"]
 		}, {
 			locations: [{area: "Great Plains of Rustoria", stage: "Centallia Rise", lvMin: "5", lvMax: "5"}],
 			type:      "M",
 			race:      "Wasp",
 			family:    "Wasp",
 			name:      "Assault Wasp",
-			drops:     ["Insectoid Exoskeleton", "Insectoid Stinger"]
+			drops:     ["Insect Gold Wing", "Insectoid Exoskeleton", "Insectoid Stinger"]
 		}, {
 			locations: [{area: "Great Plains of Rustoria", stage: "Lake Steschal", lvMin: 0, lvMax: 0}],
 			type:      "M",
@@ -3780,61 +4431,57 @@ var MAIN_DATA = {
 			name:      "Swamp Scissors",
 			drops:     ["Crustacean Pincer", "Crustacean Soft Shell"]
 		}, {
-			locations: [{area: "Great Plains of Rustoria", stage: "Lake Steschal", lvMin: 0, lvMax: 0}],
+			locations: [
+				{area: "Great Plains of Rustoria", stage: "Lake Steschal", lvMin: 0, lvMax: 0},
+				{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "40", lvMax: "42"}
+			],
 			type:      "M",
 			race:      "Insect",
-			family:    "Crusher",
+			family:    "Insectoid Crusher",
 			name:      "Elite Insectoid Crusher",
-			drops:     ["Insectoid Feeler"]
-		}, {
-			locations: [{area: "Great Plains of Rustoria", stage: "Lake Steschal", lvMin: 0, lvMax: 0}],
-			type:      "M",
-			race:      "Insect",
-			family:    "Crusher",
-			name:      "Insectoid Crusher",
-			drops:     ["Insectoid Feeler"]
+			drops:     ["Insect Gold Wing", "Insectoid Feeler", "Insectoid Simple Eye"]
 		}, {
 			locations: [{area: "Great Plains of Rustoria", stage: "Lake Steschal", lvMin: 0, lvMax: 0}],
 			type:      "M",
 			race:      "Lizard",
 			family:    "Drake",
 			name:      "Lime Drake",
-			drops:     ["Saurian Fang", "Saurian Jaw"]
+			drops:     ["Bestial Pure Blood Crys.", "Saurian Claw", "Saurian Fang", "Saurian Jaw"]
 		}, {
 			locations: [{area: "Great Plains of Rustoria", stage: "Lake Steschal", lvMin: 0, lvMax: 0}],
 			type:      "M",
 			race:      "Lizard",
 			family:    "Lizard",
 			name:      "Fanged Lizard",
-			drops:     ["Saurian Fang", "Saurian Jaw"]
+			drops:     ["Bestial Pure Blood Crys.", "Saurian Claw", "Saurian Fang", "Saurian Jaw"]
 		}, {
 			locations: [{area: "Great Plains of Rustoria", stage: "Lake Steschal", lvMin: 0, lvMax: 0}],
 			type:      "M",
 			race:      "Lizard",
 			family:    "Lizard",
 			name:      "Fanged Lizard Broodmother",
-			drops:     ["Saurian Fang", "Saurian Jaw"]
+			drops:     ["Bestial Pure Blood Crys.", "Saurian Claw", "Saurian Fang", "Saurian Jaw"]
 		}, {
 			locations: [{area: "Great Plains of Rustoria", stage: "Lake Steschal", lvMin: 0, lvMax: 0}],
 			type:      "M",
 			race:      "Lizard",
 			family:    "Lizard",
 			name:      "Fanged Lizard Overlord",
-			drops:     ["Saurian Fang", "Saurian Jaw"]
+			drops:     ["Bestial Pure Blood Crys.", "Saurian Claw", "Saurian Fang", "Saurian Jaw"]
 		}, {
 			locations: [{area: "Great Plains of Rustoria", stage: "Lake Steschal", lvMin: 0, lvMax: 0}],
 			type:      "NM",
 			race:      "Lizard",
 			family:    "Lizard",
 			name:      "Deathgaze Lizard",
-			drops:     ["Saurian Fang", "Saurian Jaw"]
+			drops:     ["Bestial Pure Blood Crys.", "Saurian Claw", "Saurian Fang", "Saurian Jaw"]
 		}, {
 			locations: [{area: "Great Plains of Rustoria", stage: "Lake Steschal", lvMin: 0, lvMax: 0}],
 			type:      "M",
 			race:      "Slime",
 			family:    "Jelley",
 			name:      "Uniting Jelley",
-			drops:     ["Amorphous Algae", "Amorphous Membrane"]
+			drops:     ["Amorphous Algae", "Amorphous Membrane", "Amorphous Primal Nucleus"]
 		}, {
 			locations: [
 				{area: "Great Plains of Rustoria", stage: "Lake Steschal", lvMin: 0, lvMax: 0},
@@ -3853,7 +4500,10 @@ var MAIN_DATA = {
 			name:      "Golem of Folly",
 			drops:     ["Inanimate Arm Chunk", "Inanimate Leg Chunk"]
 		}, {
-			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Orsheon", lvMin: "36", lvMax: "44"}],
+			locations: [
+				{area: "Oltrum Bastion", stage: "Oltrum Bastion: Orsheon", lvMin: "36", lvMax: "44"},
+				{area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: "43", lvMax: "43"}
+			],
 			type:      "M",
 			race:      "Golem",
 			family:    "Golem ",
@@ -3879,28 +4529,32 @@ var MAIN_DATA = {
 			race:      "Knight",
 			family:    "Dullahan",
 			name:      "Deadly Dullahan",
-			drops:     ["Demonic Claw"]
+			drops:     ["Demonic Claw", "Demonic Remains"]
 		}, {
-			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Orsheon", lvMin: "38", lvMax: "44"}],
+			locations: [
+				{area: "Oltrum Bastion", stage: "Oltrum Bastion: Orsheon", lvMin: "38", lvMax: "44"},
+				{area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: "40", lvMax: "41"},
+				{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: "40", lvMax: "41"}
+			],
 			type:      "M",
 			race:      "Knight",
 			family:    "Guardian Armor",
 			name:      "Living Guardian Armor",
-			drops:     ["Demonic Claw"]
+			drops:     ["Demonic Claw", "Demonic Remains"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Orsheon", lvMin: "39", lvMax: "44"}],
 			type:      "M",
 			race:      "Reaper",
 			family:    "Phantom",
 			name:      "Phantom of Oblivion",
-			drops:     ["Spectral Essence", "Spectral Wrappings"]
+			drops:     ["Spectral Essence", "Spectral Hell Essence", "Spectral Wrappings"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Orsheon", lvMin: "35", lvMax: "38"}],
 			type:      "M",
 			race:      "Reaper",
 			family:    "Scyther",
 			name:      "Blood Scyther",
-			drops:     ["Spectral Essence", "Spectral Wrappings"]
+			drops:     ["Spectral Essence", "Spectral Hell Essence", "Spectral Wrappings"]
 		}, {
 			locations: [
 				{area: "Oltrum Bastion", stage: "Oltrum Bastion: Orsheon", lvMin: "37", lvMax: "38"},
@@ -3910,14 +4564,14 @@ var MAIN_DATA = {
 			race:      "Reaper",
 			family:    "Scyther",
 			name:      "Deadly Scyther",
-			drops:     ["Spectral Essence", "Spectral Wrappings"]
+			drops:     ["Spectral Essence", "Spectral Hell Essence", "Spectral Wrappings"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Orsheon", lvMin: "61", lvMax: "61"}],
 			type:      "NM",
 			race:      "Reaper",
 			family:    "Scyther",
 			name:      "Horifying Exorcist",
-			drops:     ["Spectral Essence", "Spectral Wrappings"]
+			drops:     ["Spectral Essence", "Spectral Hell Essence", "Spectral Wrappings"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: "38", lvMax: "38"}],
 			type:      "M",
@@ -3959,77 +4613,77 @@ var MAIN_DATA = {
 			race:      "Slime",
 			family:    "Jam",
 			name:      "Emerald Jam",
-			drops:     ["Amorphous Algae", "Amorphous Membrane"]
+			drops:     ["Amorphous Algae", "Amorphous Membrane", "Amorphous Primal Nucleus"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: "38", lvMax: "38"}],
 			type:      "M",
 			race:      "Slime",
 			family:    "Jam",
 			name:      "Shpphire Jam",
-			drops:     ["Amorphous Algae", "Amorphous Membrane"]
+			drops:     ["Amorphous Algae", "Amorphous Membrane", "Amorphous Primal Nucleus"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: "49", lvMax: "49"}],
 			type:      "NM",
 			race:      "Slime",
 			family:    "Jam",
 			name:      "Crystal Jammer",
-			drops:     ["Amorphous Algae", "Amorphous Membrane"]
+			drops:     ["Amorphous Algae", "Amorphous Membrane", "Amorphous Primal Nucleus"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: "38", lvMax: "38"}],
 			type:      "M",
 			race:      "Slime",
 			family:    "Melt",
 			name:      "Spphire Melt",
-			drops:     ["Amorphous Algae", "Amorphous Membrane"]
+			drops:     ["Amorphous Algae", "Amorphous Membrane", "Amorphous Primal Nucleus"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: "39", lvMax: "39"}],
 			type:      "M",
 			race:      "Slime",
 			family:    "Melt",
 			name:      "Emerald Melt",
-			drops:     ["Amorphous Algae", "Amorphous Membrane"]
+			drops:     ["Amorphous Algae", "Amorphous Membrane", "Amorphous Primal Nucleus"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: "55", lvMax: "55"}],
 			type:      "NM",
 			race:      "Slime",
 			family:    "The Slime Twins",
 			name:      "The Slime Twins: Gloppacool",
-			drops:     ["Amorphous Algae", "Amorphous Membrane"]
+			drops:     ["Amorphous Algae", "Amorphous Membrane", "Amorphous Primal Nucleus"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: "55", lvMax: "55"}],
 			type:      "NM",
 			race:      "Slime",
 			family:    "The Slime Twins",
 			name:      "The Slime Twins: Healomatic",
-			drops:     ["Amorphous Algae", "Amorphous Membrane"]
+			drops:     ["Amorphous Algae", "Amorphous Membrane", "Amorphous Primal Nucleus"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: "36", lvMax: "42"}],
 			type:      "M",
 			race:      "Squide",
 			family:    "Aether Flutter",
 			name:      "Giant Aether Flutter",
-			drops:     ["Amorphous Cell", "Amorphous Tentacle"]
+			drops:     ["Amorphous Cell", "Amorphous Nucleus", "Amorphous Tentacle"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: "38", lvMax: "38"}],
 			type:      "M",
 			race:      "Squide",
 			family:    "Aether Flutter",
 			name:      "Aether Flutter",
-			drops:     ["Amorphous Cell", "Amorphous Tentacle"]
+			drops:     ["Amorphous Cell", "Amorphous Nucleus", "Amorphous Tentacle"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: "36", lvMax: "37"}],
 			type:      "M",
 			race:      "Squide",
 			family:    "Jelly",
 			name:      "Hopping Jelly",
-			drops:     ["Amorphous Cell", "Amorphous Tentacle"]
+			drops:     ["Amorphous Cell", "Amorphous Nucleus", "Amorphous Tentacle"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: "43", lvMax: "45"}],
 			type:      "M",
 			race:      "Squide",
 			family:    "Jelly",
 			name:      "Rainwater Jelly",
-			drops:     ["Amorphous Cell", "Amorphous Tentacle"]
+			drops:     ["Amorphous Cell", "Amorphous Nucleus", "Amorphous Tentacle"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia", lvMin: 0, lvMax: 0}],
 			type:      "M",
@@ -4052,33 +4706,45 @@ var MAIN_DATA = {
 			name:      "Dynamic Green Tortoise",
 			drops:     ["Saurian Bone Fragment", "Saurian Claw"]
 		}, {
+			locations: [
+				{area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: "42", lvMax: "42"},
+				{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: "42", lvMax: "43"}
+			], type:   "M", race: "Other", family: "Fairy", name: "Anima Fairy", drops: []
+		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: "38", lvMax: "41"}],
 			type:      "M",
-			race:      "Flame",
+			race:      "Other",
 			family:    "Fire",
 			name:      "Soul of Fire",
 			drops:     []
 		}, {
-			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: "44", lvMax: "45"}],
+			locations: [
+				{area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: "44", lvMax: "45"},
+				{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "41", lvMax: "43"},
+				{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: 0, lvMax: "42"}
+			],
 			type:      "M",
 			race:      "Knight",
-			family:    "Just Knight",
+			family:    "Ghost Knight",
 			name:      "Ghost of a Just Knight",
-			drops:     ["Demonic Claw"]
+			drops:     ["Demonic Claw", "Demonic Remains"]
 		}, {
-			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: "38", lvMax: "39"}],
+			locations: [
+				{area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: "38", lvMax: "39"},
+				{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "41", lvMax: "42"}
+			],
 			type:      "M",
 			race:      "Reaper",
 			family:    "Scyther",
 			name:      "Bloody Scyther",
-			drops:     ["Spectral Essence", "Spectral Wrappings"]
+			drops:     ["Spectral Essence", "Spectral Hell Essence", "Spectral Wrappings"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: "40", lvMax: "45"}],
 			type:      "M",
 			race:      "Reaper",
 			family:    "Styther",
 			name:      "Fatal Syther",
-			drops:     ["Spectral Essence", "Spectral Wrappings"]
+			drops:     ["Spectral Essence", "Spectral Hell Essence", "Spectral Wrappings"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: "49", lvMax: "50"}],
 			type:      "M",
@@ -4087,54 +4753,563 @@ var MAIN_DATA = {
 			name:      "Digging Scorpion",
 			drops:     ["Crustacean Claw", "Crustacean Leg"]
 		}, {
-			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: "41", lvMax: "41"}],
-			type:      "M",
-			race:      "Skeleton",
-			family:    "Knight",
-			name:      "Undead Knight",
-			drops:     ["Spectral Armor Fragment", "Spectral Femur Fragment"]
-		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: "38", lvMax: "39"}],
 			type:      "M",
 			race:      "Skeleton",
 			family:    "Skeleton",
 			name:      "Aggresive Skeleton",
-			drops:     ["Spectral Armor Fragment", "Spectral Femur Fragment"]
+			drops:     ["Spectral Armor Fragment", "Spectral Defiled Essence", "Spectral Femur Fragment"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: "40", lvMax: "40"}],
 			type:      "M",
 			race:      "Skeleton",
 			family:    "Skeleton",
 			name:      "Skeleton Commander",
-			drops:     ["Spectral Armor Fragment", "Spectral Femur Fragment"]
+			drops:     ["Spectral Armor Fragment", "Spectral Defiled Essence", "Spectral Femur Fragment"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: "41", lvMax: "46"}],
 			type:      "M",
 			race:      "Skeleton",
 			family:    "Skeleton",
 			name:      "Skeleton Mercenary",
-			drops:     ["Spectral Armor Fragment", "Spectral Femur Fragment"]
+			drops:     ["Spectral Armor Fragment", "Spectral Defiled Essence", "Spectral Femur Fragment"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: "58", lvMax: "58"}],
 			type:      "NM",
 			race:      "Skeleton",
 			family:    "Skeleton",
 			name:      "Skeleton General",
-			drops:     ["Spectral Armor Fragment", "Spectral Femur Fragment"]
+			drops:     ["Spectral Armor Fragment", "Spectral Defiled Essence", "Spectral Femur Fragment"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: "45", lvMax: "46"}],
 			type:      "M",
 			race:      "Skeleton",
 			family:    "Skull",
 			name:      "Fallen Skull",
-			drops:     ["Spectral Armor Fragment", "Spectral Femur Fragment"]
+			drops:     ["Spectral Armor Fragment", "Spectral Defiled Essence", "Spectral Femur Fragment"]
 		}, {
 			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: "39", lvMax: "40"}],
 			type:      "M",
 			race:      "Skeleton",
 			family:    "Slasher",
 			name:      "Bone Slasher",
-			drops:     ["Spectral Armor Fragment", "Spectral Femur Fragment"]
+			drops:     ["Spectral Armor Fragment", "Spectral Defiled Essence", "Spectral Femur Fragment"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: "41", lvMax: "41"}],
+			type:      "M",
+			race:      "Skeleton",
+			family:    "Undead Knight",
+			name:      "Undead Knight",
+			drops:     ["Spectral Armor Fragment", "Spectral Defiled Essence", "Spectral Femur Fragment"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia", lvMin: "43", lvMax: "44"}],
+			type:      "M",
+			race:      "Slime",
+			family:    "Weapon Collector",
+			name:      "Weapon Collector",
+			drops:     ["Amorphous Algae", "Amorphous Membrane", "Amorphous Primal Nucleus"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: "46", lvMax: "46"}],
+			type:      "M",
+			race:      "Beast",
+			family:    "Beast",
+			name:      "Dangerous Beast",
+			drops:     ["Bestial Mane", "Bestial Pelt"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: "41", lvMax: "46"}],
+			type:      "M",
+			race:      "Beast",
+			family:    "Piercer",
+			name:      "Bloody Hope Piercer",
+			drops:     ["Bestial Mane", "Bestial Pelt"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: "41", lvMax: "46"}],
+			type:      "M",
+			race:      "Beast",
+			family:    "Piercer",
+			name:      "Bloody Void Piercer",
+			drops:     ["Bestial Mane", "Bestial Pelt"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: "43", lvMax: "44"}],
+			type:      "M",
+			race:      "Golem",
+			family:    "Doll",
+			name:      "Iron Doll",
+			drops:     ["Inanimate Arm Chunk", "Inanimate Leg Chunk"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: "47", lvMax: "47"}],
+			type:      "M",
+			race:      "Golem",
+			family:    "Doll",
+			name:      "Alchemized Metal Doll",
+			drops:     ["Inanimate Arm Chunk", "Inanimate Leg Chunk"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: "60", lvMax: "60"}],
+			type:      "NM",
+			race:      "Golem",
+			family:    "Machine",
+			name:      "Perpetual Wall Machine",
+			drops:     ["Inanimate Arm Chunk", "Inanimate Leg Chunk"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: "57", lvMax: "58"}],
+			type:      "M",
+			race:      "Gremlin",
+			family:    "Marauder",
+			name:      "Flying Marauder",
+			drops:     ["Demonic Remains", "Demonic Retrix", "Demonic Wing"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: "49", lvMax: "51"}],
+			type:      "M",
+			race:      "Lizard",
+			family:    "Lizard",
+			name:      "Stamping Lizard",
+			drops:     ["Bestial Pure Blood Crys.", "Saurian Claw", "Saurian Fang", "Saurian Jaw"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: "39", lvMax: "39"}],
+			type:      "M",
+			race:      "Scorpion",
+			family:    "Scorpion",
+			name:      "Impact Scorpion",
+			drops:     ["Crustacean Claw", "Crustacean Leg"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: "39", lvMax: "40"}],
+			type:      "M",
+			race:      "Scorpion",
+			family:    "Scorpion",
+			name:      "Burst Scorpion",
+			drops:     ["Crustacean Claw", "Crustacean Leg"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: "39", lvMax: "40"}],
+			type:      "M",
+			race:      "Slime",
+			family:    "Dravite",
+			name:      "Dravite Jam",
+			drops:     ["Amorphous Algae", "Amorphous Membrane", "Amorphous Primal Nucleus"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: "39", lvMax: "41"}],
+			type:      "M",
+			race:      "Slime",
+			family:    "Dravite",
+			name:      "Dravite Slime",
+			drops:     ["Amorphous Algae", "Amorphous Membrane", "Amorphous Primal Nucleus"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: "41", lvMax: "42"}],
+			type:      "M",
+			race:      "Slime",
+			family:    "Dravite",
+			name:      "Dravite Melt",
+			drops:     ["Amorphous Algae", "Amorphous Membrane", "Amorphous Primal Nucleus"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: "39", lvMax: "42"}],
+			type:      "M",
+			race:      "Treant",
+			family:    "Rotten Resin",
+			name:      "Rotten Resin",
+			drops:     ["Plant Bark", "Plant Bough", "Plant Petal"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius", lvMin: "42", lvMax: "43"}],
+			type:      "M",
+			race:      "Treant",
+			family:    "Rotten Resin",
+			name:      "Infected Rotten Resin",
+			drops:     ["Plant Bark", "Plant Bough", "Plant Petal"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "47", lvMax: "48"}],
+			type:      "M",
+			race:      "Bug",
+			family:    "Bug",
+			name:      "Ancient Bug",
+			drops:     ["Crustacean Pincer", "Crustacean Soft Shell"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "39", lvMax: "39"}],
+			type:      "M",
+			race:      "Bug",
+			family:    "Glowbug",
+			name:      "Blue Glowbug",
+			drops:     ["Crustacean Pincer", "Crustacean Soft Shell"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "39", lvMax: "40"}],
+			type:      "M",
+			race:      "Bug",
+			family:    "Mite",
+			name:      "Blood Mite",
+			drops:     ["Crustacean Gills", "Crustacean Jaw", "Crustacean Pincer", "Crustacean Soft Shell"]
+		}, {
+			locations: [
+				{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "39", lvMax: "40"},
+				{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "39", lvMax: "41"},
+				{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: "39", lvMax: "40"}
+			],
+			type:      "M",
+			race:      "Eye",
+			family:    "Eye",
+			name:      "Fearsome Eye",
+			drops:     ["Malicious Antenna", "Malicious Evolved Core", "Malicious Eye"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "39", lvMax: "40"}],
+			type:      "M",
+			race:      "Eye",
+			family:    "Eye",
+			name:      "Searching Eye",
+			drops:     ["Malicious Antenna", "Malicious Evolved Core", "Malicious Eye"]
+		}, {
+			locations: [
+				{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "40", lvMax: "42"},
+				{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "43", lvMax: "43"},
+				{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: "41", lvMax: "41"}
+			],
+			type:      "M",
+			race:      "Eye",
+			family:    "Eye",
+			name:      "Amazing Eye",
+			drops:     ["Malicious Antenna", "Malicious Evolved Core", "Malicious Eye"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "45", lvMax: "45"}],
+			type:      "NM",
+			race:      "Golem",
+			family:    "Relic",
+			name:      "Relic of the Ancients",
+			drops:     ["Inanimate Arm Chunk", "Inanimate Leg Chunk"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "62", lvMax: "62"}],
+			type:      "NM",
+			race:      "Insect",
+			family:    "Beetle",
+			name:      "Beetle Queen",
+			drops:     ["Insect Gold Wing", "Insectoid Feeler", "Insectoid Simple Eye"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "40", lvMax: "45"}],
+			type:      "M",
+			race:      "Insect",
+			family:    "Chimera Beetle",
+			name:      "Chimera Beetle",
+			drops:     ["Insect Gold Wing", "Insectoid Feeler", "Insectoid Gold Scale", "Insectoid Simple Eye"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "42", lvMax: "47"}],
+			type:      "M",
+			race:      "Insect",
+			family:    "Chimera Beetle",
+			name:      "Volcanic Chimera Beetle",
+			drops:     ["Insect Gold Wing", "Insectoid Feeler", "Insectoid Gold Scale", "Insectoid Simple Eye"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "47", lvMax: "47"}],
+			type:      "M",
+			race:      "Insect",
+			family:    "Insectoid Crusher",
+			name:      "Uber Insectoid Crusher",
+			drops:     ["Insect Gold Wing", "Insectoid Feeler", "Insectoid Simple Eye"]
+		}, {
+			locations: [
+				{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "56", lvMax: "56"},
+				{area: "Great Plains of Rustoria", stage: "Lake Steschal", lvMin: 0, lvMax: 0}
+			],
+			type:      "M",
+			race:      "Insect",
+			family:    "Insectoid Crusher",
+			name:      "Insectoid Crusher",
+			drops:     ["Insect Gold Wing", "Insectoid Feeler", "Insectoid Simple Eye"]
+		}, {
+			locations: [
+				{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "41", lvMax: "42"},
+				{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "41", lvMax: "42"},
+				{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: "42", lvMax: "42"}
+			],
+			type:      "M",
+			race:      "Knight",
+			family:    "Dullahan",
+			name:      "Hellish Dullahan",
+			drops:     ["Demonic Claw", "Demonic Remains"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "40", lvMax: "41"}],
+			type:      "M",
+			race:      "Treant",
+			family:    "Barren Bough",
+			name:      "Insane Barren Bough",
+			drops:     ["Plant Bark", "Plant Bough", "Plant Petal"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "41", lvMax: "42"}],
+			type:      "M",
+			race:      "Treant",
+			family:    "Barren Bough",
+			name:      "Raving Barren Bough",
+			drops:     ["Plant Bark", "Plant Bough", "Plant Petal"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "55", lvMax: "55"}],
+			type:      "NM",
+			race:      "Treant",
+			family:    "Imitation God",
+			name:      "Imitation God",
+			drops:     ["Plant Bark", "Plant Bough", "Plant Petal"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "41", lvMax: "41"}],
+			type:      "M",
+			race:      "Treant",
+			family:    "Treant",
+			name:      "Esteemed Treant",
+			drops:     ["Plant Bark", "Plant Bough", "Plant Petal"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "41", lvMax: "44"}],
+			type:      "M",
+			race:      "Treant",
+			family:    "Wood",
+			name:      "Venerable Wood",
+			drops:     ["Plant Bark", "Plant Bough", "Plant Petal"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "47", lvMax: "49"}],
+			type:      "M",
+			race:      "Wasp",
+			family:    "Imitation God",
+			name:      "Puppet Wasp",
+			drops:     ["Insect Gold Wing", "Insectoid Exoskeleton", "Insectoid Stinger"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "50", lvMax: "52"}],
+			type:      "M",
+			race:      "Wasp",
+			family:    "Needle Sentry",
+			name:      "Elite Needle Sentry",
+			drops:     ["Insect Gold Wing", "Insectoid Exoskeleton", "Insectoid Stinger"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "46", lvMax: "46"}],
+			type:      "M",
+			race:      "Wasp",
+			family:    "Vanquished Empress",
+			name:      "Queenguard Wasp",
+			drops:     ["Insect Gold Wing", "Insectoid Exoskeleton", "Insectoid Stinger"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "55", lvMax: "55"}],
+			type:      "M",
+			race:      "Wasp",
+			family:    "Vanquished Empress",
+			name:      "The Vanquished Empress",
+			drops:     ["Insect Gold Wing", "Insectoid Exoskeleton", "Insectoid Stinger"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail", lvMin: "40", lvMax: "46"}],
+			type:      "M",
+			race:      "Wasp",
+			family:    "Wasp",
+			name:      "Great Wasp",
+			drops:     ["Insect Gold Wing", "Insectoid Exoskeleton", "Insectoid Stinger"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "49", lvMax: "50"}],
+			type:      "M",
+			race:      "Bat",
+			family:    "Bat",
+			name:      "Vampire Bat",
+			drops:     ["Demonic Claw", "Demonic Horn", "Demonic Pelt", "Demonic Remains"]
+		}, {
+			locations: [
+				{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "41", lvMax: "44"},
+				{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: "42", lvMax: "43"}
+			],
+			type:      "M",
+			race:      "Demon",
+			family:    "Pit Fiend",
+			name:      "Pit Fiend Assailant",
+			drops:     ["Demonic Claw", "Demonic Pelt"]
+		}, {
+			locations: [
+				{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "44", lvMax: "45"},
+				{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: "42", lvMax: "44"}
+			],
+			type:      "M",
+			race:      "Demon",
+			family:    "Pit Fiend",
+			name:      "Pit Fiend Aggressor",
+			drops:     ["Demonic Claw", "Demonic Pelt"]
+		}, {
+			locations: [
+				{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "43", lvMax: "43"},
+				{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: "43", lvMax: "43"}
+			],
+			type:      "M",
+			race:      "Knight",
+			family:    "Dullahan",
+			name:      "Grim Dullahan",
+			drops:     ["Demonic Claw", "Demonic Remains"]
+		}, {
+			locations: [
+				{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "41", lvMax: "43"},
+				{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: "41", lvMax: "41"}
+			],
+			type:      "M",
+			race:      "Knight",
+			family:    "Ghost Knight",
+			name:      "Ghost of a Brave Knight",
+			drops:     ["Demonic Claw", "Demonic Remains"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "47", lvMax: "48"}],
+			type:      "M",
+			race:      "Knight",
+			family:    "Ghost Knight",
+			name:      "Ghost of  a Just Knight",
+			drops:     ["Demonic Claw", "Demonic Remains"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "58", lvMax: "58"}],
+			type:      "NM",
+			race:      "Knight",
+			family:    "Knight",
+			name:      "Vengeful Knight",
+			drops:     ["Demonic Claw", "Demonic Remains"]
+		}, {
+			locations: [
+				{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "42", lvMax: "42"},
+				{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: "41", lvMax: "41"}
+			],
+			type:      "M",
+			race:      "Reaper",
+			family:    "Psychotic Priest",
+			name:      "Psychotic Priest of Wrath",
+			drops:     ["Spectral Essence", "Spectral Hell Essence", "Spectral Wrappings"]
+		}, {
+			locations: [
+				{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "48", lvMax: "48"},
+				{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: "42", lvMax: "42"}
+			],
+			type:      "M",
+			race:      "Reaper",
+			family:    "Psychotic Priest",
+			name:      "Psychotic Priest of Greed",
+			drops:     ["Spectral Essence", "Spectral Hell Essence", "Spectral Wrappings"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "46", lvMax: "46"}],
+			type:      "M",
+			race:      "Reaper",
+			family:    "Scyther",
+			name:      "Fatal Scyther",
+			drops:     ["Spectral Essence", "Spectral Hell Essence", "Spectral Wrappings"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "41", lvMax: "42"}],
+			type:      "M",
+			race:      "Sentry",
+			family:    "Devilish",
+			name:      "Devilish Familiar",
+			drops:     ["Inanimate Chest Chunk", "Inanimate Head Chunk", "Inanimate Powerstone"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "48", lvMax: "48"}],
+			type:      "M",
+			race:      "Sentry",
+			family:    "Devilish",
+			name:      "Devilish Servant",
+			drops:     ["Inanimate Chest Chunk", "Inanimate Head Chunk", "Inanimate Powerstone"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "40", lvMax: "42"}],
+			type:      "M",
+			race:      "Skeleton",
+			family:    "Commandaer",
+			name:      "Skeleton Commandaer",
+			drops:     ["Spectral Armor Fragment", "Spectral Defiled Essence", "Spectral Femur Fragment"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "66", lvMax: "66"}],
+			type:      "NM",
+			race:      "Skeleton",
+			family:    "Legendary Fencer",
+			name:      "Legendary Fencer",
+			drops:     ["Spectral Armor Fragment", "Spectral Defiled Essence", "Spectral Femur Fragment"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "40", lvMax: "42"}],
+			type:      "M",
+			race:      "Skeleton",
+			family:    "Skeleton",
+			name:      "Elite Skeleton",
+			drops:     ["Spectral Armor Fragment", "Spectral Defiled Essence", "Spectral Femur Fragment"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "54", lvMax: "56"}],
+			type:      "M",
+			race:      "Skeleton",
+			family:    "Skeleton",
+			name:      "Mythic Skeleton",
+			drops:     ["Spectral Armor Fragment", "Spectral Defiled Essence", "Spectral Femur Fragment"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "40", lvMax: "42"}],
+			type:      "M",
+			race:      "Skeleton",
+			family:    "Skull",
+			name:      "Grave Skull",
+			drops:     ["Spectral Armor Fragment", "Spectral Defiled Essence", "Spectral Femur Fragment"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "42", lvMax: "44"}],
+			type:      "M",
+			race:      "Succubus",
+			family:    "Dread Devil",
+			name:      "Dread Devil",
+			drops:     ["Demonic Horn", "Demonic Retrix"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Barracks", lvMin: "43", lvMax: "43"}],
+			type:      "M",
+			race:      "Succubus",
+			family:    "Dread Devil",
+			name:      "Dread Devil Banshee",
+			drops:     ["Demonic Horn", "Demonic Retrix"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: "66", lvMax: "66"}],
+			type:      "M",
+			race:      "Dragon",
+			family:    "Atomic Dragon",
+			name:      "Atomic Dragon",
+			drops:     ["Saurian Dragonscale"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: 0, lvMax: 0}],
+			type:      "M",
+			race:      "Eye",
+			family:    "Summoned",
+			name:      "Summoned Gazer",
+			drops:     ["Malicious Antenna", "Malicious Evolved Core", "Malicious Eye"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: 0, lvMax: 0}],
+			type:      "M",
+			race:      "Other",
+			family:    "Atomic Dragon",
+			name:      "Crystal",
+			drops:     []
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: "65", lvMax: "65"}],
+			type:      "NM",
+			race:      "Other",
+			family:    "Soul",
+			name:      "Sanctuary Soul",
+			drops:     []
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: "45", lvMax: 0}],
+			type:      "M",
+			race:      "Other",
+			family:    "Summoned",
+			name:      "Summoning Machine",
+			drops:     []
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: "41", lvMax: "42"}],
+			type:      "M",
+			race:      "Knight",
+			family:    "Corpse Seeker",
+			name:      "Corpse Seeker",
+			drops:     ["Demonic Claw", "Demonic Remains"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: "42", lvMax: "42"}],
+			type:      "M",
+			race:      "Knight",
+			family:    "Living Armor",
+			name:      "Living Knight Armor",
+			drops:     ["Demonic Claw", "Demonic Remains"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: 0, lvMax: 0}],
+			type:      "M",
+			race:      "Scourge",
+			family:    "Summoned",
+			name:      "Summoned Devourer",
+			drops:     ["Malicious Fluid", "Malicious Skin"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: "40", lvMax: "41"}],
+			type:      "M",
+			race:      "Skeleton",
+			family:    "Skeleton",
+			name:      "Skeleton Sergeant",
+			drops:     ["Spectral Armor Fragment", "Spectral Defiled Essence", "Spectral Femur Fragment"]
+		}, {
+			locations: [{area: "Oltrum Bastion", stage: "Illial Temple: Lift", lvMin: "40", lvMax: "42"}],
+			type:      "M",
+			race:      "Skeleton",
+			family:    "Skeleton",
+			name:      "Assault Skeleton",
+			drops:     ["Spectral Armor Fragment", "Spectral Defiled Essence", "Spectral Femur Fragment"]
 		}
 	]
 };
