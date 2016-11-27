@@ -3,7 +3,7 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta charset="UTF-8">
-	<title>Sword Art Online Hollow Realization - Guide</title>
+	<title>Sword Art Online: Hollow Realization - Guide</title>
 
 	<link rel="stylesheet" href="resources/vendor/bootstrap-3.3.7/dist/css/bootstrap.css">
 	<!--<link rel="stylesheet" href="resources/vendor/bootstrap/css/bootstrap-theme.min.css">-->
@@ -373,10 +373,10 @@
 					</div>
 					<div class="inputBox">
 						<select class="MonsterRace" data-bind="options: $root.OPTIONS().monsterRace, value: race"></select>
-						<input type="text" list="listMonsterFamily" class="MonsterFamily" data-bind="value: family">
+						<input type="text" list="listMonsterFamily" class="MonsterFamily" placeholder="Family" data-bind="value: family, valueUpdate: 'input'">
 					</div>
 					<div class="inputBox block">
-						<input type="text" list="listMonsterName" class="MonsterName" data-bind="value: name" placeholder="Name">
+						<input type="text" list="listMonsterName" class="MonsterName" placeholder="Name" data-bind="value: name, valueUpdate: 'input'">
 					</div>
 				</div>
 				<div class="col-xs-12 col-md-4">
@@ -571,5 +571,14 @@
 	<script src="resources/ko/RootViewModel.js"></script>
 	<script src="resources/js/initRoot.js"></script>
 </div>
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-86896801-2', 'auto');
+	ga('send', 'pageview');
+</script>
 </body>
 </html>
