@@ -6,8 +6,8 @@ function LocationModel(newData = {
 }) {
 	var self = this;
 
-	self.area       = ko.observable(newData.area || GH.getLast('area'));
-	self.stage      = ko.observable(newData.stage || GH.getLast('stage'));
+	self.area       = ko.observable(newData.area || GH.getLast('area') || '');
+	self.stage      = ko.observable(newData.stage || GH.getLast('stage') || '');
 	self.listAreas = rootView.OPTIONS().areas;
 	self.listStages = ko.pureComputed(()=>{
 		var stages = GH.getOptions('stages'),

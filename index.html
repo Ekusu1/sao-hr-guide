@@ -71,28 +71,28 @@
 	<div class="col-xs-6 col-md-3">
 		<div class="inputBox block">
 			<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createGear">
-				<span class="fa fa-plus"></span> Gear
+				<i class="fa fa-plus"></i> Gear
 			</button>
 		</div>
 	</div>
 	<div class="col-xs-6 col-md-3">
 		<div class="inputBox block">
 			<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createChest">
-				<span class="fa fa-plus"></span> Chest
+				<i class="fa fa-plus"></i> Chest
 			</button>
 		</div>
 	</div>
 	<div class="col-xs-6 col-md-3">
 		<div class="inputBox block">
 			<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createEvent">
-				<span class="fa fa-plus"></span> Event
+				<i class="fa fa-plus"></i> Event
 			</button>
 		</div>
 	</div>
 	<div class="col-xs-6 col-md-3">
 		<div class="inputBox block">
 			<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createMonster">
-				<span class="fa fa-plus"></span> Monster
+				<i class="fa fa-plus"></i> Monster
 			</button>
 		</div>
 	</div>
@@ -114,14 +114,14 @@
 			</div>
 			<div class="inputBox">
 				<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeLocation">
-					<span class="fa fa-minus"></span>
+					<i class="fa fa-minus"></i>
 				</button>
 			</div>
 			<br>
 		<!-- /ko -->
 		<div class="inputBox">
 			<button type="button" class="inputBtn btn-primary" data-bind="click: addLocation">
-				<span class="fa fa-plus"></span>
+				<i class="fa fa-plus"></i>
 			</button>
 		</div>
 	</div>
@@ -138,7 +138,7 @@
 		<input type="text" class="ItemMaterial" list="listItemMaterial" placeholder="Material" data-bind="value: material, valueUpdate: 'input'"/>
 		<input type="number" class="goalAmount" data-bind="value: amount">
 		<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeRequiredMaterial">
-			<span class="fa fa-minus"></span>
+			<i class="fa fa-minus"></i>
 		</button>
 	</div>
 </script>
@@ -147,16 +147,16 @@
 	<div class="inputBox">
 		<input type="text" list="listGear" class="Gear" data-bind="value: name, valueUpdate: 'input'"/>
 		<button type="button" class="inputBtn btn-success" data-bind="visible: isNewGear(), click: $root.createPresetModel">
-			<span class="fa fa-sign-in"></span>
+			<i class="fa fa-sign-in"></i>
 		</button>
 		<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeTransformation">
-			<span class="fa fa-minus"></span>
+			<i class="fa fa-minus"></i>
 		</button>
 	</div>
 	<!-- ko template: {name: "preset-required-material", foreach: requiredMaterials} --><!-- /ko -->
 	<div class="inputBox">
 		<button type="button" class="inputBtn btn-primary" data-bind="click: addRequiredMaterial">
-			<span class="fa fa-plus"></span>
+			<i class="fa fa-plus"></i>
 		</button>
 	</div>
 </script>
@@ -166,11 +166,11 @@
 		<span class="inputName MonsterType" data-bind="html: monsterType">&nbsp;</span>
 		<input type="text" class="MonsterName" list="listMonsterName" placeholder="Monster" data-bind="value: name, valueUpdate: 'input'"/>
 		<button type="button" class="inputBtn btn-success" data-bind="click: $root.createPresetModel, visible: isNew()">
-			<span class="fa fa-sign-in"></span>
+			<i class="fa fa-sign-in"></i>
 		</button>
 		<input type="number" class="goalAmount" data-bind="value: amount, visible: amountShow()" />
 		<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeGoal" tabindex="-1">
-			<span class="fa fa-minus"></span>
+			<i class="fa fa-minus"></i>
 		</button>
 	</div>
 	<br>
@@ -181,25 +181,25 @@
 		<!-- ko if: isItem() -->
 		<input list="listItemOre" class="ItemOre" data-bind="value: name, valueUpdate: 'input'"/>
 		<button type="button" class="inputBtn btn-success" data-bind="visible: isNewOre(), click: addNewOre">
-			<span class="fa fa-sign-in"></span>
+			<i class="fa fa-sign-in"></i>
 		</button>
 		<!-- /ko -->
 		<!-- ko if: isChest() -->
 		<select class="ChestRarity" data-bind="options: $root.OPTIONS().chestRarity, value: name"></select>
 		<button type="button" class="inputBtn btn-success" data-bind="click: $root.createPresetModel" tabindex="-1">
-			<span class="fa fa-sign-in"></span>
+			<i class="fa fa-sign-in"></i>
 		</button>
 		<!-- /ko -->
 		<!-- ko if: isGear() || isLastHit() -->
 		<span class="inputName GearType" data-bind="html: gearType">&nbsp;</span>
 		<input type="text" list="listGear" class="Gear" data-bind="value: name, valueUpdate: 'input'"/>
 		<button type="button" class="inputBtn btn-success" data-bind="visible: isNewGear(), click: $root.createPresetModel">
-			<span class="fa fa-sign-in"></span>
+			<i class="fa fa-sign-in"></i>
 		</button>
 		<!-- /ko -->
 		<input type="number" class="amount" data-bind="value: amount, visible: amountShow()"/>
 		<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeReward" tabindex="-1">
-			<span class="fa fa-minus"></span>
+			<i class="fa fa-minus"></i>
 		</button>
 	</div>
 	<br>
@@ -209,7 +209,7 @@
 		<!-- ko if: isDuplicate() -->
 			<div class="inputBox">
 				<button type="button" class="inputBtn btn-info" title="show duplicates" data-bind="click: $root.showDuplicateModels">
-					<span class="fa fa-object-group"></span>
+					<i class="fa fa-object-group"></i>
 				</button>
 			</div>
 		<!-- /ko -->
@@ -217,13 +217,13 @@
 			<!-- ko if: !isNew() -->
 				<div class="inputBox">
 					<button type="button" class="inputBtn btn-danger" title="remove temporary AND main" data-bind="click: $root.removeTmpMainModel">
-						<span class="fa fa-trash"></span>
+						<i class="fa fa-trash"></i>
 					</button>
 				</div>
 			<!-- /ko -->
 			<div class="inputBox">
 				<button type="button" class="inputBtn btn-warning" title="remove temporary" data-bind="click: $root.removeTmpModel">
-					<span class="fa fa-remove"></span>
+					<i class="fa fa-remove"></i>
 				</button>
 			</div>
 		<!-- /ko -->
@@ -231,18 +231,18 @@
 			<!-- ko if: !locked() -->
 				<div class="inputBox">
 					<button type="button" class="inputBtn btn-primary" title="clone" data-bind="click: $root.cloneModel">
-						<span class="fa fa-code-fork"></span>
+						<i class="fa fa-code-fork"></i>
 					</button>
 				</div>
 				<div class="inputBox">
 					<button type="button" class="inputBtn btn-danger" title="delete" data-bind="click: $root.removeMainModel">
-						<span class="fa fa-trash"></span>
+						<i class="fa fa-trash"></i>
 					</button>
 				</div>
 			<!-- /ko -->
 			<div class="inputBox">
 				<button type="button" class="inputBtn btn-warning" data-bind="attr: {title: locked() ? 'unlock' : 'lock'}, click: switchLock">
-					<span class="fa" data-bind="css: {'fa-lock': locked(), 'fa-unlock': !locked()}"></span>
+					<i class="fa" data-bind="css: {'fa-lock': locked(), 'fa-unlock': !locked()}"></i>
 				</button>
 			</div>
 		<!-- /ko -->
@@ -274,17 +274,17 @@
 						<div class="inputBox effect">
 							<input class="inputName GearEffect" type="text" list="listGearEffect" placeholder="Effect" data-bind="value: name, valueUpdate: 'input'"/>
 							<button type="button" class="inputBtn btn-success" data-bind="visible: isNewEffect(), click: addNewEffect">
-								<span class="fa fa-sign-in"></span>
+								<i class="fa fa-sign-in"></i>
 							</button>
 							<input type="number" class="stat" data-bind="value: value"/>
 							<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeEffect" tabindex="-1">
-								<span class="fa fa-minus"></span>
+								<i class="fa fa-minus"></i>
 							</button>
 						</div>
 						<!-- /ko -->
 						<div class="inputBox">
 							<button type="button" class="inputBtn btn-primary" data-bind="click: addEffect">
-								<span class="fa fa-plus"></span>
+								<i class="fa fa-plus"></i>
 							</button>
 						</div>
 					</div>
@@ -297,7 +297,7 @@
 					<hr class="m-y-5">
 					<div class="inputBox">
 						<button type="button" class="inputBtn btn-primary" data-bind="click: addTransformation">
-							<span class="fa fa-plus"></span>
+							<i class="fa fa-plus"></i>
 						</button>
 					</div>
 				</div>
@@ -322,7 +322,7 @@
 						<span type="text" class="inputName GearType" data-bind="css: 'bg-'+itemInfo().rarity.toLowerCase(),html: itemInfo().type">&nbsp;</span>
 						<input type="text" list="listGear" class="Gear" placeholder="Gear" data-bind="value: item, valueUpdate: 'input'"/>
 						<button type="button" class="inputBtn btn-success" data-bind="visible: isNewGear(), click: $root.createPresetModel">
-							<span class="fa fa-sign-in"></span>
+							<i class="fa fa-sign-in"></i>
 						</button>
 					</div>
 				</div>
@@ -345,7 +345,7 @@
 					<!-- ko template: {name: 'preset-goal', foreach: goals} --><!-- /ko -->
 					<div class="inputBox">
 						<button type="button" class="inputBtn btn-primary" data-bind="click: addGoal">
-							<span class="fa fa-plus"></span>
+							<i class="fa fa-plus"></i>
 						</button>
 					</div>
 				</div>
@@ -353,7 +353,7 @@
 					<!-- ko template: {name: 'preset-reward', foreach: rewards} --><!-- /ko -->
 					<div class="inputBox">
 						<button type="button" class="inputBtn btn-primary" data-bind="click: addReward">
-							<span class="fa fa-plus"></span>
+							<i class="fa fa-plus"></i>
 						</button>
 					</div>
 				</div>
@@ -384,7 +384,7 @@
 						<div class="inputBox">
 							<span class="inputName ItemMaterial" data-bind="text: $data"></span>
 							<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeDrop" tabindex="-1">
-								<span class="fa fa-minus"></span>
+								<i class="fa fa-minus"></i>
 							</button>
 						</div>
 						<br>
@@ -392,19 +392,42 @@
 					<div class="inputBox">
 						<input type="text" class="ItemMaterial" list="listItemMaterial" placeholder="Drop" data-bind="value: dropToAdd, valueUpdate: 'input'"/>
 						<button type="button" class="inputBtn btn-success" data-bind="visible: isNewMaterial(), click: addNewMaterial">
-							<span class="fa fa-sign-in"></span>
+							<i class="fa fa-sign-in"></i>
 						</button>
 						<button type="button" class="inputBtn btn-primary" data-bind="click: addDrop">
-							<span class="fa fa-plus"></span>
+							<i class="fa fa-plus"></i>
 						</button>
 						<button type="button" class="inputBtn btn-primary" data-bind="click: addRaceDrops, visible: hasMissingRaceDrop()">
-							<span class="fa fa-plus"></span>
-							<span class="fa fa-plus"></span>
+							<i class="fa fa-plus"></i>
+							<i class="fa fa-plus"></i>
 						</button>
 					</div>
 				</div>
 			</fieldset>
 			<!-- ko template: "preset-media-actions" --><!-- /ko -->
+		</div>
+	</div>
+</script>
+<script type="text/template" id="template-filter">
+	<h4 class="inputBox noBorder">
+		<span class="inputName">Location Active</span>
+		<label type="button" class="inputBtn">
+			<input type="checkbox" class="hidden" data-bind="checked: locationActive">
+			<i class="fa" data-bind="css: locationActive() ? 'fa-check-square' : 'fa-square'"></i>
+		</label>
+	</h4>
+	<div data-bind="visible: locationActive(), template: 'preset-location'"></div>
+	<hr class="m-y-5">
+	<h4 class="inputBox noBorder">
+		<span class="inputName">Gear Type Active</span>
+		<label type="button" class="inputBtn">
+			<input type="checkbox" class="hidden" data-bind="checked: gearTypeActive">
+			<i class="fa" data-bind="css: gearTypeActive() ? 'fa-check-square' : 'fa-square'"></i>
+		</label>
+	</h4>
+	<div data-bind="visible: gearTypeActive()">
+		<div class="inputBox">
+			<select class="GearType" data-bind="options: $root.OPTIONS().itemTypeGear, value: gearType"></select>
 		</div>
 	</div>
 </script>
@@ -418,7 +441,7 @@
 				Gear
 				<div class="inputBox smallBtn">
 					<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createGear">
-						<span class="fa fa-plus"></span>
+						<i class="fa fa-plus"></i>
 					</button>
 				</div>
 			</a></li>
@@ -426,7 +449,7 @@
 				Chests
 				<div class="inputBox smallBtn">
 					<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createChest">
-						<span class="fa fa-plus"></span>
+						<i class="fa fa-plus"></i>
 					</button>
 				</div>
 			</a></li>
@@ -434,7 +457,7 @@
 				Events
 				<div class="inputBox smallBtn">
 					<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createEvent">
-						<span class="fa fa-plus"></span>
+						<i class="fa fa-plus"></i>
 					</button>
 				</div>
 			</a></li>
@@ -442,15 +465,15 @@
 				Monster
 				<div class="inputBox smallBtn">
 					<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createMonster">
-						<span class="fa fa-plus"></span>
+						<i class="fa fa-plus"></i>
 					</button>
 				</div>
 			</a></li>
-			<li><a data-toggle="tab" href="#filter">
+			<li><a href="#filtersModal" data-toggle="modal">
 				Filter
 				<div class="inputBox smallBtn">
-					<button type="button" class="inputBtn btn-default" data-bind="">
-						<i class="fa fa-toggle-off"></i>
+					<button type="button" class="inputBtn btn-info" data-bind="">
+						<i class="fa" data-bind="css: FILTERS.filtersActive() ? 'fa-check' : 'fa-square'"></i>
 					</button>
 				</div>
 			</a></li>
@@ -458,22 +481,22 @@
 				<a href="#">
 					<div class="inputBox smallBtn">
 						<button type="button" class="inputBtn btn-primary" title="Sort Data" data-bind="click: $root.sortData">
-							<span class="fa fa-sort"></span>
+							<i class="fa fa-sort"></i>
 						</button>
 					</div>
 					<div class="inputBox smallBtn">
 						<button type="button" class="inputBtn btn-success" title="Save Data" data-bind="click: $root.saveData">
-							<span class="fa fa-floppy-o"></span>
+							<i class="fa fa-floppy-o"></i>
 						</button>
 					</div>
 					<div class="inputBox smallBtn">
 						<button type="button" class="inputBtn btn-success" title="export Data" data-bind="click: $root.exportData">
-							<span class="fa fa-download"></span>
+							<i class="fa fa-download"></i>
 						</button>
 					</div>
 					<div class="inputBox smallBtn">
 						<button type="button" class="inputBtn btn-danger" title="clear Save Data" data-bind="click: function(){GH.clearLocalStorage()}">
-							<span class="fa fa-remove"></span>
+							<i class="fa fa-remove"></i>
 						</button>
 					</div>
 				</a>
@@ -487,7 +510,7 @@
 			<div class="media-list" data-bind="template: {name: 'item-gear', foreach: DATA.gear}"></div>
 			<div class="inputBox block">
 				<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createGear">
-					<span class="fa fa-plus"></span>
+					<i class="fa fa-plus"></i>
 				</button>
 			</div>
 		</div>
@@ -495,7 +518,7 @@
 			<div class="media-list" data-bind="template: {name: 'item-chest', foreach: DATA.chests}"></div>
 			<div class="inputBox block">
 				<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createChest">
-					<span class="fa fa-plus"></span>
+					<i class="fa fa-plus"></i>
 				</button>
 			</div>
 		</div>
@@ -503,7 +526,7 @@
 			<div class="media-list" data-bind="template: {name: 'item-event', foreach: DATA.events}"></div>
 			<div class="inputBox block">
 				<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createEvent">
-					<span class="fa fa-plus"></span>
+					<i class="fa fa-plus"></i>
 				</button>
 			</div>
 		</div>
@@ -511,47 +534,36 @@
 			<div class="media-list" data-bind="template: {name: 'item-monster', foreach: DATA.monster}"></div>
 			<div class="inputBox block">
 				<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createMonster">
-					<span class="fa fa-plus"></span>
+					<i class="fa fa-plus"></i>
 				</button>
-			</div>
-		</div>
-		<div role="tabpanel" class="tab-pane" id="filter" data-bind="with: FILTERS">
-			<h3>Areas</h3>
-			<div data-bind="foreach: areasList">
-				<div class="checkbox">
-					<label>
-						<input type="checkbox" data-bind="value: $data, checked: $parent.areas">
-						<span data-bind="text: $data"></span>
-					</label>
-				</div>
-			</div>
-			<h3>Stages</h3>
-			<div class="row" data-bind="foreachprop: stagesList">
-				<div class="col-xs-12 col-md-2">
-					<h4 data-bind="text: key"></h4>
-					<div data-bind="foreach: value">
-						<div class="checkbox">
-							<label>
-								<input type="checkbox" data-bind="value: $data, checked: $parents[1].stages">
-								<span data-bind="text: $data"></span>
-							</label>
-						</div>
-					</div>
-				</div>
-			</div>
-			<h3>Gear Types</h3>
-			<div data-bind="foreach: gearTypesList">
-				<div class="checkbox">
-					<label>
-						<input type="checkbox" data-bind="value: $data, checked: $parent.gearTypes">
-						<span data-bind="text: $data"></span>
-					</label>
-				</div>
 			</div>
 		</div>
 	</div>
 </main>
 
+<div class="modal fade" id="filtersModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title inputBox noBorder">
+					<span class="inputName">Filters Active</span>
+					<label type="button" class="inputBtn">
+						<input type="checkbox" class="hidden" data-bind="checked: FILTERS.filtersActive">
+						<i class="fa" data-bind="css: FILTERS.filtersActive() ? 'fa-check-square' : 'fa-square'"></i>
+					</label>
+				</h1>
+			</div>
+			<div class="modal-body" data-bind="with: FILTERS">
+				<!-- ko template: 'template-filter' --><!-- /ko -->
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-block btn-default" data-dismiss="modal">
+					Close
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
 <div id="loading"></div>
 <div data-app-js>
 	<script src="resources/js/settings.js"></script>

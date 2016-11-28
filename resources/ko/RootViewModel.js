@@ -14,7 +14,7 @@ function RootViewModel() {
 		events:  ko.observableArray(),
 		monster: ko.observableArray()
 	};
-	self.FILTERS  = new FiltersModel();
+	self.FILTERS  = null;
 	self.LAST     = {
 		area:  '',
 		stage: '',
@@ -142,6 +142,8 @@ function RootViewModel() {
 		self.OPTIONS(OPTIONS);
 		$.each(dataTypes, (dataType, model)=>self.DATA[dataType](DATA[dataType].map((data)=>new model(data))));
 		self.saveData();
+		self.FILTERS = new FiltersModel();
+
 		addNewDialogInstance = new BootstrapDialog({
 			size:        'size-extra-wide',
 			autodestroy: false,

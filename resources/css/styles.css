@@ -213,6 +213,9 @@ option[value=Gold] {
   padding: 2px;
   font-size: 10px;
 }
+.inputBox.noBorder > * {
+  border: none !important;
+}
 .inputBox > *.bg-common {
   background: #1a1a1a;
 }
