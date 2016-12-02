@@ -1,6 +1,6 @@
 body {
   background: #111;
-  color: #fff;
+  color: #FFF;
   font-size: 12px;
 }
 main {
@@ -42,7 +42,7 @@ main {
 }
 option {
   background: #000;
-  color: #fff;
+  color: #FFF;
 }
 option[value=Common] {
   background: #1a1a1a;
@@ -73,24 +73,31 @@ option[value=Gold] {
   background: #666600;
 }
 .inputBox {
+  z-index: 0;
+  position: relative;
   display: inline-block;
-  margin-bottom: 2px;
+}
+.inputBox.indent {
+  margin-left: 15px;
 }
 .inputBox > * {
+  position: relative;
+  z-index: 2;
   display: block;
   float: left;
   padding: 0 5px;
-  border: 1px solid #fff;
+  border: 1px solid #FFF;
 }
 .inputBox > * + * {
-  border-left: none !important;
+  border-left-width: 0;
 }
+.inputBox span,
 .inputBox select,
 .inputBox input,
 .inputBox textarea,
 .inputBox [contenteditable] {
   background: #222;
-  color: #fff;
+  color: #FFF;
 }
 .inputBox input[type=number] {
   font-family: Consolas;
@@ -112,15 +119,45 @@ option[value=Gold] {
 }
 .inputBox .inputName {
   background: #000;
-  color: #fff;
+  color: #FFF;
 }
 .inputBox .inputName[readonly] {
   background: #FFF;
   color: #000;
 }
+.inputBox.hasTitle {
+  padding-top: 1.1em;
+}
+.inputBox.hasTitle > .inputTitle:first-child {
+  background: #000;
+  color: #FFF;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  font-size: 75%;
+  padding-bottom: 3px;
+  border-color: #fff !important;
+}
+.inputBox.hasTitle > .inputTitle:first-child[readonly] {
+  background: #FFF;
+  color: #000;
+}
+.inputBox.hasTitle > .inputTitle:first-child + * {
+  border-left-width: 1px;
+}
 .inputBox .inputBtn {
-  border: 1px solid #fff;
   padding: 0 5px;
+}
+[disabled] .inputBox .inputBtn {
+  display: none;
+}
+[disabled] .inputBox.showOnLock,
+[disabled] .inputBox > .showOnLock {
+  display: block;
+}
+[disabled] .inputBox.hideOnLock,
+[disabled] .inputBox > .hideOnLock {
+  display: none;
 }
 .inputBox > .Areas {
   width: 145px;
@@ -129,7 +166,7 @@ option[value=Gold] {
   width: 160px;
 }
 .inputBox > .Location {
-  width: auto;
+  width: 80px;
 }
 .inputBox > .Gear {
   width: auto;
@@ -158,17 +195,23 @@ option[value=Gold] {
 .inputBox > .GoalType {
   width: 20px;
 }
+.inputBox > .EventName {
+  width: 220px;
+}
 .inputBox > .RewardType {
-  width: 50px;
+  width: 70px;
 }
 .inputBox > .MonsterType {
   width: 40px;
 }
 .inputBox > .MonsterRace {
-  width: 66px;
+  width: 70px;
 }
 .inputBox > .MonsterFamily {
-  width: 139px;
+  width: 160px;
+}
+.inputBox > .MonsterName {
+  width: 180px;
 }
 .inputBox > .starsText {
   width: 61px;
@@ -180,8 +223,8 @@ option[value=Gold] {
 .inputBox > .small3 {
   width: 40px;
 }
-.inputBox > .stat {
-  width: 50px;
+.inputBox > .Stat {
+  width: 60px;
 }
 .inputBox > .lv {
   width: 31px;
@@ -192,18 +235,44 @@ option[value=Gold] {
 .inputBox > .goalAmount {
   width: 24px;
 }
-.inputBox > .MonsterName {
-  width: 180px;
+.inputBox > .CommonDrop {
+  background-color: #000;
+  border-color: #fff;
+  color: #FFF;
+}
+.inputBox > .UncommonDrop {
+  border-color: #33bbff;
+  color: #33bbff;
+}
+.inputBox > .RareDrop {
+  border-color: #ffff33;
+  color: #ffff33;
+}
+.inputBox > .OreDrop {
+  background-color: #663300;
+}
+.inputBox > .SpecialDrop {
+  background: #666600;
+}
+.inputBox[data-goal-type=Kill] > * {
+  border-color: #F00;
+}
+.inputBox[data-goal-type=Stealth] > * {
+  border-color: #0F0;
+}
+.inputBox[data-goal-type=Protect] > * {
+  border-color: #0FF;
 }
 .inputBox.block {
   display: block;
+  margin-bottom: 2px;
 }
 .inputBox.block > * {
   width: 100% !important;
   float: none;
 }
 .inputBox.block > * + * {
-  border-left: 1px solid #fff !important;
+  border-left: 1px solid #FFF !important;
 }
 .inputBox.smallBtn {
   margin: 0;
@@ -226,7 +295,7 @@ option[value=Gold] {
 .inputBox > *.bg-rare {
   background: #004466;
 }
-.inputBox > *.bg-exotix {
+.inputBox > *.bg-exotic {
   background: #006600;
 }
 .inputBox > *.bg-gold,
@@ -286,7 +355,7 @@ option[value=Gold] {
 .media.bg-rare {
   background: #004466;
 }
-.media.bg-exotix {
+.media.bg-exotic {
   background: #006600;
 }
 .media.bg-gold,

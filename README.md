@@ -10,11 +10,10 @@ and email them to me (Ekusu1@gmail.com).
 - Event List + Rewards
 - Monster List + Drops
 - export function
+- filter for the lists
 
 PS: I'm working on all of the lists so they are not complete, infact a lot is missing.
 
 ## Planned Features
 
 - Craftsmen List
-- filter for the lists
-- filter for the lists (not working yet)

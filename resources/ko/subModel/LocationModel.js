@@ -2,23 +2,28 @@
 
 function LocationModel(newData = {
 	area:  '',
-	stage: '',
+	stage: ''
 }) {
 	var self = this;
 
-	self.area       = ko.observable(newData.area || GH.getLast('area') || '');
-	self.stage      = ko.observable(newData.stage || GH.getLast('stage') || '');
+	self.area       = ko.observable(newData.area || GH.getLast('area'));
+
+	console.log(self.area());
+	self.stage      = ko.observable(newData.stage || GH.getLast('stage'));
 	self.listAreas = rootView.OPTIONS().areas;
 	self.listStages = ko.pureComputed(()=>{
+		if(self.area() == '') { return ['']; }
 		var stages = GH.getOptions('stages'),
-		    currentStage = self.stage(),
 		    allStages = [];
 		$.each(stages, (k,area)=>area.forEach((v)=>allStages.push(v)));
 		var selectable = self.area() !== '' ? stages[self.area()] : allStages;
-		selectable.includes(currentStage) || selectable.push(currentStage);
 		return selectable;
 	});
 
+	self.changeArea = function () {
+		self.stage('');
+		self.setLast();
+	}
 	self.setLast = ()=> {
 		GH.setLast('area', self.area());
 		GH.setLast('stage', self.stage());

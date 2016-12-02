@@ -2,12 +2,12 @@
 
 function CraftingMaterialModel(newData = {
 	material:     '',
-	amount:    0,
+	amount:    1,
 }) {
 	var self = this;
 
-	self.material     = ko.observable(newData.name);
-	self.amount    = ko.observable(newData.value);
+	self.material     = ko.observable(newData.material);
+	self.amount    = ko.observable(newData.amount);
 
 	self.export = ()=>({
 		material:     self.material(),

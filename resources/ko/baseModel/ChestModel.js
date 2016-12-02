@@ -22,12 +22,34 @@ function ChestModel(newData = {
 		GH.getSortNumber('chestRarity', self.rarity())
 	].join('|'));
 
-	self.location = new LocationModel(newData.location);
-	self.rarity   = ko.observable(newData.rarity);
-	self.where    = ko.observable(newData.where);
-	self.name = ko.computed(()=>`${self.location.stage()}<hr>${self.rarity()}-${self.where()}`);
+	self.location     = new LocationModel(newData.location);
+	self.rarity       = ko.observable(newData.rarity);
+	self.changeRarity = function () {
+		var options = {
+			"":       "",
+			"Brown":  "",
+			"Blue":   "",
+			"Red":    "Stage Boss",
+			"Silver": "Event Chain",
+			"Gold":   "Area Boss",
+		}
+		self.where(options[self.rarity()]);
+	};
+	self.listWhere    = ko.pureComputed(()=> {
+		var options = {
+			"":       ["", "Top", "Right", "Bottom", "Left", "Stage Boss", "Area Boss", "Events", "Event Chain"],
+			"Brown":  ["", "Top", "Right", "Bottom", "Left"],
+			"Blue":   ["", "Top", "Right", "Bottom", "Left"],
+			"Red":    ["", "Stage Boss", "Events"],
+			"Silver": ["Event Chain"],
+			"Gold":   ["Area Boss"],
+		}
+		return options[self.rarity()];
+	});
+	self.where        = ko.observable(newData.where);
+	self.name         = ko.computed(()=>`${self.location.stage()}<hr>${self.rarity()}-${self.where()}`);
 
-	self.itemInfo = ko.pureComputed(()=> {
+	self.itemInfo  = ko.pureComputed(()=> {
 		var info   = {type: '&nbsp;', rarity: '&nbsp;'},
 		    result = GH.findByKeyValue('gear', 'name', self.item());
 		if (result.length > 0) {
@@ -41,9 +63,12 @@ function ChestModel(newData = {
 	self.isNewGear = ko.pureComputed(()=> {
 		return GH.isNewData(self, 'item', 'gear', 'name');
 		// var curItem = self.item();
-		// var isNew   = !(GH.getData('gear')().some((m)=>m.name() === curItem));
+		// var isNew   = !(GH.getData('gear')().some(m=>m.name() === curItem));
 		// return curItem !== '' && isNew;
 	});
+
+	self.showGear = ()=>GH.findByName('gear', self.item()).forEach(r=>rootView.showModel(r.model));
+
 
 	self.getDuplicateCheckData = ko.computed(()=>[
 		self.location.stage(),
@@ -51,7 +76,7 @@ function ChestModel(newData = {
 		self.where(),
 		self.item()
 	].join('|'));
-	self.isDuplicate = ko.computed(()=>GH.findDuplicates(self).length>0);
+	self.isDuplicate           = ko.computed(()=>GH.findDuplicates(self).length > 0);
 
 	self.hasMissingData = ko.pureComputed(()=>
 		self.location.stage() == '' ||
@@ -63,7 +88,18 @@ function ChestModel(newData = {
 	self.additionalCss = ko.observable('');
 	self.mediaCss      = ko.pureComputed(()=>`bg-${self.rarity().toLowerCase()} ${self.isDuplicate() ? 'duplicateModel' : ''} ${self.additionalCss()} ${self.hasMissingData() ? 'hasMissingData' : ''}`);
 
-	self.getTmpPreset = ()=>({altDataType: 'gear',name: self.item()});
+	self.getTmpPreset = ()=>({altDataType: 'gear', name: self.item()});
+
+	self.filter = function (filter) {
+		var results = []
+		if (filter.location !== undefined) {
+			filter.location.area != undefined && results.push(self.location.area() == filter.location.area);
+			filter.location.stage != undefined && results.push(self.location.stage() == filter.location.stage);
+		} else {
+			return true;
+		}
+		return results.every(r=>r === true);
+	};
 
 	self.export = ()=>({
 		location: self.location.export(),

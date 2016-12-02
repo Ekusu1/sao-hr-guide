@@ -14,9 +14,16 @@ try {
 	);
 	throw e;
 }
+$(window).bind('beforeunload', function(){
+	return 'Are you sure you want to leave?';
+});
+
+$(window).unload(function(){
+	// GH.saveData();
+});
 
 $(`[href="${GH.getLast('tab')}"]`).tab('show');
 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 	GH.setLast('tab', $(e.currentTarget).attr('href'));
-	GH.saveData();
+	// GH.saveData();
 });

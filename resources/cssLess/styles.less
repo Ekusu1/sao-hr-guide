@@ -3,7 +3,7 @@
 
 body {
 	background: #111;
-	color: #fff;
+	color: #FFF;
 	font-size: 12px;
 }
 
@@ -30,7 +30,7 @@ main {
 		> tbody:first-child {
 			> tr:first-child {
 				td, th {
-					border-top: 1px solid #ddd
+					border-top: 1px solid #DDD
 				}
 			}
 		}
@@ -38,7 +38,7 @@ main {
 			thead, tbody, tfoot {
 				tr:first-child {
 					td, th {
-						border-bottom: 1px solid #ddd
+						border-bottom: 1px solid #DDD
 					}
 				}
 			}
@@ -47,7 +47,7 @@ main {
 			thead, tbody, tfoot {
 				tr:first-child {
 					td, th {
-						border-bottom: 1px solid #ddd
+						border-bottom: 1px solid #DDD
 					}
 				}
 			}
@@ -57,33 +57,40 @@ main {
 
 option {
 	background: #000;
-	color: #fff;
-	&[value=Common] {background: @color-normal;}
-	&[value=Uncommon] {background: @color-purple;}
-	&[value=Rare], &[value=Blue] {background: @color-blue;}
-	&[value=Exotic] {background: @color-green;}
-	&[value=Legendary] {background: @color-gold;}
-	&[value=Brown] {background: @color-brown;}
-	&[value=Red] {background: @color-red;}
-	&[value=Silver] {background: @color-silver;}
-	&[value=Gold] {background: @color-gold;}
+	color: #FFF;
+	&[value=Common] { background: @color-normal; }
+	&[value=Uncommon] { background: @color-purple; }
+	&[value=Rare], &[value=Blue] { background: @color-blue; }
+	&[value=Exotic] { background: @color-green; }
+	&[value=Legendary] { background: @color-gold; }
+	&[value=Brown] { background: @color-brown; }
+	&[value=Red] { background: @color-red; }
+	&[value=Silver] { background: @color-silver; }
+	&[value=Gold] { background: @color-gold; }
 }
 
 .inputBox {
+	z-index: 0;
+	position: relative;
 	display: inline-block;
-	margin-bottom: 2px;
+	&.indent {
+		margin-left: 15px;
+	}
+
 	> * {
+		position: relative;
+		z-index: 2;
 		display: block;
 		float: left;
 		padding: 0 5px;
-		border: 1px solid #fff;
+		border: 1px solid #FFF;
 		+ * {
-			border-left: none !important;
+			border-left-width: 0;
 		}
 	}
-	select, input, textarea, [contenteditable] {
+	span, select, input, textarea, [contenteditable] {
 		background: #222;
-		color: #fff;
+		color: #FFF;
 	}
 	input {
 		&[type=number] {
@@ -105,20 +112,47 @@ option {
 	}
 	.inputName {
 		background: #000;
-		color: #fff;
+		color: #FFF;
 		&[readonly] {
 			background: #FFF;
 			color: #000;
 		}
 	}
+	&.hasTitle {
+		padding-top: 1.1em;
+		> .inputTitle:first-child {
+			.inputName();
+			position: absolute;
+			top: 0;
+			z-index: 1;
+			font-size: 75%;
+			padding-bottom: 3px;
+			border-color: #fff !important;
+			+ * {
+				border-left-width: 1px;
+			}
+		}
+	}
 	.inputBtn {
-		border: 1px solid #fff;
+		//border: 1px solid #FFF;
 		padding: 0 5px;
+		[disabled] & {
+			display: none;
+		}
+	}
+
+	[disabled] &.showOnLock,
+	[disabled] & > .showOnLock {
+		display: block;
+	}
+	[disabled] &.hideOnLock,
+	[disabled] & > .hideOnLock {
+		display: none;
 	}
 
 	> .Areas { width: 145px; }
 	> .Stages { width: 160px; }
-	> .Location { width: auto; }
+	> .Location { width: 80px; }
 	> .Gear { width: auto; }
 	> .GearType { width: 90px; }
 	> .Stars { width: 20px; }
@@ -128,27 +162,43 @@ option {
 	> .ItemRarity { width: 75px; }
 	> .ChestRarity { width: 46px; }
 	> .GoalType { width: 20px; }
-	> .RewardType { width: 50px; }
+	> .EventName { width: 220px; }
+	> .RewardType { width: 70px; }
 	> .MonsterType { width: 40px; }
-	> .MonsterRace { width: 66px; }
-	> .MonsterFamily { width: 139px; }
+	> .MonsterRace { width: 70px; }
+	> .MonsterFamily { width: 160px; }
+	> .MonsterName { width: 180px; }
 
 	> .starsText { width: 61px; }
 	> .statName, > .difficulty { width: 80px; }
 	> .small3 { width: 40px; }
-	> .stat { width: 50px; }
+	> .Stat { width: 60px; }
 	> .lv { width: 31px; }
 	> .amount { width: 37px; }
 	> .goalAmount { width: 24px; }
-	> .MonsterName { width: 180px; }
+	.dropRarityStyle (@color: #FFF) {
+		border-color: lighten(@color, 40%);
+		color: lighten(@color, 40%);
+	}
+	> .CommonDrop { background-color: #000; border-color: #fff; color: #FFF; }
+	> .UncommonDrop { .dropRarityStyle(@color-blue); }
+	> .RareDrop { .dropRarityStyle(@color-gold); }
+	> .OreDrop { background-color: darken(@color-brown, 0); }
+	> .SpecialDrop { background: @color-gold; }
+	&[data-goal-type=Kill] > * { border-color: #F00; }
+	&[data-goal-type=Stealth] > * { border-color: #0F0; }
+	&[data-goal-type=Protect] > * { border-color: #0FF; }
+
+
 
 	&.block {
 		display: block;
+		margin-bottom: 2px;
 		> * {
 			width: 100% !important;
 			float: none;
 			+ * {
-				border-left: 1px solid #fff !important;
+				border-left: 1px solid #FFF !important;
 			}
 		}
 	}
@@ -175,7 +225,6 @@ option {
 	width: 100%;
 	padding: 0px;
 }
-
 
 #loading {
 	z-index: 20000;

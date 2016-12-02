@@ -77,14 +77,14 @@ var GH = new function () {
 
 	self.getOptions = function (tree = '') {
 		var options = JSON.parse(JSON.stringify(rootView.OPTIONS()));
-		tree && tree.split(DEFAULT_TREE_SEPERATOR).forEach((k)=>options = options[k]);
+		tree && tree.split(DEFAULT_TREE_SEPERATOR).forEach(k=>options = options[k]);
 		return options;
 	}
 	self.getData = function (dataType = '') {
-		return rootView.DATA[dataType];
+		return rootView.DATA[dataType] || rootView.DATA;
 	}
 	self.getLast = function (key) {
-		return rootView.LAST[key] || undefined;
+		return rootView.LAST[key] || rootView.LAST;
 	}
 	self.setLast = function (key, value) {
 		rootView.LAST[key] = value;
@@ -93,7 +93,7 @@ var GH = new function () {
 	self.findDuplicates = function (m1) {
 		var id = m1.id(),
 		    checkData = m1.getDuplicateCheckData();
-		return self.getData(m1.dataType)().filter((m2)=>
+		return self.getData(m1.dataType)().filter(m2=>
 			id != m2.id() &&
 			checkData == m2.getDuplicateCheckData()
 		);
@@ -101,6 +101,9 @@ var GH = new function () {
 
 	self.isNewOption = function (optionTree, value) {
 		return value !== '' && !self.getOptions(optionTree).includes(value);
+	}
+	self.showModel = function (model) {
+		rootView.showModel(model);
 	}
 	/**
 	 *
@@ -114,7 +117,7 @@ var GH = new function () {
 		if (!m1Identifier) return false;
 		var current = m1[m1Identifier]();
 		return current != '' &&
-			!(self.getData(m2DataType)().some((m2)=>current === m2[m2Identifier]()));
+			!(self.getData(m2DataType)().some(m2=>current === m2[m2Identifier]()));
 	}
 
 	self.padNumber = function (number, width = 4, padChar = '0') {
@@ -155,7 +158,7 @@ var GH = new function () {
 		localStorage.getItem(key) === null && localStorage.setItem(key, JSON.stringify({}))
 		localStorage.setItem(key, JSON.stringify(value))
 	}
-	self.getLocalStorage = (key)=>JSON.parse(localStorage.getItem(key) || '{}');
+	self.getLocalStorage = key=>JSON.parse(localStorage.getItem(key) || '{}');
 	self.clearLocalStorage = function (altMsg = false) {
 		!altMsg && (altMsg = "Are you sure you want to clear all saved Data?");
 		var dialog = BootstrapDialog.confirm({
@@ -166,6 +169,7 @@ var GH = new function () {
 			type:     BootstrapDialog.TYPE_WARNING,
 			callback: function (result) {
 				if (result) {
+					$(window).off();
 					localStorage.clear();
 					self.notify('Data cleared.');
 					location.reload();
@@ -176,21 +180,36 @@ var GH = new function () {
 	};
 
 	self.saveData = function () {
-		rootView.saveData();
+		rootView.sortData();
+		var saveData = {};
+		$.each(self.getData(), (dataType, data)=>saveData[dataType] = data().map(m=>m.export()));
+		GH.setLocalStorage('OPTIONS', self.getOptions());
+		GH.setLocalStorage('DATA', saveData);
+		GH.setLocalStorage('LAST', GH.getLast());
+		GH.setLocalStorage('FILTERS', rootView.FILTERS.export());
+		GH.notify('Data saved.');
 	};
 
-	self.notify = function (msg = '', type = 'success') {
-		// $.notify(
-		// 	msg,
-		// 	{
-		// 		type: type,
-		// 		delay: 2000,
-		// 		animate: {
-		// 			enter: 'animated fadeInDown',
-		// 			exit: 'animated fadeOutUp'
-		// 		}
-		// 	}
-		// );
+	self.notify = function (msg = '', title = undefined, type = 'success') {
+		toastr.options = {
+			"closeButton": false,
+			"debug": false,
+			"newestOnTop": false,
+			"progressBar": true,
+			"positionClass": "toast-top-right",
+			"preventDuplicates": true,
+			"onclick": null,
+			"showDuration": "300",
+			"hideDuration": "300",
+			"timeOut": "2000",
+			"extendedTimeOut": "1000",
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "slideDown",
+			"hideMethod": "slideUp"
+		}
+
+		toastr[type](msg, title)
 	}
 
 	return self;

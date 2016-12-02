@@ -8,36 +8,29 @@ function RewardModel(newData = {
 	var self  = this;
 	self.dataType = undefined;
 	var types = {
+		typeSwitch: {
+			'EXP':     ()=>self.name('EXP'),
+			'Col':     ()=>self.name('Col'),
+			'Item':    ()=>self.name('').amount(1),
+			'Gear':    ()=>self.name('').amount(1),
+			'LastHit': ()=>self.name('').amount(1),
+			'Chest':   ()=>self.name('Red').amount(1)
+		},
 		name:   {
-			'EXP':     ()=> {
-				self.name('EXP');
-				return false;
-			},
-			'Col':     ()=> {
-				self.name('Col');
-				return false;
-			},
-			'Item':    ()=> {self.name(''); return true;},
-			'Gear':    ()=> {return true;},
-			'LastHit': ()=> {return true;},
-			'Chest':   ()=> {return true;}
+			'EXP':     ()=>false,
+			'Col':     ()=>false,
+			'Item':    ()=>true,
+			'Gear':    ()=>true,
+			'LastHit': ()=>true,
+			'Chest':   ()=>true
 		},
 		amount: {
-			'EXP':     ()=> {return true;},
-			'Col':     ()=> {return true;},
-			'Item':    ()=> {return true;},
-			'Gear':    ()=> {
-				self.amount(1);
-				return false;
-			},
-			'LastHit': ()=> {
-				self.amount(1);
-				return false;
-			},
-			'Chest':   ()=> {
-				self.amount(1);
-				return false;
-			}
+			'EXP':     ()=>true,
+			'Col':     ()=>true,
+			'Item':    ()=>true,
+			'Gear':    ()=>false,
+			'LastHit': ()=>false,
+			'Chest':   ()=>false
 		},
 		preset: {
 			'Gear':    ()=>({name: self.name()}),
@@ -47,6 +40,8 @@ function RewardModel(newData = {
 	};
 
 	self.type       = ko.observable(newData.type);
+	self.switchType = ()=>types.typeSwitch[self.getType()]();
+
 	self.getType = ()=>{
 		switch (self.type()) {
 			case 'Gear':
@@ -87,7 +82,7 @@ function RewardModel(newData = {
 
 	self.isNewGear   = ko.pureComputed(()=> {
 		var curName   = self.name();
-		var isNew = !(GH.getData('gear')().some((m)=>m.name() === curName));
+		var isNew = !(GH.getData('gear')().some(m=>m.name() === curName));
 		return curName !== '' && isNew;
 	});
 
@@ -104,6 +99,10 @@ function RewardModel(newData = {
 		rootView.OPTIONS(OPTIONS);
 		rootView.saveData();
 	};
+
+	self.showGear = function () {
+		GH.findByName('gear', self.name()).forEach(r=>rootView.showModel(r.model))
+	}
 
 	self.getTmpPreset = ()=>types.preset[self.getType()]();
 

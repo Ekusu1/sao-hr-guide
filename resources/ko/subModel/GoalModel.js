@@ -31,11 +31,13 @@ function GoalModel(newData = {
 		return types[self.type()]();
 	});
 
+	self.showMonster = ()=>GH.findByName('monster', self.name()).forEach(r=>rootView.showModel(r.model));
+
 	self.listGoalType = ["Kill", "Protect", "Stealth"];
 
 	self.isNew = ko.computed(()=> {
 		var curMonster   = self.name();
-		var isNewMonster = !GH.getData('monster')().some((m)=>m.name() === curMonster);
+		var isNewMonster = !GH.getData('monster')().some(m=>m.name() === curMonster);
 		return curMonster !== '' && isNewMonster;
 	});
 

@@ -62,37 +62,45 @@ function GearModel(newData = {
 		return text.length > 0 ? text : '-';
 	});
 
-	self.effects        = ko.observableArray(newData.effects.map((data)=>new EffectModel(data)));
+	self.effects        = ko.observableArray(newData.effects.map(data=>new EffectModel(data)));
 	self.groupedEffects = ko.pureComputed(()=> {
 		var grouped = {
 			base:       [],
 			resistance: [],
 			other:      []
 		};
-		self.effects().forEach((stat)=> {
+		self.effects().forEach(effect=> {
 			var baseStats       = ['ATK', 'DEF', 'HP', 'SP', 'STR', 'VIT', 'AGI', 'DEX'],
 			    resistanceStats = [
 				    'Slashing', 'Thrusting', 'Crushing', 'Knockdown', 'Stun', 'Numb', 'Poison', 'Bleed', 'Physical',
 				    'Soul', 'Debuff'
 			    ];
 
-			if (baseStats.includes(stat.name())) {
-				grouped.base.push(stat);
-			} else if (resistanceStats.includes(stat.name())) {
-				grouped.resistance.push(stat);
+			if (baseStats.includes(effect.name())) {
+				grouped.base.push(effect);
+			} else if (resistanceStats.includes(effect.name())) {
+				grouped.resistance.push(effect);
 			} else {
-				grouped.other.push(stat);
+				grouped.other.push(effect);
 			}
 		});
 		return grouped;
 	});
 	self.addEffect      = ()=>self.effects.push(new EffectModel());
-	self.removeEffect   = (effect)=>self.effects.remove(effect);
+	self.removeEffect   = effect=>self.effects.remove(effect);
 
-	self.transformedFrom      = ko.observable(newData.transformedFrom);
-	self.transformations      = ko.observableArray(newData.transformations.map((data)=>new TransformationModel(data, self)));
+
+	self.transformedFrom      = ko.observable(newData.transformedFrom || '');
+	self.transformations      = ko.observableArray(newData.transformations.map(data=>new TransformationModel(data, self)));
+	self.transformable = ko.pureComputed(()=>self.transformedFrom() !== '' || self.transformations().length > 0);
 	self.addTransformation    = ()=>self.transformations.push(new TransformationModel(undefined, self));
-	self.removeTransformation = (transformation)=>self.transformations.remove(transformation);
+	self.removeTransformation = transformation=>self.transformations.remove(transformation);
+
+	self.showTransformedFrom = function () {
+		var gear = GH.findByName('gear', self.transformedFrom());
+		gear.push({model: self});
+		gear.forEach(r=>rootView.showModel(r.model))
+	}
 
 	//region require
 	self.getDuplicateCheckData = ko.computed(()=>[
@@ -107,14 +115,22 @@ function GearModel(newData = {
 
 	self.mediaCss = ko.pureComputed(()=>`bg-${self.rarity().toLowerCase()} ${self.isDuplicate() ? 'duplicateModel' : ''} ${self.additionalCss()} ${self.hasMissingData() ? 'hasMissingData' : ''}`);
 
+	self.filter = function (filter) {
+		var results = []
+		filter.gearType !== undefined && results.push(self.type() == filter.gearType);
+		filter.gearType == '' && results.push(true);
+		filter.onlyTransformableGear !== undefined && results.push(self.transformable() == filter.onlyTransformableGear);
+		return results.every(r=>r === true);
+	}
+
 	self.export = ()=>({
 		name:            self.name(),
 		type:            self.type(),
 		rarity:          self.rarity(),
 		stars:           self.stars(),
 		transformedFrom: self.transformedFrom(),
-		transformations: self.transformations().map((m)=>m.export()),
-		effects:         self.effects().map((m)=>m.export())
+		transformations: self.transformations().map(m=>m.export()),
+		effects:         self.effects().map(m=>m.export())
 	});
 	//endregion
 	//region required bottom
