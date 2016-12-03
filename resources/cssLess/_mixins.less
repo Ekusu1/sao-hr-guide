@@ -9,14 +9,14 @@
 }
 
 .bgs-mixin() {
-	&.bg-common { background: @color-normal; }
-	&.bg-uncommon { background: @color-purple; }
+	&.bg-common, &.bg-monster-m, &.bg-monster-ms { background: @color-normal; }
+	&.bg-uncommon, &.bg-event-boss, &.bg-monster-snm, &.bg-monster-boss { background: @color-purple; }
 	&.bg-blue, &.bg-rare { background: @color-blue; }
-	&.bg-exotic { background: @color-green; }
-	&.bg-gold, &.bg-legendary { background: @color-gold; }
+	&.bg-green, &.bg-exotic, &.bg-event-normal { background: @color-green; }
+	&.bg-gold, &.bg-legendary, &.bg-event-gold, &.bg-monster-hnm { background: @color-gold; }
 	&.bg-brown { background: @color-brown; }
-	&.bg-red { background: @color-red; }
-	&.bg-silver { background: @color-silver; }
+	&.bg-red, &.bg-monster-nm { background: @color-red; }
+	&.bg-silver, &.bg-event-silver { background: @color-silver; }
 }
 
 .padding-mix (@prefix, @suffix, @value) {

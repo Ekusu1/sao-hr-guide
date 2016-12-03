@@ -129,7 +129,11 @@ function RootViewModel() {
 	self.createBlacksmith       = ()=>addNewDialog('blacksmiths', {});
 	self.createPresetModel   = m=>addNewDialog(m.dataType, m.getTmpPreset(), 'new');
 	self.cloneModel          = m=>addNewDialog(m.dataType, m.export(), 'clone');
-	self.loadOriginalModel   = m=>self.tmpModels.replace(m, GH.findDuplicates(m)[0].locked(false).isTmp(true).additionalCss('showModel'));
+	self.loadOriginalModel   = m=>{
+		var result = GH.findDuplicates(m)[0].locked(false).isTmp(true).additionalCss('showModel');
+		self.tmpModels.replace(m, result);
+		return result;
+	};
 	self.showModel           = m=>addNewDialog(m.dataType, {}, 'show', m);
 	self.showDuplicateModels = m1=> {
 		var duplicates = GH.findDuplicates(m1);

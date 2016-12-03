@@ -295,30 +295,41 @@ option[value=Gold] {
 .inputBox.noBorder > * {
   border: none !important;
 }
-.inputBox > *.bg-common {
+.inputBox > *.bg-common,
+.inputBox > *.bg-monster-m,
+.inputBox > *.bg-monster-ms {
   background: #1a1a1a;
 }
-.inputBox > *.bg-uncommon {
+.inputBox > *.bg-uncommon,
+.inputBox > *.bg-event-boss,
+.inputBox > *.bg-monster-snm,
+.inputBox > *.bg-monster-boss {
   background: #660066;
 }
 .inputBox > *.bg-blue,
 .inputBox > *.bg-rare {
   background: #004466;
 }
-.inputBox > *.bg-exotic {
+.inputBox > *.bg-green,
+.inputBox > *.bg-exotic,
+.inputBox > *.bg-event-normal {
   background: #006600;
 }
 .inputBox > *.bg-gold,
-.inputBox > *.bg-legendary {
+.inputBox > *.bg-legendary,
+.inputBox > *.bg-event-gold,
+.inputBox > *.bg-monster-hnm {
   background: #666600;
 }
 .inputBox > *.bg-brown {
   background: #663300;
 }
-.inputBox > *.bg-red {
+.inputBox > *.bg-red,
+.inputBox > *.bg-monster-nm {
   background: #660000;
 }
-.inputBox > *.bg-silver {
+.inputBox > *.bg-silver,
+.inputBox > *.bg-event-silver {
   background: #666666;
 }
 .size-extra-wide .modal-dialog {
@@ -389,30 +400,41 @@ option[value=Gold] {
 .media:hover .media-actions {
   opacity: 1;
 }
-.media.bg-common {
+.media.bg-common,
+.media.bg-monster-m,
+.media.bg-monster-ms {
   background: #1a1a1a;
 }
-.media.bg-uncommon {
+.media.bg-uncommon,
+.media.bg-event-boss,
+.media.bg-monster-snm,
+.media.bg-monster-boss {
   background: #660066;
 }
 .media.bg-blue,
 .media.bg-rare {
   background: #004466;
 }
-.media.bg-exotic {
+.media.bg-green,
+.media.bg-exotic,
+.media.bg-event-normal {
   background: #006600;
 }
 .media.bg-gold,
-.media.bg-legendary {
+.media.bg-legendary,
+.media.bg-event-gold,
+.media.bg-monster-hnm {
   background: #666600;
 }
 .media.bg-brown {
   background: #663300;
 }
-.media.bg-red {
+.media.bg-red,
+.media.bg-monster-nm {
   background: #660000;
 }
-.media.bg-silver {
+.media.bg-silver,
+.media.bg-event-silver {
   background: #666666;
 }
 .media.newModel {

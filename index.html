@@ -475,6 +475,10 @@
 							<button type="button" class="inputBtn btn-info" title="load original model" data-bind="click: $root.loadOriginalModel">
 								<i class="fa fa-edit"></i>
 							</button>
+							<button type="button" class="inputBtn btn-info" title="load original model" data-bind="click: loadMonsterAddLocation">
+								<i class="fa fa-edit"></i>
+								<i class="fa fa-sign-in"></i>
+							</button>
 						<!-- /ko -->
 					</div>
 				</div>
@@ -494,15 +498,16 @@
 						</div>
 						<br>
 					<!-- /ko -->
-					<div class="inputBox">
-						<input type="text" class="ItemMaterial hideOnLock" list="listItemMaterial" placeholder="Drop" data-bind="textInput: dropToAdd"/>
+					<div class="inputBox hasHeader hideOnLock">
+						<header>Drop to add</header>
+						<input type="text" class="ItemMaterial" list="listItemMaterial" placeholder="Drop" data-bind="textInput: dropToAdd"/>
 						<span type="button" tabindex="0" class="inputBtn btn-success showOnLock" data-bind="visible: isNewMaterial(), click: addNewMaterial">
 							<i class="fa fa-sign-in"></i>
 						</span>
 						<button type="button" class="inputBtn btn-primary" title="add" data-bind="click: addDrop">
 							<i class="fa fa-plus"></i>
 						</button>
-						<button type="button" class="inputBtn btn-primary showOnLock" title="add all race drops" data-bind="click: addRaceDrops, visible: hasMissingRaceDrop()">
+						<button type="button" class="inputBtn btn-primary" title="add all race drops" data-bind="click: addRaceDrops, visible: hasMissingRaceDrop()">
 							<i class="fa fa-plus"></i>
 							<i class="fa fa-plus"></i>
 						</button>
@@ -577,9 +582,11 @@
 		</label>
 	</h4>
 	<div data-bind="visible: gearTypeActive()">
-		<div class="inputBox">
+		<div class="inputBox hasHeader">
+			<header>Gear Type</header>
 			<select class="GearType" data-bind="options: $root.OPTIONS().itemTypeGear, value: gearType, valueAllowUnset: true"></select>
 		</div>
+		<br>
 		<div class="inputBox">
 			<span class="inputName">Only transformable gear</span>
 			<label type="button" class="inputBtn">

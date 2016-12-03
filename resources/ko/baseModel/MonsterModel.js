@@ -29,9 +29,12 @@ function MonsterModel(newData = {
 		self.name()
 	].join('|'));
 
-	self.locations      = ko.observableArray(newData.locations.map(data=>new LocationModel(data)));
-	self.addLocation    = ()=>self.locations.push(new LocationModel());
-	self.sortLocations  = function (location) {
+	self.locations     = ko.observableArray(newData.locations.map(data=>new LocationModel(data)));
+	self.addLocation   = ()=>{
+		self.locations.push(new LocationModel());
+		self.sortLocations();
+	};
+	self.sortLocations = function (location) {
 		self.locations.sort((a, b)=> {
 			a = GH.getSortNumber('stages', a.stage());
 			b = GH.getSortNumber('stages', b.stage());
@@ -58,22 +61,22 @@ function MonsterModel(newData = {
 
 	function hasDrop(drop) { return self.drops().includes(drop) }
 
-	self.drops              = ko.observableArray(newData.drops);
+	self.drops = ko.observableArray(newData.drops);
 	cleanupDrops();
 	self.dropToAdd          = ko.observable(getRaceDropPrefix());
 	self.hasMissingRaceDrop = ko.computed(()=>getRaceDrops().some(drop=>!hasDrop(drop)));
-	self.dropRarity = drop=> {
+	self.dropRarity         = drop=> {
 		var result = 'CommonDrop';
-		$.each(GH.getOptions('dropRarity'), (rarity, drops)=>{
+		$.each(GH.getOptions('dropRarity'), (rarity, drops)=> {
 			if (drops.includes(drop)) {
-				result = rarity+"Drop";
+				result = rarity + "Drop";
 				GH.getOptions('itemOre').includes(drop) && (result += " OreDrop");
 				return false;
 			}
 		});
 		return result;
 	};
-	self.dropInRaceDrops = drop=>getRaceDrops().includes(drop);
+	self.dropInRaceDrops    = drop=>getRaceDrops().includes(drop);
 	self.addRaceDrops       = ()=> {
 		getRaceDrops().forEach(drop=>!hasDrop(drop) && self.drops.push(drop));
 		cleanupDrops();
@@ -109,8 +112,12 @@ function MonsterModel(newData = {
 		self.family() == ''
 	);
 
+	self.loadMonsterAddLocation = function () {
+		rootView.loadOriginalModel(self).addLocation();
+	}
+
 	self.additionalCss = ko.observable('');
-	self.mediaCss      = ko.pureComputed(()=>`${self.isDuplicate() ? 'duplicateModel' : ''} ${self.additionalCss()} ${self.hasMissingData() ? 'hasMissingData' : ''}`);
+	self.mediaCss      = ko.pureComputed(()=>`bg-monster-${self.type().toLowerCase()} ${self.isDuplicate() ? 'duplicateModel' : ''} ${self.additionalCss()} ${self.hasMissingData() ? 'hasMissingData' : ''}`);
 
 	self.filter = function (filter) {
 		if (filter.location !== undefined) {
