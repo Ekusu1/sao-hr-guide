@@ -1,7 +1,7 @@
 var OPTIONS = {
 	sort:                  {
 		stages:      {
-			"":                             9999,
+			"":                             "ZZZ",
 			"Teleport Gate Plaza":          1,
 			"Market Street":                2,
 			"Lakeside Park":                3,
@@ -91,7 +91,7 @@ var OPTIONS = {
 			"Unfinished Depths":            87
 		},
 		itemType:    {
-			"":         9999,
+			"":         "ZZZ",
 			"1H Sword": 1,
 			Rapier:     2,
 			Scimitar:   3,
@@ -118,9 +118,9 @@ var OPTIONS = {
 			Event:      24,
 			"ADD-ON":   25
 		},
-		itemRarity:  {"": 9999, Common: 1, Uncommon: 2, Rare: 3, Exotic: 4, Legendary: 5},
-		chestRarity: {"": 9999, Brown: 1, Blue: 2, Red: 3, Silver: 4, Gold: 5},
-		monsterType: {"": 9999, M: 1, MS: 2, NM: 3, HNM: 4, SNM: 5, Boss: 6}
+		itemRarity:  {"": "ZZZ", Common: 1, Uncommon: 2, Rare: 3, Exotic: 4, Legendary: 5},
+		chestRarity: {"": "ZZZ", Brown: 1, Blue: 2, Red: 3, Silver: 4, Gold: 5},
+		monsterType: {"": "ZZZ", M: 1, MS: 2, NM: 3, HNM: 4, SNM: 5, Boss: 6}
 	},
 	areas:                 [
 		"", "Town of Beginnings", "Great Plains of Rustoria", "Great Forest of Oldrobe", "Jeweled Peaks Lakes",
@@ -5151,13 +5151,13 @@ var DATA    = {
 		}, {
 			location: {area: "Great Plains of Rustoria", stage: "Phoeniath Knoll"},
 			rarity:   "Red",
-			where:    "Stage Boss",
-			item:     "Vulcan Blade"
+			where:    "Events",
+			item:     "Celestial Fleuret"
 		}, {
 			location: {area: "Great Plains of Rustoria", stage: "Phoeniath Knoll"},
 			rarity:   "Red",
-			where:    "Events",
-			item:     "Celestial Fleuret"
+			where:    "Stage Boss",
+			item:     "Vulcan Blade"
 		}, {
 			location: {area: "Great Plains of Rustoria", stage: "Phoeniath Knoll"},
 			rarity:   "Gold",
@@ -5168,14 +5168,14 @@ var DATA    = {
 			rarity:   "Brown",
 			where:    "Right",
 			item:     "Aegis Guard"
-		}, {
+		},
+		{location: {area: "Great Plains of Rustoria", stage: "Centallia Rise"}, rarity: "Blue", where: "Top", item: ""},
+		{
 			location: {area: "Great Plains of Rustoria", stage: "Centallia Rise"},
 			rarity:   "Blue",
 			where:    "Bottom",
 			item:     "Jinn Waistcoat"
-		},
-		{location: {area: "Great Plains of Rustoria", stage: "Centallia Rise"}, rarity: "Blue", where: "Top", item: ""},
-		{
+		}, {
 			location: {area: "Great Plains of Rustoria", stage: "Centallia Rise"},
 			rarity:   "Red",
 			where:    "Stage Boss",
@@ -5198,18 +5198,18 @@ var DATA    = {
 		}, {
 			location: {area: "Great Plains of Rustoria", stage: "Lake Steschal"},
 			rarity:   "Blue",
+			where:    "Right",
+			item:     "Royal Bangle"
+		}, {
+			location: {area: "Great Plains of Rustoria", stage: "Lake Steschal"},
+			rarity:   "Blue",
+			where:    "Right",
+			item:     "Royal Bangle"
+		}, {
+			location: {area: "Great Plains of Rustoria", stage: "Lake Steschal"},
+			rarity:   "Blue",
 			where:    "Left",
 			item:     "Freye's Charm"
-		}, {
-			location: {area: "Great Plains of Rustoria", stage: "Lake Steschal"},
-			rarity:   "Blue",
-			where:    "Right",
-			item:     "Royal Bangle"
-		}, {
-			location: {area: "Great Plains of Rustoria", stage: "Lake Steschal"},
-			rarity:   "Blue",
-			where:    "Right",
-			item:     "Royal Bangle"
 		}, {
 			location: {area: "Great Plains of Rustoria", stage: "Lake Steschal"},
 			rarity:   "Red",
@@ -5223,32 +5223,32 @@ var DATA    = {
 		}, {
 			location: {area: "Great Plains of Rustoria", stage: "Tremseine Highlands"},
 			rarity:   "Blue",
-			where:    "Left",
-			item:     "Ebon Chain"
-		}, {
-			location: {area: "Great Plains of Rustoria", stage: "Tremseine Highlands"},
-			rarity:   "Blue",
 			where:    "Right",
 			item:     ""
 		}, {
 			location: {area: "Great Plains of Rustoria", stage: "Tremseine Highlands"},
-			rarity:   "Red",
-			where:    "Events",
-			item:     "Enyoto"
+			rarity:   "Blue",
+			where:    "Left",
+			item:     "Ebon Chain"
 		}, {
 			location: {area: "Great Plains of Rustoria", stage: "Tremseine Highlands"},
 			rarity:   "Red",
 			where:    "Stage Boss",
 			item:     "Trident"
 		}, {
-			location: {area: "Great Plains of Rustoria", stage: "Pazirius Wildwood"},
-			rarity:   "Blue",
-			where:    "Left",
-			item:     ""
+			location: {area: "Great Plains of Rustoria", stage: "Tremseine Highlands"},
+			rarity:   "Red",
+			where:    "Events",
+			item:     "Enyoto"
 		}, {
 			location: {area: "Great Plains of Rustoria", stage: "Pazirius Wildwood"},
 			rarity:   "Blue",
 			where:    "Right",
+			item:     ""
+		}, {
+			location: {area: "Great Plains of Rustoria", stage: "Pazirius Wildwood"},
+			rarity:   "Blue",
+			where:    "Left",
 			item:     ""
 		}, {
 			location: {area: "Great Plains of Rustoria", stage: "Pazirius Wildwood"},
@@ -5263,13 +5263,13 @@ var DATA    = {
 		}, {
 			location: {area: "Great Forest of Oldrobe", stage: "Mee Forest"},
 			rarity:   "Brown",
-			where:    "Bottom",
-			item:     "Flame Runner"
+			where:    "Top",
+			item:     "Enabled Armor"
 		}, {
 			location: {area: "Great Forest of Oldrobe", stage: "Mee Forest"},
 			rarity:   "Brown",
-			where:    "Top",
-			item:     "Enabled Armor"
+			where:    "Bottom",
+			item:     "Flame Runner"
 		}, {
 			location: {area: "Great Forest of Oldrobe", stage: "Mee Forest"},
 			rarity:   "Blue",
@@ -5343,13 +5343,13 @@ var DATA    = {
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "One Fall Cataract"},
 			rarity:   "Red",
-			where:    "Events",
-			item:     "Hail Chopper"
+			where:    "Stage Boss",
+			item:     "Stone Carver"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "One Fall Cataract"},
 			rarity:   "Red",
-			where:    "Stage Boss",
-			item:     "Stone Carver"
+			where:    "Events",
+			item:     "Hail Chopper"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Marceiville Water Caves"},
 			rarity:   "Brown",
@@ -5413,13 +5413,13 @@ var DATA    = {
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Paffati Hall"},
 			rarity:   "Red",
-			where:    "",
-			item:     "Howling Beater"
+			where:    "Stage Boss",
+			item:     "Ukide-Gumo"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Paffati Hall"},
 			rarity:   "Red",
-			where:    "Stage Boss",
-			item:     "Ukide-Gumo"
+			where:    "",
+			item:     "Howling Beater"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Ellaider Geothermal Lake"},
 			rarity:   "Brown",
@@ -5443,13 +5443,13 @@ var DATA    = {
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Tribei Feireese Lake Way"},
 			rarity:   "Brown",
-			where:    "Bottom",
-			item:     "Desperado Boots"
+			where:    "Top",
+			item:     "Fractal Leggings"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Tribei Feireese Lake Way"},
 			rarity:   "Brown",
-			where:    "Top",
-			item:     "Fractal Leggings"
+			where:    "Bottom",
+			item:     "Desperado Boots"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Tribei Feireese Lake Way"},
 			rarity:   "Red",
@@ -5463,18 +5463,13 @@ var DATA    = {
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Cranvede Path"},
 			rarity:   "Brown",
-			where:    "Bottom",
-			item:     "General Greaves"
-		}, {
-			location: {area: "Jeweled Peaks Lakes", stage: "Cranvede Path"},
-			rarity:   "Brown",
 			where:    "Top",
 			item:     "Steadfast Leggings"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Cranvede Path"},
-			rarity:   "Blue",
-			where:    "Left",
-			item:     "Wise Bracelet"
+			rarity:   "Brown",
+			where:    "Bottom",
+			item:     "General Greaves"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Cranvede Path"},
 			rarity:   "Blue",
@@ -5482,14 +5477,19 @@ var DATA    = {
 			item:     "Daydream Ank"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Cranvede Path"},
-			rarity:   "Red",
-			where:    "Events",
-			item:     "Calm Foil"
+			rarity:   "Blue",
+			where:    "Left",
+			item:     "Wise Bracelet"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Cranvede Path"},
 			rarity:   "Red",
 			where:    "Stage Boss",
 			item:     "Flexed Edge"
+		}, {
+			location: {area: "Jeweled Peaks Lakes", stage: "Cranvede Path"},
+			rarity:   "Red",
+			where:    "Events",
+			item:     "Calm Foil"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Shangil Reservoir"},
 			rarity:   "Brown",
@@ -5528,13 +5528,13 @@ var DATA    = {
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Cedol Lake"},
 			rarity:   "Blue",
-			where:    "Bottom",
-			item:     "Euphoria Ring"
+			where:    "Top",
+			item:     "Phantasm Belt"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Cedol Lake"},
 			rarity:   "Blue",
-			where:    "Top",
-			item:     "Phantasm Belt"
+			where:    "Bottom",
+			item:     "Euphoria Ring"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "Cedol Lake"},
 			rarity:   "Red",
@@ -5573,13 +5573,13 @@ var DATA    = {
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: W. Garden"},
 			rarity:   "Blue",
-			where:    "Right",
-			item:     "Tranquiliezer"
+			where:    "Left",
+			item:     "Power Armlet"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: W. Garden"},
 			rarity:   "Blue",
-			where:    "Left",
-			item:     "Power Armlet"
+			where:    "Right",
+			item:     "Tranquiliezer"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: W. Garden"},
 			rarity:   "Red",
@@ -5598,13 +5598,13 @@ var DATA    = {
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: E. Garden"},
 			rarity:   "Brown",
-			where:    "Right",
-			item:     "Chivalry Coat"
+			where:    "Left",
+			item:     "Clockwork Armor"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: E. Garden"},
 			rarity:   "Brown",
-			where:    "Left",
-			item:     "Clockwork Armor"
+			where:    "Right",
+			item:     "Chivalry Coat"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: E. Garden"},
 			rarity:   "Blue",
@@ -5633,13 +5633,13 @@ var DATA    = {
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: N. Garden"},
 			rarity:   "Brown",
-			where:    "Top",
-			item:     "Mithril Leggings"
+			where:    "Bottom",
+			item:     "Mithril Plate"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: N. Garden"},
 			rarity:   "Brown",
-			where:    "Bottom",
-			item:     "Mithril Plate"
+			where:    "Top",
+			item:     "Mithril Leggings"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: N. Garden"},
 			rarity:   "Blue",
@@ -5658,13 +5658,13 @@ var DATA    = {
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: S. Garden"},
 			rarity:   "Brown",
-			where:    "Top",
-			item:     "Banishing Coat"
+			where:    "Bottom",
+			item:     "Akashic Boots"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: S. Garden"},
 			rarity:   "Brown",
-			where:    "Bottom",
-			item:     "Akashic Boots"
+			where:    "Top",
+			item:     "Banishing Coat"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: S. Garden"},
 			rarity:   "Blue",
@@ -5678,13 +5678,13 @@ var DATA    = {
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: S. Garden"},
 			rarity:   "Red",
-			where:    "Events",
-			item:     "Innocent Shell"
+			where:    "Stage Boss",
+			item:     "Raptor Blade"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: S. Garden"},
 			rarity:   "Red",
-			where:    "Stage Boss",
-			item:     "Raptor Blade"
+			where:    "Events",
+			item:     "Innocent Shell"
 		}, {
 			location: {area: "Jeweled Peaks Lakes", stage: "La Fastille: S. Garden"},
 			rarity:   "Silver",
@@ -5722,28 +5722,27 @@ var DATA    = {
 			rarity:   "Silver",
 			where:    "Event Chain",
 			item:     "Mythologia's Ear Hoop"
-		}, {
+		},
+		{location: {area: "Kurjiez Desert", stage: "Alle Fioro"}, rarity: "Brown", where: "Top", item: "Gemini Coat"}, {
 			location: {area: "Kurjiez Desert", stage: "Alle Fioro"},
 			rarity:   "Brown",
 			where:    "Bottom",
 			item:     "Gemini Sandals"
-		},
-		{location: {area: "Kurjiez Desert", stage: "Alle Fioro"}, rarity: "Brown", where: "Top", item: "Gemini Coat"},
-		{location: {area: "Kurjiez Desert", stage: "Alle Fioro"}, rarity: "Blue", where: "Bottom", item: ""}, {
+		}, {
 			location: {area: "Kurjiez Desert", stage: "Alle Fioro"},
 			rarity:   "Blue",
 			where:    "Top",
 			item:     "Talisman of Eternal Joy"
+		}, {location: {area: "Kurjiez Desert", stage: "Alle Fioro"}, rarity: "Blue", where: "Bottom", item: ""}, {
+			location: {area: "Kurjiez Desert", stage: "Alle Fioro"},
+			rarity:   "Red",
+			where:    "Events",
+			item:     "Heavy Slasher"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Alle Fioro"},
 			rarity:   "Red",
 			where:    "Stage Boss",
 			item:     "Shell Buckler"
-		}, {
-			location: {area: "Kurjiez Desert", stage: "Alle Fioro"},
-			rarity:   "Red",
-			where:    "Events",
-			item:     "Heavy Slasher"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Northern Ultana Desert"},
 			rarity:   "Brown",
@@ -5755,8 +5754,8 @@ var DATA    = {
 			where:    "Right",
 			item:     "Jewelry Bangle"
 		},
-		{location: {area: "Kurjiez Desert", stage: "Northern Ultana Desert"}, rarity: "Blue", where: "Left", item: ""},
 		{location: {area: "Kurjiez Desert", stage: "Northern Ultana Desert"}, rarity: "Blue", where: "Right", item: ""},
+		{location: {area: "Kurjiez Desert", stage: "Northern Ultana Desert"}, rarity: "Blue", where: "Left", item: ""},
 		{
 			location: {area: "Kurjiez Desert", stage: "Northern Ultana Desert"},
 			rarity:   "Red",
@@ -5785,19 +5784,19 @@ var DATA    = {
 			rarity:   "Brown",
 			where:    "Right",
 			item:     "Blast Leggings"
-		}, {location: {area: "Kurjiez Desert", stage: "Ruel Wellspring"}, rarity: "Blue", where: "Left", item: ""},
-		{location: {area: "Kurjiez Desert", stage: "Ruel Wellspring"}, rarity: "Blue", where: "Right", item: ""}, {
+		}, {location: {area: "Kurjiez Desert", stage: "Ruel Wellspring"}, rarity: "Blue", where: "Right", item: ""},
+		{location: {area: "Kurjiez Desert", stage: "Ruel Wellspring"}, rarity: "Blue", where: "Left", item: ""}, {
 			location: {area: "Kurjiez Desert", stage: "Ruel Wellspring"},
 			rarity:   "Red",
 			where:    "Stage Boss",
 			item:     "Ravenous Saber"
-		}, {
+		}, {location: {area: "Kurjiez Desert", stage: "Bana'varon Wastes"}, rarity: "Blue", where: "Bottom", item: ""},
+		{
 			location: {area: "Kurjiez Desert", stage: "Bana'varon Wastes"},
 			rarity:   "Blue",
 			where:    "Top",
 			item:     "Precious Metal Pendant"
-		}, {location: {area: "Kurjiez Desert", stage: "Bana'varon Wastes"}, rarity: "Blue", where: "Bottom", item: ""},
-		{
+		}, {
 			location: {area: "Kurjiez Desert", stage: "Bana'varon Wastes"},
 			rarity:   "Red",
 			where:    "Stage Boss",
@@ -5805,23 +5804,23 @@ var DATA    = {
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Garoon Sandstone Tunel"},
 			rarity:   "Brown",
-			where:    "Bottom",
-			item:     "Sapphire Earring"
-		}, {
-			location: {area: "Kurjiez Desert", stage: "Garoon Sandstone Tunel"},
-			rarity:   "Brown",
 			where:    "Top",
 			item:     "Hiking Boots"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Garoon Sandstone Tunel"},
-			rarity:   "Blue",
+			rarity:   "Brown",
 			where:    "Bottom",
-			item:     ""
+			item:     "Sapphire Earring"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Garoon Sandstone Tunel"},
 			rarity:   "Blue",
 			where:    "Top",
 			item:     "Snipe Armlet"
+		}, {
+			location: {area: "Kurjiez Desert", stage: "Garoon Sandstone Tunel"},
+			rarity:   "Blue",
+			where:    "Bottom",
+			item:     ""
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Garoon Sandstone Tunel"},
 			rarity:   "Red",
@@ -5832,9 +5831,9 @@ var DATA    = {
 			rarity:   "Red",
 			where:    "Events",
 			item:     "Evil Talwar"
-		}, {location: {area: "Kurjiez Desert", stage: "Gebuerno"}, rarity: "Brown", where: "Left", item: "Ghost Aside"},
+		},
 		{location: {area: "Kurjiez Desert", stage: "Gebuerno"}, rarity: "Brown", where: "Right", item: "Last Guardian"},
-		{
+		{location: {area: "Kurjiez Desert", stage: "Gebuerno"}, rarity: "Brown", where: "Left", item: "Ghost Aside"}, {
 			location: {area: "Kurjiez Desert", stage: "Gebuerno"},
 			rarity:   "Blue",
 			where:    "Left",
@@ -5865,13 +5864,13 @@ var DATA    = {
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Trie Modragal Pass"},
 			rarity:   "Brown",
-			where:    "Top",
-			item:     "Lifegiver"
+			where:    "Bottom",
+			item:     "The Chariot"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Trie Modragal Pass"},
 			rarity:   "Brown",
-			where:    "Bottom",
-			item:     "The Chariot"
+			where:    "Top",
+			item:     "Lifegiver"
 		}, {location: {area: "Kurjiez Desert", stage: "Trie Modragal Pass"}, rarity: "Blue", where: "Top", item: ""},
 		{location: {area: "Kurjiez Desert", stage: "Trie Modragal Pass"}, rarity: "Blue", where: "Bottom", item: ""}, {
 			location: {area: "Kurjiez Desert", stage: "Trie Modragal Pass"},
@@ -5916,13 +5915,13 @@ var DATA    = {
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Calt Blanc Way (BL)"},
 			rarity:   "Brown",
-			where:    "Bottom",
-			item:     "Loam Spirit's Greaves"
+			where:    "Top",
+			item:     "Stardust Earring"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Calt Blanc Way (BL)"},
 			rarity:   "Brown",
-			where:    "Top",
-			item:     "Stardust Earring"
+			where:    "Bottom",
+			item:     "Loam Spirit's Greaves"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Calt Blanc Way (BL)"},
 			rarity:   "Blue",
@@ -5936,13 +5935,13 @@ var DATA    = {
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Calt Blanc Way (BL)"},
 			rarity:   "Red",
-			where:    "Stage Boss",
-			item:     "Blade of Pain"
+			where:    "Events",
+			item:     "Midnight Spear"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Calt Blanc Way (BL)"},
 			rarity:   "Red",
-			where:    "Events",
-			item:     "Midnight Spear"
+			where:    "Stage Boss",
+			item:     "Blade of Pain"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Calt Blanc Way (BL)"},
 			rarity:   "Gold",
@@ -5961,33 +5960,33 @@ var DATA    = {
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Calt Blanc Way (BR)"},
 			rarity:   "Blue",
-			where:    "Left",
-			item:     "Southern Cross Chain"
-		}, {
-			location: {area: "Kurjiez Desert", stage: "Calt Blanc Way (BR)"},
-			rarity:   "Blue",
 			where:    "Right",
 			item:     "Epitaph Ring"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Calt Blanc Way (BR)"},
-			rarity:   "Red",
-			where:    "Events",
-			item:     "Blood Stealer"
+			rarity:   "Blue",
+			where:    "Left",
+			item:     "Southern Cross Chain"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "Calt Blanc Way (BR)"},
 			rarity:   "Red",
 			where:    "Stage Boss",
 			item:     "Jail Slicer"
 		}, {
-			location: {area: "Kurjiez Desert", stage: "AdelzandeTower: Below"},
-			rarity:   "Brown",
-			where:    "Right",
-			item:     "Ancient Leggings"
+			location: {area: "Kurjiez Desert", stage: "Calt Blanc Way (BR)"},
+			rarity:   "Red",
+			where:    "Events",
+			item:     "Blood Stealer"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "AdelzandeTower: Below"},
 			rarity:   "Brown",
 			where:    "Left",
 			item:     "Zealot's Soles"
+		}, {
+			location: {area: "Kurjiez Desert", stage: "AdelzandeTower: Below"},
+			rarity:   "Brown",
+			where:    "Right",
+			item:     "Ancient Leggings"
 		},
 		{location: {area: "Kurjiez Desert", stage: "AdelzandeTower: Below"}, rarity: "Blue", where: "Right", item: ""},
 		{
@@ -5998,20 +5997,20 @@ var DATA    = {
 		}, {
 			location: {area: "Kurjiez Desert", stage: "AdelzandeTower: Lower"},
 			rarity:   "Brown",
+			where:    "Right",
+			item:     "Paradigm Shifter"
+		}, {
+			location: {area: "Kurjiez Desert", stage: "AdelzandeTower: Lower"},
+			rarity:   "Brown",
 			where:    "Left",
 			item:     "Paradigm"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "AdelzandeTower: Lower"},
-			rarity:   "Brown",
-			where:    "Right",
-			item:     "Paradigm Shifter"
-		}, {location: {area: "Kurjiez Desert", stage: "AdelzandeTower: Lower"}, rarity: "Blue", where: "Top", item: ""},
-		{
-			location: {area: "Kurjiez Desert", stage: "AdelzandeTower: Lower"},
 			rarity:   "Blue",
 			where:    "Bottom",
 			item:     "Scapegoat Chocker"
-		}, {
+		}, {location: {area: "Kurjiez Desert", stage: "AdelzandeTower: Lower"}, rarity: "Blue", where: "Top", item: ""},
+		{
 			location: {area: "Kurjiez Desert", stage: "AdelzandeTower: Lower"},
 			rarity:   "Red",
 			where:    "Events",
@@ -6042,13 +6041,13 @@ var DATA    = {
 		{
 			location: {area: "Kurjiez Desert", stage: "AdelzandeTower: Middle"},
 			rarity:   "Red",
-			where:    "Stage Boss",
-			item:     ""
+			where:    "Events",
+			item:     "Earth Quaker"
 		}, {
 			location: {area: "Kurjiez Desert", stage: "AdelzandeTower: Middle"},
 			rarity:   "Red",
-			where:    "Events",
-			item:     "Earth Quaker"
+			where:    "Stage Boss",
+			item:     ""
 		}, {
 			location: {area: "Kurjiez Desert", stage: "AdelzandeTower: Middle"},
 			rarity:   "Silver",
@@ -6094,13 +6093,13 @@ var DATA    = {
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia"},
 			rarity:   "Blue",
-			where:    "Bottom",
-			item:     "Hoop of Adonis"
+			where:    "Top",
+			item:     "Karma Belt"
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia"},
 			rarity:   "Blue",
-			where:    "Top",
-			item:     "Karma Belt"
+			where:    "Bottom",
+			item:     "Hoop of Adonis"
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia"},
 			rarity:   "Red",
@@ -6109,23 +6108,23 @@ var DATA    = {
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia"},
 			rarity:   "Brown",
-			where:    "Top",
-			item:     "Dreadnought"
-		}, {
-			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia"},
-			rarity:   "Brown",
 			where:    "Bottom",
 			item:     "Night Mail"
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia"},
-			rarity:   "Blue",
-			where:    "Right",
-			item:     "Aura Drops"
+			rarity:   "Brown",
+			where:    "Top",
+			item:     "Dreadnought"
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia"},
 			rarity:   "Blue",
 			where:    "Left",
 			item:     "Demon's Cord"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia"},
+			rarity:   "Blue",
+			where:    "Right",
+			item:     "Aura Drops"
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia"},
 			rarity:   "Red",
@@ -6154,23 +6153,23 @@ var DATA    = {
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius"},
 			rarity:   "Red",
-			where:    "Stage Boss",
-			item:     "Lunatic Press"
-		}, {
-			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius"},
-			rarity:   "Red",
 			where:    "Events",
 			item:     "Asayuki Kabuse"
 		}, {
-			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail"},
-			rarity:   "Brown",
-			where:    "Right",
-			item:     "Boots of Brotherhood"
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius"},
+			rarity:   "Red",
+			where:    "Stage Boss",
+			item:     "Lunatic Press"
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail"},
 			rarity:   "Brown",
 			where:    "Left",
 			item:     "Elven Earring"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail"},
+			rarity:   "Brown",
+			where:    "Right",
+			item:     "Boots of Brotherhood"
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail"},
 			rarity:   "Blue",
@@ -6206,23 +6205,23 @@ var DATA    = {
 		{
 			location: {area: "Oltrum Bastion", stage: "Illial Temple: Barracks"},
 			rarity:   "Red",
-			where:    "Stage Boss",
-			item:     "Final Espada"
-		}, {
-			location: {area: "Oltrum Bastion", stage: "Illial Temple: Barracks"},
-			rarity:   "Red",
 			where:    "Events",
 			item:     "Spiked Buckler"
 		}, {
-			location: {area: "Oltrum Bastion", stage: "Illial Temple: Lift"},
-			rarity:   "Brown",
-			where:    "Left",
-			item:     "Juggernaut"
+			location: {area: "Oltrum Bastion", stage: "Illial Temple: Barracks"},
+			rarity:   "Red",
+			where:    "Stage Boss",
+			item:     "Final Espada"
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Illial Temple: Lift"},
 			rarity:   "Brown",
 			where:    "Right",
 			item:     "Calamity Stopper"
+		}, {
+			location: {area: "Oltrum Bastion", stage: "Illial Temple: Lift"},
+			rarity:   "Brown",
+			where:    "Left",
+			item:     "Juggernaut"
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Illial Temple: Lift"},
 			rarity:   "Blue",
@@ -6236,13 +6235,13 @@ var DATA    = {
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Illial Temple: Sage Hall"},
 			rarity:   "Brown",
-			where:    "Right",
-			item:     "Greaves of Live"
+			where:    "Left",
+			item:     "Squirming Saviours"
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Illial Temple: Sage Hall"},
 			rarity:   "Brown",
-			where:    "Left",
-			item:     "Squirming Saviours"
+			where:    "Right",
+			item:     "Greaves of Live"
 		}, {
 			location: {area: "Oltrum Bastion", stage: "Illial Temple: Sage Hall"},
 			rarity:   "Blue",
@@ -6330,56 +6329,48 @@ var DATA    = {
 	events:      [
 		{
 			location:    {area: "Great Plains of Rustoria", stage: "Phoeniath Knoll"},
-			type:        "M",
-			name:        "The Sacred Tree's Revolt",
-			goals:       [{type: "Kill", name: "Spectral Treant", amount: 1}],
-			rewards:     [{type: "EXP", name: "EXP", amount: "650"}, {type: "Chest", name: "Gold", amount: 1}],
-			chainEvents: []
-		}, {
-			location:    {area: "Great Plains of Rustoria", stage: "Phoeniath Knoll"},
-			type:        "M",
 			name:        "Boarish Intruders",
 			goals:       [{type: "Kill", name: "Wild Glutton", amount: 5}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 50}, {type: "Item", name: "Bluesteel Ore", amount: 1}],
 			chainEvents: []
 		}, {
 			location:    {area: "Great Plains of Rustoria", stage: "Phoeniath Knoll"},
-			type:        "M",
 			name:        "Lake Pinchers",
 			goals:       [{type: "Kill", name: "Water Seeker", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "60"}, {type: "Item", name: "Darantite Ore", amount: "1"}],
 			chainEvents: []
 		}, {
 			location:    {area: "Great Plains of Rustoria", stage: "Phoeniath Knoll"},
-			type:        "M",
 			name:        "Vengeful Spirit",
 			goals:       [{type: "Kill", name: "Grudge Ghost Treant", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 100}, {type: "Item", name: "Aincrite Ore", amount: 2}],
 			chainEvents: []
 		}, {
-			location:    {area: "Great Plains of Rustoria", stage: "Centallia Rise"},
-			type:        "M",
-			name:        "Field of Boars",
-			goals:       [{type: "Kill", name: "Plump Boar", amount: "4"}],
-			rewards:     [{type: "EXP", name: "EXP", amount: "100"}, {type: "Item", name: "Aincrite Ore", amount: "2"}],
+			location:    {area: "Great Plains of Rustoria", stage: "Phoeniath Knoll"},
+			name:        "The Sacred Tree's Revolt",
+			goals:       [{type: "Kill", name: "Spectral Treant", amount: 1}],
+			rewards:     [{type: "EXP", name: "EXP", amount: "650"}, {type: "Chest", name: "Gold", amount: 1}],
 			chainEvents: []
 		}, {
 			location:    {area: "Great Plains of Rustoria", stage: "Centallia Rise"},
-			type:        "M",
-			name:        "The Sting",
-			goals:       [{type: "Kill", name: "Assault Wasp", amount: "7"}],
-			rewards:     [{type: "EXP", name: "EXP", amount: "60"}, {type: "Item", name: "Platinum Ore", amount: "1"}],
-			chainEvents: []
-		}, {
-			location:    {area: "Great Plains of Rustoria", stage: "Centallia Rise"},
-			type:        "M",
 			name:        "The Hidden Nest",
 			goals:       [{type: "Kill", name: "Hive Hornet", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "90"}, {type: "Item", name: "Bluesteel Ore", amount: "1"}],
 			chainEvents: []
 		}, {
 			location:    {area: "Great Plains of Rustoria", stage: "Centallia Rise"},
-			type:        "M",
+			name:        "The Sting",
+			goals:       [{type: "Kill", name: "Assault Wasp", amount: "7"}],
+			rewards:     [{type: "EXP", name: "EXP", amount: "60"}, {type: "Item", name: "Platinum Ore", amount: "1"}],
+			chainEvents: []
+		}, {
+			location:    {area: "Great Plains of Rustoria", stage: "Centallia Rise"},
+			name:        "Field of Boars",
+			goals:       [{type: "Kill", name: "Plump Boar", amount: "4"}],
+			rewards:     [{type: "EXP", name: "EXP", amount: "100"}, {type: "Item", name: "Aincrite Ore", amount: "2"}],
+			chainEvents: []
+		}, {
+			location:    {area: "Great Plains of Rustoria", stage: "Centallia Rise"},
 			name:        "Ever-Growing Anger",
 			goals:       [{type: "Kill", name: "Raging Plump Boar", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "170"}, {type: "Chest", name: "Silver", amount: 1}],
@@ -6388,14 +6379,6 @@ var DATA    = {
 			]
 		}, {
 			location:    {area: "Great Plains of Rustoria", stage: "Lake Steschal"},
-			type:        "M",
-			name:        "Creatures from the Deep",
-			goals:       [{type: "Kill", name: "Uniting Jelley", amount: "3"}],
-			rewards:     [{type: "EXP", name: "EXP", amount: "80"}, {type: "Item", name: "Bluesteel Ore", amount: "2"}],
-			chainEvents: []
-		}, {
-			location:    {area: "Great Plains of Rustoria", stage: "Lake Steschal"},
-			type:        "M",
 			name:        "Snake Eyes",
 			goals:       [{type: "Kill", name: "Deathgaze Lizard", amount: 1}],
 			rewards:     [
@@ -6403,8 +6386,13 @@ var DATA    = {
 			],
 			chainEvents: []
 		}, {
+			location:    {area: "Great Plains of Rustoria", stage: "Lake Steschal"},
+			name:        "Creatures from the Deep",
+			goals:       [{type: "Kill", name: "Uniting Jelley", amount: "3"}],
+			rewards:     [{type: "EXP", name: "EXP", amount: "80"}, {type: "Item", name: "Bluesteel Ore", amount: "2"}],
+			chainEvents: []
+		}, {
 			location:    {area: "Great Plains of Rustoria", stage: "Tremseine Highlands"},
-			type:        "M",
 			name:        "But Not a Drop to Drink",
 			goals:       [{type: "Kill", name: "Roving Murkcarb", amount: "6"}],
 			rewards:     [
@@ -6413,28 +6401,24 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Great Plains of Rustoria", stage: "Tremseine Highlands"},
-			type:        "M",
-			name:        "Lord of the Drylands",
-			goals:       [{type: "Kill", name: "Voracious Buffalo", amount: 1}],
-			rewards:     [{type: "EXP", name: "EXP", amount: "130"}, {type: "Item", name: "Platinum Ore", amount: "2"}],
-			chainEvents: []
-		}, {
-			location:    {area: "Great Plains of Rustoria", stage: "Tremseine Highlands"},
-			type:        "M",
 			name:        "Land of the Undead",
 			goals:       [{type: "Kill", name: "Repentant Spirit", amount: "5"}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "110"}, {type: "Item", name: "Platinum Ore", amount: "3"}],
 			chainEvents: []
 		}, {
+			location:    {area: "Great Plains of Rustoria", stage: "Tremseine Highlands"},
+			name:        "Lord of the Drylands",
+			goals:       [{type: "Kill", name: "Voracious Buffalo", amount: 1}],
+			rewards:     [{type: "EXP", name: "EXP", amount: "130"}, {type: "Item", name: "Platinum Ore", amount: "2"}],
+			chainEvents: []
+		}, {
 			location:    {area: "Great Plains of Rustoria", stage: "Pazirius Wildwood"},
-			type:        "M",
 			name:        "Tree Eaters",
 			goals:       [{type: "Kill", name: "Nutrient Absorber", amount: "2"}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "110"}, {type: "Item", name: "Iron Ore", amount: "3"}],
 			chainEvents: []
 		}, {
 			location:    {area: "Great Plains of Rustoria", stage: "Pazirius Wildwood"},
-			type:        "M",
 			name:        "The Tyrannical Queen ",
 			goals:       [
 				{type: "Kill", name: "Her Majesty's Needle", amount: 1},
@@ -6444,63 +6428,60 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Great Plains of Rustoria", stage: "Pazirius Wildwood"},
-			type:        "M",
 			name:        "A Nasty Bug",
 			goals:       [{type: "Kill", name: "Berserk Maker", amount: "5"}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "110"}, {type: "Item", name: "Iron Ore", amount: "2"}],
 			chainEvents: []
 		}, {
-			location:    {area: "Great Plains of Rustoria", stage: "Guban Hill"},
-			type:        "M",
-			name:        "Twin Dragons",
-			goals:       [{type: "Kill", name: "Cannibal Twins", amount: "2"}],
-			rewards:     [{type: "EXP", name: "EXP", amount: 1}],
+			location:    {area: "Great Plains of Rustoria", stage: "Sophinastrum Gorge"},
+			name:        "Pest Control",
+			goals:       [{type: "Kill", name: "Giant Venom Mite", amount: "3"}],
+			rewards:     [{type: "EXP", name: "EXP", amount: "110"}, {type: "Item", name: "Silver Ore", amount: "3"}],
 			chainEvents: []
 		}, {
 			location:    {area: "Great Plains of Rustoria", stage: "Guban Hill"},
-			type:        "M",
 			name:        "The Fanged Plant",
 			goals:       [{type: "Kill", name: "Laughing Nepenthe", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 1}],
 			chainEvents: []
 		}, {
+			location:    {area: "Great Plains of Rustoria", stage: "Guban Hill"},
+			name:        "Twin Dragons",
+			goals:       [{type: "Kill", name: "Cannibal Twins", amount: "2"}],
+			rewards:     [{type: "EXP", name: "EXP", amount: 1}],
+			chainEvents: []
+		}, {
 			location:    {area: "Great Forest of Oldrobe", stage: "Lokitalluh Ascent"},
-			type:        "M",
 			name:        "Unstable Power",
 			goals:       [{type: "Kill", name: "Strongshell Turtle", amount: 2}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 320}, {type: "Item", name: "Iron Ore", amount: 3}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Lynex Waterway"},
-			type:        "M",
-			name:        "Unstable Power",
-			goals:       [{type: "Kill", name: "Strongshell Turtle", amount: 2}],
-			rewards:     [{type: "EXP", name: "EXP", amount: 320}, {type: "Item", name: "Iron Ore", amount: 3}],
-			chainEvents: []
-		}, {
-			location:    {area: "Jeweled Peaks Lakes", stage: "Lynex Waterway"},
-			type:        "M",
 			name:        "The Bone Eaters",
 			goals:       [{type: "Kill", name: "Lifesucker Fish", amount: 5}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 270}, {type: "Item", name: "Iron Ore", amount: 5}],
 			chainEvents: []
 		}, {
-			location:    {area: "Jeweled Peaks Lakes", stage: "One Fall Cataract"},
-			type:        "M",
-			name:        "Shift Relief",
-			goals:       [{type: "Kill", name: "Disintegrating Golem", amount: 3}],
-			rewards:     [{type: "EXP", name: "EXP", amount: 330}, {type: "Item", name: "Silver Ore", amount: 3}],
+			location:    {area: "Jeweled Peaks Lakes", stage: "Lynex Waterway"},
+			name:        "Unstable Power",
+			goals:       [{type: "Kill", name: "Strongshell Turtle", amount: 2}],
+			rewards:     [{type: "EXP", name: "EXP", amount: 320}, {type: "Item", name: "Iron Ore", amount: 3}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "One Fall Cataract"},
-			type:        "M",
 			name:        "The Frightened Faithfull",
 			goals:       [{type: "Kill", name: "Sojourn Wasp", amount: 10}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 280}, {type: "Item", name: "Silver Ore", amount: 5}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "One Fall Cataract"},
-			type:        "M",
+			name:        "Shift Relief",
+			goals:       [{type: "Kill", name: "Disintegrating Golem", amount: 3}],
+			rewards:     [{type: "EXP", name: "EXP", amount: 330}, {type: "Item", name: "Silver Ore", amount: 3}],
+			chainEvents: []
+		}, {
+			location:    {area: "Jeweled Peaks Lakes", stage: "One Fall Cataract"},
 			name:        "Pricy Prey",
 			goals:       [{type: "Kill", name: "Crystal Cruncher", amount: 7}],
 			rewards:     [
@@ -6510,7 +6491,12 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Marceiville Water Caves"},
-			type:        "M",
+			name:        "A Feared Legend",
+			goals:       [{type: "Kill", name: "Pseudodragon", amount: 5}],
+			rewards:     [{type: "EXP", name: "EXP", amount: 360}, {type: "Item", name: "Aincrite Ore", amount: 7}],
+			chainEvents: []
+		}, {
+			location:    {area: "Jeweled Peaks Lakes", stage: "Marceiville Water Caves"},
 			name:        "Born of Sin",
 			goals:       [
 				{type: "Kill", name: "Vile Amalgam", amount: 1}, {type: "Kill", name: "Vile Amalgam Spawn", amount: 5}
@@ -6519,35 +6505,18 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Marceiville Water Caves"},
-			type:        "M",
 			name:        "The Beeing From Beyond",
 			goals:       [{type: "Kill", name: "Nightmare Gremlin", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 350}, {type: "Item", name: "Aincrite Ore", amount: 4}],
 			chainEvents: []
 		}, {
-			location:    {area: "Jeweled Peaks Lakes", stage: "Marceiville Water Caves"},
-			type:        "M",
-			name:        "A Feared Legend",
-			goals:       [{type: "Kill", name: "Pseudodragon", amount: 5}],
-			rewards:     [{type: "EXP", name: "EXP", amount: 360}, {type: "Item", name: "Aincrite Ore", amount: 7}],
-			chainEvents: []
-		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Turinble Road"},
-			type:        "M",
-			name:        "Sunken Guardians",
-			goals:       [{type: "Kill", name: "Flood Temple Golem", amount: 1}],
-			rewards:     [{type: "EXP", name: "EXP", amount: 380}, {type: "Item", name: "Bluesteel Ore", amount: 4}],
-			chainEvents: []
-		}, {
-			location:    {area: "Jeweled Peaks Lakes", stage: "Turinble Road"},
-			type:        "M",
 			name:        "The Floating Blade",
 			goals:       [{type: "Kill", name: "Shallow Skullker", amount: 9}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 300}, {type: "Item", name: "Bluesteel Ore", amount: 5}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Turinble Road"},
-			type:        "M",
 			name:        "An Unwelcoming Forest",
 			goals:       [
 				{type: "Kill", name: "Natural Disaster", amount: 1}, {type: "Kill", name: "Wrathleaf", amount: 0}
@@ -6559,164 +6528,138 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Turinble Road"},
-			type:        "M",
+			name:        "Sunken Guardians",
+			goals:       [{type: "Kill", name: "Flood Temple Golem", amount: 1}],
+			rewards:     [{type: "EXP", name: "EXP", amount: 380}, {type: "Item", name: "Bluesteel Ore", amount: 4}],
+			chainEvents: []
+		}, {
+			location:    {area: "Jeweled Peaks Lakes", stage: "Turinble Road"},
 			name:        "The Beeing From Beyond",
 			goals:       [{type: "Kill", name: "Maddened Aberation", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 350}, {type: "Item", name: "Bluesteel Ore", amount: 5}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Paffati Hall"},
-			type:        "M",
-			name:        "In Search of a New World",
-			goals:       [{type: "Kill", name: "Oean Jelly", amount: 11}],
-			rewards:     [{type: "EXP", name: "EXP", amount: 300}, {type: "Item", name: "Platinum Ore", amount: 5}],
+			name:        "The Beeing From Beyond",
+			goals:       [{type: "Kill", name: "Urchin Crab", amount: 1}],
+			rewards:     [{type: "EXP", name: "EXP", amount: 350}, {type: "Item", name: "Platinum Ore", amount: 5}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Paffati Hall"},
-			type:        "M",
 			name:        "The Glistering Shell",
 			goals:       [{type: "Kill", name: "Thick-Shelled Turtle", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 430}, {type: "Item", name: "Platinum Ore", amount: 5}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Paffati Hall"},
-			type:        "M",
-			name:        "The Beeing From Beyond",
-			goals:       [{type: "Kill", name: "Urchin Crab", amount: 1}],
-			rewards:     [{type: "EXP", name: "EXP", amount: 350}, {type: "Item", name: "Platinum Ore", amount: 5}],
+			name:        "In Search of a New World",
+			goals:       [{type: "Kill", name: "Oean Jelly", amount: 11}],
+			rewards:     [{type: "EXP", name: "EXP", amount: 300}, {type: "Item", name: "Platinum Ore", amount: 5}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Ellaider Geothermal Lake"},
-			type:        "M",
 			name:        "From the Writhering Pit",
 			goals:       [{type: "Kill", name: "Caldera Crab", amount: 9}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 370}, {type: "Item", name: "Darantite Ore", amount: 4}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Ellaider Geothermal Lake"},
-			type:        "M",
 			name:        "Fangs Amidst the Steam",
 			goals:       [{type: "Kill", name: "Hot Spring Buffalo", amount: 6}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 330}, {type: "Item", name: "Darantite Ore", amount: 6}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Tribei Feireese Lake Way"},
-			type:        "M",
-			name:        "The Beeing From Beyond",
-			goals:       [{type: "Kill", name: "The Cosmic Eye", amount: 1}],
-			rewards:     [{type: "EXP", name: "EXP", amount: 350}, {type: "Item", name: "Bluesteel Ore", amount: 5}],
-			chainEvents: []
-		}, {
-			location:    {area: "Jeweled Peaks Lakes", stage: "Tribei Feireese Lake Way"},
-			type:        "M",
 			name:        "Awakened Beast",
 			goals:       [{type: "Kill", name: "Summoned Pandemonium Fiend", amount: 7}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 330}, {type: "Item", name: "Aincrite Ore", amount: 0}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Tribei Feireese Lake Way"},
-			type:        "M",
 			name:        "Ruler of a Dark World",
 			goals:       [{type: "Kill", name: "Neo Knight", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 380}, {type: "Item", name: "Platinum Ore", amount: 4}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Tribei Feireese Lake Way"},
-			type:        "M",
+			name:        "The Beeing From Beyond",
+			goals:       [{type: "Kill", name: "The Cosmic Eye", amount: 1}],
+			rewards:     [{type: "EXP", name: "EXP", amount: 350}, {type: "Item", name: "Bluesteel Ore", amount: 5}],
+			chainEvents: []
+		}, {
+			location:    {area: "Jeweled Peaks Lakes", stage: "Tribei Feireese Lake Way"},
 			name:        "Smells Like Trouble",
 			goals:       [{type: "Kill", name: "Stealth: Burstbud", amount: 0}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 270}, {type: "Item", name: "Iron Ore", amount: 4}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Cranvede Path"},
-			type:        "M",
 			name:        "Demons of the Depth",
 			goals:       [{type: "Kill", name: "Kirkaldyian Queen", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 400}, {type: "Item", name: "Darantite Ore", amount: 4}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Cranvede Path"},
-			type:        "M",
 			name:        "The Beeing From Beyond",
 			goals:       [{type: "Kill", name: "The Devourer of Souls", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 350}, {type: "Item", name: "Darantite Ore", amount: 1}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Cranvede Path"},
-			type:        "M",
-			name:        "The Sweet Earth",
-			goals:       [{type: "Kill", name: "Spiceleafe Beast", amount: 3}],
-			rewards:     [{type: "EXP", name: "EXP", amount: 350}, {type: "Item", name: "Silver Ore", amount: 6}],
-			chainEvents: []
-		}, {
-			location:    {area: "Jeweled Peaks Lakes", stage: "Cranvede Path"},
-			type:        "M",
 			name:        "Bloodsuckers",
 			goals:       [{type: "Kill", name: "Leechmite", amount: 6}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 310}, {type: "Item", name: "Darantite Ore", amount: 5}],
 			chainEvents: []
 		}, {
-			location:    {area: "Jeweled Peaks Lakes", stage: "Shangil Reservoir"},
-			type:        "M",
-			name:        "An Overzealous Guard",
-			goals:       [{type: "Kill", name: "Formatted Golem", amount: 1}],
-			rewards:     [{type: "EXP", name: "EXP", amount: 390}, {type: "Item", name: "Darantite Ore", amount: 7}],
+			location:    {area: "Jeweled Peaks Lakes", stage: "Cranvede Path"},
+			name:        "The Sweet Earth",
+			goals:       [{type: "Kill", name: "Spiceleafe Beast", amount: 3}],
+			rewards:     [{type: "EXP", name: "EXP", amount: 350}, {type: "Item", name: "Silver Ore", amount: 6}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Shangil Reservoir"},
-			type:        "M",
+			name:        "The Beeing From Beyond",
+			goals:       [{type: "Kill", name: "Demonic Reaper", amount: 1}],
+			rewards:     [{type: "EXP", name: "EXP", amount: 350}, {type: "Item", name: "Platinum Ore", amount: 5}],
+			chainEvents: []
+		}, {
+			location:    {area: "Jeweled Peaks Lakes", stage: "Shangil Reservoir"},
 			name:        "The Price of Greed",
 			goals:       [{type: "Kill", name: "Fallen Narcissist", amount: 4}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 320}, {type: "Item", name: "Bluesteel Ore", amount: 6}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Shangil Reservoir"},
-			type:        "M",
-			name:        "The Beeing From Beyond",
-			goals:       [{type: "Kill", name: "Demonic Reaper", amount: 1}],
-			rewards:     [{type: "EXP", name: "EXP", amount: 350}, {type: "Item", name: "Platinum Ore", amount: 5}],
+			name:        "An Overzealous Guard",
+			goals:       [{type: "Kill", name: "Formatted Golem", amount: 1}],
+			rewards:     [{type: "EXP", name: "EXP", amount: 390}, {type: "Item", name: "Darantite Ore", amount: 7}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "Cedol Lake"},
-			type:        "M",
-			name:        "Over the Edge",
-			goals:       [{type: "Kill", name: "Undying Fighter", amount: 1}],
-			rewards:     [{type: "EXP", name: "EXP", amount: 380}, {type: "Item", name: "Platinum Ore", amount: 7}],
-			chainEvents: []
-		}, {
-			location:    {area: "Jeweled Peaks Lakes", stage: "Cedol Lake"},
-			type:        "M",
 			name:        "Reboot",
 			goals:       [{type: "Kill", name: "Magi-Golem", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 400}, {type: "Item", name: "Silver Ore", amount: 4}],
 			chainEvents: []
 		}, {
+			location:    {area: "Jeweled Peaks Lakes", stage: "Cedol Lake"},
+			name:        "Over the Edge",
+			goals:       [{type: "Kill", name: "Undying Fighter", amount: 1}],
+			rewards:     [{type: "EXP", name: "EXP", amount: 380}, {type: "Item", name: "Platinum Ore", amount: 7}],
+			chainEvents: []
+		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "La Fernaste Park"},
-			type:        "M",
 			name:        "Submerged Desires",
 			goals:       [{type: "Kill", name: "Rusalka", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 350}, {type: "Item", name: "Silver Ore", amount: 6}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "La Fernaste Park"},
-			type:        "M",
 			name:        "Primordial Entity",
 			goals:       [{type: "Kill", name: "Scavenging Sludge", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 360}, {type: "Item", name: "Iron Ore", amount: 7}],
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "La Fastille: W. Garden"},
-			type:        "M",
-			name:        "An Evil Confluence",
-			goals:       [{type: "Kill", name: "Dire Shadow Eyes", amount: 1}],
-			rewards:     [
-				{type: "EXP", name: "EXP", amount: 560}, {type: "Item", name: "", amount: 0},
-				{type: "Chest", name: "", amount: 1}
-			],
-			chainEvents: []
-		}, {
-			location:    {area: "Jeweled Peaks Lakes", stage: "La Fastille: W. Garden"},
-			type:        "M",
 			name:        "From Darkness",
 			goals:       [{type: "Kill", name: "Shadow Eyes", amount: 10}],
 			rewards:     [
@@ -6725,8 +6668,16 @@ var DATA    = {
 			],
 			chainEvents: []
 		}, {
+			location:    {area: "Jeweled Peaks Lakes", stage: "La Fastille: W. Garden"},
+			name:        "An Evil Confluence",
+			goals:       [{type: "Kill", name: "Dire Shadow Eyes", amount: 1}],
+			rewards:     [
+				{type: "EXP", name: "EXP", amount: 560}, {type: "Item", name: "", amount: 0},
+				{type: "Chest", name: "", amount: 1}
+			],
+			chainEvents: []
+		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "La Fastille: E. Garden"},
-			type:        "M",
 			name:        "A Tenacious Blade",
 			goals:       [{type: "Kill", name: "Parallel Knight Reborn", amount: 1}],
 			rewards:     [
@@ -6736,7 +6687,6 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "La Fastille: E. Garden"},
-			type:        "M",
 			name:        "Knight on the Edge",
 			goals:       [{type: "Kill", name: "Parallel Knight", amount: 1}],
 			rewards:     [
@@ -6746,14 +6696,6 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "La Fastille: N. Garden"},
-			type:        "M",
-			name:        "Wings of the Protector",
-			goals:       [{type: "Kill", name: "Maze Dragon", amount: 2}],
-			rewards:     [{type: "EXP", name: "EXP", amount: 480}, {type: "Item", name: "Platinum Ore", amount: 5}],
-			chainEvents: []
-		}, {
-			location:    {area: "Jeweled Peaks Lakes", stage: "La Fastille: N. Garden"},
-			type:        "M",
 			name:        "The Summoned Dragon",
 			goals:       [{type: "Kill", name: "Carnage Dragon", amount: 1}],
 			rewards:     [
@@ -6762,8 +6704,19 @@ var DATA    = {
 			],
 			chainEvents: []
 		}, {
+			location:    {area: "Jeweled Peaks Lakes", stage: "La Fastille: N. Garden"},
+			name:        "Wings of the Protector",
+			goals:       [{type: "Kill", name: "Maze Dragon", amount: 2}],
+			rewards:     [{type: "EXP", name: "EXP", amount: 480}, {type: "Item", name: "Platinum Ore", amount: 5}],
+			chainEvents: []
+		}, {
 			location:    {area: "Jeweled Peaks Lakes", stage: "La Fastille: S. Garden"},
-			type:        "M",
+			name:        "Abhorred by Nature",
+			goals:       [{type: "Kill", name: "Crytid Invader", amount: 1}],
+			rewards:     [{type: "EXP", name: "EXP", amount: 380}, {type: "Item", name: "Bluesteel Ore", amount: 4}],
+			chainEvents: []
+		}, {
+			location:    {area: "Jeweled Peaks Lakes", stage: "La Fastille: S. Garden"},
 			name:        "Lust for Life",
 			goals:       [{type: "Kill", name: "Survivor", amount: 1}],
 			rewards:     [
@@ -6772,15 +6725,31 @@ var DATA    = {
 			],
 			chainEvents: []
 		}, {
-			location:    {area: "Jeweled Peaks Lakes", stage: "La Fastille: S. Garden"},
-			type:        "M",
-			name:        "Abhorred by Nature",
-			goals:       [{type: "Kill", name: "Crytid Invader", amount: 1}],
-			rewards:     [{type: "EXP", name: "EXP", amount: 380}, {type: "Item", name: "Bluesteel Ore", amount: 4}],
+			location:    {area: "Kurjiez Desert", stage: "Southern Ultana Desert"},
+			name:        "Thirsty Trees",
+			goals:       [{type: "Kill", name: "Parched Treant", amount: 1}],
+			rewards:     [{type: "EXP", name: "EXP", amount: 470}, {type: "Item", name: "Silver Ore", amount: 5}],
 			chainEvents: []
 		}, {
 			location:    {area: "Kurjiez Desert", stage: "Southern Ultana Desert"},
-			type:        "M",
+			name:        "Stinging Sand",
+			goals:       [{type: "Kill", name: "Grand Blood Stalker", amount: 3}],
+			rewards:     [{type: "EXP", name: "EXP", amount: 0}, {type: "Item", name: "", amount: 0}],
+			chainEvents: []
+		}, {
+			location:    {area: "Kurjiez Desert", stage: "Southern Ultana Desert"},
+			name:        "Stinging Sands",
+			goals:       [{type: "Kill", name: "Grand Blood Stalker", amount: "3"}],
+			rewards:     [{type: "EXP", name: "EXP", amount: "420"}, {type: "Item", name: "Silver Ore", amount: "7"}],
+			chainEvents: []
+		}, {
+			location:    {area: "Kurjiez Desert", stage: "Southern Ultana Desert"},
+			name:        "Footsteps in the Wind",
+			goals:       [{type: "Kill", name: "Lost One", amount: 4}],
+			rewards:     [{type: "EXP", name: "EXP", amount: 370}, {type: "Item", name: "", amount: 6}],
+			chainEvents: []
+		}, {
+			location:    {area: "Kurjiez Desert", stage: "Southern Ultana Desert"},
 			name:        "They Follow",
 			goals:       [
 				{type: "Kill", name: "Crescent Sting", amount: 1},
@@ -6789,57 +6758,13 @@ var DATA    = {
 			rewards:     [{type: "EXP", name: "EXP", amount: "630"}, {type: "Chest", name: "Silver", amount: 1}],
 			chainEvents: []
 		}, {
-			location:    {area: "Kurjiez Desert", stage: "Southern Ultana Desert"},
-			type:        "M",
-			name:        "Stinging Sand",
-			goals:       [{type: "Kill", name: "Grand Blood Stalker", amount: 3}],
-			rewards:     [{type: "EXP", name: "EXP", amount: 0}, {type: "Item", name: "", amount: 0}],
-			chainEvents: []
-		}, {
-			location:    {area: "Kurjiez Desert", stage: "Southern Ultana Desert"},
-			type:        "M",
-			name:        "Footsteps in the Wind",
-			goals:       [{type: "Kill", name: "Lost One", amount: 4}],
-			rewards:     [{type: "EXP", name: "EXP", amount: 370}, {type: "Item", name: "", amount: 6}],
-			chainEvents: []
-		}, {
-			location:    {area: "Kurjiez Desert", stage: "Southern Ultana Desert"},
-			type:        "M",
-			name:        "Thirsty Trees",
-			goals:       [{type: "Kill", name: "Parched Treant", amount: 1}],
-			rewards:     [{type: "EXP", name: "EXP", amount: 470}, {type: "Item", name: "Silver Ore", amount: 5}],
-			chainEvents: []
-		}, {
-			location:    {area: "Kurjiez Desert", stage: "Southern Ultana Desert"},
-			type:        "M",
-			name:        "Stinging Sands",
-			goals:       [{type: "Kill", name: "Grand Blood Stalker", amount: "3"}],
-			rewards:     [{type: "EXP", name: "EXP", amount: "420"}, {type: "Item", name: "Silver Ore", amount: "7"}],
-			chainEvents: []
-		}, {
 			location:    {area: "Kurjiez Desert", stage: "Alle Fioro"},
-			type:        "M",
-			name:        "Putting Down Roots",
-			goals:       [{type: "Kill", name: "Ancient Briar", amount: 1}],
-			rewards:     [{type: "EXP", name: "EXP", amount: 0}],
-			chainEvents: []
-		}, {
-			location:    {area: "Kurjiez Desert", stage: "Alle Fioro"},
-			type:        "M",
-			name:        "Bullish Gatekeepers",
-			goals:       [{type: "Kill", name: "Taurus Booster", amount: 4}],
-			rewards:     [{type: "EXP", name: "EXP", amount: 480}, {type: "Item", name: "Bluesteel Ore", amount: 8}],
-			chainEvents: []
-		}, {
-			location:    {area: "Kurjiez Desert", stage: "Alle Fioro"},
-			type:        "M",
 			name:        "Desert Blossom",
 			goals:       [{type: "Kill", name: "Peregrine Hornet", amount: 8}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 420}, {type: "Item", name: "Bluesteel Ore", amount: 7}],
 			chainEvents: []
 		}, {
 			location:    {area: "Kurjiez Desert", stage: "Alle Fioro"},
-			type:        "M",
 			name:        "Plant Panic",
 			goals:       [{type: "Kill", name: "Sweeping Nepenthes", amount: 1}],
 			rewards:     [
@@ -6847,57 +6772,55 @@ var DATA    = {
 			],
 			chainEvents: []
 		}, {
+			location:    {area: "Kurjiez Desert", stage: "Alle Fioro"},
+			name:        "Putting Down Roots",
+			goals:       [{type: "Kill", name: "Ancient Briar", amount: 1}],
+			rewards:     [{type: "EXP", name: "EXP", amount: 0}],
+			chainEvents: []
+		}, {
+			location:    {area: "Kurjiez Desert", stage: "Alle Fioro"},
+			name:        "Bullish Gatekeepers",
+			goals:       [{type: "Kill", name: "Taurus Booster", amount: 4}],
+			rewards:     [{type: "EXP", name: "EXP", amount: 480}, {type: "Item", name: "Bluesteel Ore", amount: 8}],
+			chainEvents: []
+		}, {
 			location:    {area: "Kurjiez Desert", stage: "Northern Ultana Desert"},
-			type:        "M",
 			name:        "Hot Under the Collar",
 			goals:       [{type: "Kill", name: "Nomadic Buffalo", amount: 8}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 380}, {type: "Item", name: "Darantite Ore", amount: 6}],
 			chainEvents: []
 		}, {
 			location:    {area: "Kurjiez Desert", stage: "Uron Dunes"},
-			type:        "M",
 			name:        "The Mirage",
 			goals:       [{type: "Kill", name: "Ilusory Eye", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "500"}, {type: "Item", name: "Aincrite Ore", amount: "5"}],
 			chainEvents: []
 		}, {
 			location:    {area: "Kurjiez Desert", stage: "Uron Dunes"},
-			type:        "M",
 			name:        "Out of the Sea",
 			goals:       [{type: "Kill", name: "Desert Crab", amount: "6"}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "450"}, {type: "Item", name: "Aincrite Ore", amount: "7"}],
 			chainEvents: []
 		}, {
 			location:    {area: "Kurjiez Desert", stage: "Ruel Wellspring"},
-			type:        "M",
 			name:        "Unwelcome Guests",
 			goals:       [{type: "Kill", name: "Sandstone Lizard", amount: "7"}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "430"}, {type: "Item", name: "Platinum Ore", amount: "7"}],
 			chainEvents: []
 		}, {
 			location:    {area: "Kurjiez Desert", stage: "Ruel Wellspring"},
-			type:        "M",
 			name:        "Sun-Ripened",
 			goals:       [{type: "Kill", name: "Plant Titan", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "470"}, {type: "Item", name: "Platinum Ore", amount: "8"}],
 			chainEvents: []
 		}, {
 			location:    {area: "Kurjiez Desert", stage: "Bana'varon Wastes"},
-			type:        "M",
 			name:        "Life for Live",
 			goals:       [{type: "Kill", name: "Rejuvenative Treant", amount: "3"}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "420"}, {type: "Item", name: "Iron Ore", amount: "7"}],
 			chainEvents: []
 		}, {
 			location:    {area: "Kurjiez Desert", stage: "Garoon Sandstone Tunel"},
-			type:        "M",
-			name:        "A Glut of Magic",
-			goals:       [{type: "Kill", name: "Killer Scourge", amount: 1}],
-			rewards:     [{type: "EXP", name: "EXP", amount: "440"}, {type: "Item", name: "Iron Ore", amount: "4"}],
-			chainEvents: []
-		}, {
-			location:    {area: "Kurjiez Desert", stage: "Garoon Sandstone Tunel"},
-			type:        "M",
 			name:        "Cruel Incisors",
 			goals:       [{type: "Kill", name: "Crystal Eater", amount: "7"}],
 			rewards:     [
@@ -6906,21 +6829,24 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Kurjiez Desert", stage: "Garoon Sandstone Tunel"},
-			type:        "M",
 			name:        "The Vigilant Guardian",
 			goals:       [{type: "Stealth", name: "Stunning Automaton", amount: 0}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "400"}, {type: "Item", name: "Platinum Ore", amount: "6"}],
 			chainEvents: []
 		}, {
+			location:    {area: "Kurjiez Desert", stage: "Garoon Sandstone Tunel"},
+			name:        "A Glut of Magic",
+			goals:       [{type: "Kill", name: "Killer Scourge", amount: 1}],
+			rewards:     [{type: "EXP", name: "EXP", amount: "440"}, {type: "Item", name: "Iron Ore", amount: "4"}],
+			chainEvents: []
+		}, {
 			location:    {area: "Kurjiez Desert", stage: "Gebuerno"},
-			type:        "M",
 			name:        "The Trespassers",
 			goals:       [{type: "Kill", name: "Legacy Hijacker", amount: "4"}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "500"}, {type: "Item", name: "Iron Ore", amount: "5"}],
 			chainEvents: []
 		}, {
 			location:    {area: "Kurjiez Desert", stage: "Gebuerno"},
-			type:        "M",
 			name:        "Protective Instincts",
 			goals:       [{type: "Kill", name: "Lost Militia Soldier", amount: "8"}],
 			rewards:     [
@@ -6929,7 +6855,6 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Kurjiez Desert", stage: "Remetta Excavation"},
-			type:        "M",
 			name:        "The Hunter's Reward",
 			goals:       [{type: "Kill", name: "Vicious Trader", amount: "4"}],
 			rewards:     [
@@ -6938,7 +6863,6 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Kurjiez Desert", stage: "Trie Modragal Pass"},
-			type:        "M",
 			name:        "Scorched Earth",
 			goals:       [{type: "Kill", name: "Sand Venom", amount: "6"}],
 			rewards:     [
@@ -6947,14 +6871,6 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Kurjiez Desert", stage: "Calt Blanc Way (TL)"},
-			type:        "M",
-			name:        "Symbiosis",
-			goals:       [{type: "Kill", name: "Elder Trance Jam", amount: 1}],
-			rewards:     [{type: "EXP", name: "EXP", amount: "710"}, {type: "Chest", name: "Silver", amount: 1}],
-			chainEvents: []
-		}, {
-			location:    {area: "Kurjiez Desert", stage: "Calt Blanc Way (TL)"},
-			type:        "M",
 			name:        "Tainted Wanderlust",
 			goals:       [{type: "Kill", name: "Lasri Heart", amount: "7"}],
 			rewards:     [
@@ -6962,15 +6878,19 @@ var DATA    = {
 			],
 			chainEvents: []
 		}, {
+			location:    {area: "Kurjiez Desert", stage: "Calt Blanc Way (TL)"},
+			name:        "Symbiosis",
+			goals:       [{type: "Kill", name: "Elder Trance Jam", amount: 1}],
+			rewards:     [{type: "EXP", name: "EXP", amount: "710"}, {type: "Chest", name: "Silver", amount: 1}],
+			chainEvents: []
+		}, {
 			location:    {area: "Kurjiez Desert", stage: "Calt Blanc Way (TR)"},
-			type:        "M",
 			name:        "Stone Eaters",
 			goals:       [{type: "Kill", name: "Ore Cruncher", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "520"}, {type: "Item", name: "Platinum Ore", amount: "5"}],
 			chainEvents: []
 		}, {
 			location:    {area: "Kurjiez Desert", stage: "Calt Blanc Way (BL)"},
-			type:        "M",
 			name:        "Angry Spirits",
 			goals:       [{type: "Kill", name: "Unjust Sword", amount: "4"}],
 			rewards:     [
@@ -6979,7 +6899,6 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Kurjiez Desert", stage: "Calt Blanc Way (BL)"},
-			type:        "M",
 			name:        "The Opposition",
 			goals:       [
 				{type: "Kill", name: "Stalwart Taurus Rebel", amount: 1},
@@ -6989,14 +6908,6 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Kurjiez Desert", stage: "Calt Blanc Way (BR)"},
-			type:        "M",
-			name:        "Curiosity Killed Them",
-			goals:       [{type: "Kill", name: "Beaten Spirit", amount: 1}],
-			rewards:     [{type: "EXP", name: "EXP", amount: "500"}, {type: "Item", name: "Silver Ore", amount: "5"}],
-			chainEvents: []
-		}, {
-			location:    {area: "Kurjiez Desert", stage: "Calt Blanc Way (BR)"},
-			type:        "M",
 			name:        "The Echo, Echo, Echo",
 			goals:       [
 				{type: "Kill", name: "Sonic Tornado", amount: 1}, {type: "Kill", name: "Sonar Bat", amount: 1}
@@ -7005,14 +6916,24 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Kurjiez Desert", stage: "Calt Blanc Way (BR)"},
-			type:        "M",
 			name:        "Dweller in the Dark",
 			goals:       [{type: "Stealth", name: "Sonar Bat", amount: 0}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "450"}, {type: "Item", name: "Iron Ore", amount: "7"}],
 			chainEvents: []
 		}, {
+			location:    {area: "Kurjiez Desert", stage: "Calt Blanc Way (BR)"},
+			name:        "Curiosity Killed Them",
+			goals:       [{type: "Kill", name: "Beaten Spirit", amount: 1}],
+			rewards:     [{type: "EXP", name: "EXP", amount: "500"}, {type: "Item", name: "Silver Ore", amount: "5"}],
+			chainEvents: []
+		}, {
 			location:    {area: "Kurjiez Desert", stage: "AdelzandeTower: Lower"},
-			type:        "M",
+			name:        "Fight or Flight",
+			goals:       [{type: "Kill", name: "Deployed Rejecter", amount: "2"}],
+			rewards:     [{type: "EXP", name: "EXP", amount: "500"}, {type: "Item", name: "Iron Ore", amount: "5"}],
+			chainEvents: []
+		}, {
+			location:    {area: "Kurjiez Desert", stage: "AdelzandeTower: Lower"},
 			name:        "The Ultimate Defense",
 			goals:       [
 				{type: "Kill", name: "Walking Disaster", amount: 1},
@@ -7021,24 +6942,7 @@ var DATA    = {
 			rewards:     [{type: "EXP", name: "EXP", amount: "830"}, {type: "Chest", name: "Silver", amount: 1}],
 			chainEvents: []
 		}, {
-			location:    {area: "Kurjiez Desert", stage: "AdelzandeTower: Lower"},
-			type:        "M",
-			name:        "Fight or Flight",
-			goals:       [{type: "Kill", name: "Deployed Rejecter", amount: "2"}],
-			rewards:     [{type: "EXP", name: "EXP", amount: "500"}, {type: "Item", name: "Iron Ore", amount: "5"}],
-			chainEvents: []
-		}, {
 			location:    {area: "Kurjiez Desert", stage: "AdelzandeTower: Middle"},
-			type:        "M",
-			name:        "Vengeful Fangs",
-			goals:       [
-				{type: "Kill", name: "Loyal Saberfang", amount: 1}, {type: "Kill", name: "Loyal Beast", amount: "6"}
-			],
-			rewards:     [{type: "EXP", name: "EXP", amount: "770"}, {type: "Chest", name: "Silver", amount: 1}],
-			chainEvents: []
-		}, {
-			location:    {area: "Kurjiez Desert", stage: "AdelzandeTower: Middle"},
-			type:        "M",
 			name:        "The Demihuman's Pets",
 			goals:       [
 				{type: "Kill", name: "Taurus Tower Keeper", amount: 1}, {type: "Kill", name: "Tower Beast", amount: "3"}
@@ -7048,8 +6952,15 @@ var DATA    = {
 			],
 			chainEvents: []
 		}, {
+			location:    {area: "Kurjiez Desert", stage: "AdelzandeTower: Middle"},
+			name:        "Vengeful Fangs",
+			goals:       [
+				{type: "Kill", name: "Loyal Saberfang", amount: 1}, {type: "Kill", name: "Loyal Beast", amount: "6"}
+			],
+			rewards:     [{type: "EXP", name: "EXP", amount: "770"}, {type: "Chest", name: "Silver", amount: 1}],
+			chainEvents: []
+		}, {
 			location:    {area: "Kurjiez Desert", stage: "AdelzandeTower: Top"},
-			type:        "M",
 			name:        "Fall of an Empire",
 			goals:       [
 				{type: "Kill", name: "Abyss the Legate", amount: 1},
@@ -7062,21 +6973,18 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Oltrum Bastion", stage: "Oltrum Bastion: Orsheon"},
-			type:        "M",
-			name:        "Knights of the Realm",
-			goals:       [{type: "Kill", name: "Deadly Dullahan", amount: "3"}],
-			rewards:     [{type: "EXP", name: "EXP", amount: "580"}, {type: "Item", name: "Aincrite Ore", amount: "9"}],
-			chainEvents: []
-		}, {
-			location:    {area: "Oltrum Bastion", stage: "Oltrum Bastion: Orsheon"},
-			type:        "M",
 			name:        "Mechanical Cries",
 			goals:       [{type: "Kill", name: "The Confessor", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: 0}],
 			chainEvents: []
 		}, {
+			location:    {area: "Oltrum Bastion", stage: "Oltrum Bastion: Orsheon"},
+			name:        "Knights of the Realm",
+			goals:       [{type: "Kill", name: "Deadly Dullahan", amount: "3"}],
+			rewards:     [{type: "EXP", name: "EXP", amount: "580"}, {type: "Item", name: "Aincrite Ore", amount: "9"}],
+			chainEvents: []
+		}, {
 			location:    {area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia"},
-			type:        "M",
 			name:        "Birthed by Legend",
 			goals:       [{type: "Kill", name: "Crystal Jammer", amount: 1}],
 			rewards:     [
@@ -7085,7 +6993,6 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Oltrum Bastion", stage: "Oltrum Bastion: Cordia"},
-			type:        "M",
 			name:        "Writhing Masses",
 			goals:       [{type: "Kill", name: "Rainwater Jelly", amount: "12"}],
 			rewards:     [
@@ -7094,7 +7001,6 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Oltrum Bastion", stage: "Oltrum Bastion: Maravia"},
-			type:        "M",
 			name:        "Lip-Smackingly Good",
 			goals:       [{type: "Kill", name: "Digging Scorpion", amount: "6"}],
 			rewards:     [
@@ -7103,14 +7009,6 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius"},
-			type:        "M",
-			name:        "Maneating Monsters",
-			goals:       [{type: "Kill", name: "Dangerous Beast", amount: "6"}],
-			rewards:     [{type: "EXP", name: "EXP", amount: "610"}, {type: "Item", name: "Platinum Ore", amount: "9"}],
-			chainEvents: []
-		}, {
-			location:    {area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius"},
-			type:        "M",
 			name:        "The Kidnappers",
 			goals:       [{type: "Kill", name: "Flying Marauder", amount: "5"}],
 			rewards:     [
@@ -7119,14 +7017,18 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius"},
-			type:        "M",
+			name:        "Maneating Monsters",
+			goals:       [{type: "Kill", name: "Dangerous Beast", amount: "6"}],
+			rewards:     [{type: "EXP", name: "EXP", amount: "610"}, {type: "Item", name: "Platinum Ore", amount: "9"}],
+			chainEvents: []
+		}, {
+			location:    {area: "Oltrum Bastion", stage: "Oltrum Bastion: Medius"},
 			name:        "Scaled Sacrilege",
 			goals:       [{type: "Kill", name: "Stamping Lizard", amount: "10"}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "650"}, {type: "Item", name: "Silver Ore", amount: "6"}],
 			chainEvents: []
 		}, {
 			location:    {area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail"},
-			type:        "M",
 			name:        "The False God",
 			goals:       [{type: "Kill", name: "Imitation God", amount: 1}],
 			rewards:     [
@@ -7135,14 +7037,6 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail"},
-			type:        "M",
-			name:        "Pests of Civilization",
-			goals:       [{type: "Kill", name: "Ancient Bug", amount: "11"}],
-			rewards:     [{type: "EXP", name: "EXP", amount: "62"}, {type: "Item", name: "Silver Ore", amount: "10"}],
-			chainEvents: []
-		}, {
-			location:    {area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail"},
-			type:        "M",
 			name:        "A Hive of Activity",
 			goals:       [
 				{type: "Kill", name: "The Vanquished Empress", amount: 1},
@@ -7153,15 +7047,19 @@ var DATA    = {
 			],
 			chainEvents: []
 		}, {
+			location:    {area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail"},
+			name:        "Pests of Civilization",
+			goals:       [{type: "Kill", name: "Ancient Bug", amount: "11"}],
+			rewards:     [{type: "EXP", name: "EXP", amount: "62"}, {type: "Item", name: "Silver Ore", amount: "10"}],
+			chainEvents: []
+		}, {
 			location:    {area: "Oltrum Bastion", stage: "Illial Temple: Barracks"},
-			type:        "M",
 			name:        "BloodSuckers",
 			goals:       [{type: "Kill", name: "Vampire Bat", amount: "10"}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "650"}, {type: "Item", name: "Iron Ore", amount: "10"}],
 			chainEvents: []
 		}, {
 			location:    {area: "Oltrum Bastion", stage: "Illial Temple: Barracks"},
-			type:        "M",
 			name:        "The Dreaming Dead",
 			goals:       [{type: "Kill", name: "Mythic Skeleton", amount: "8"}],
 			rewards:     [
@@ -7170,21 +7068,18 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Oltrum Bastion", stage: "Illial Temple: Barracks"},
-			type:        "M",
 			name:        "Sharp Betrayal",
 			goals:       [{type: "Kill", name: "Vengeful Knight", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "750"}, {type: "Item", name: "Platinum Ore", amount: "7"}],
 			chainEvents: []
 		}, {
 			location:    {area: "Oltrum Bastion", stage: "Illial Temple: Lift"},
-			type:        "M",
 			name:        "The Boundaries of Magic",
 			goals:       [{type: "Kill", name: "Atomic Dragon", amount: 1}, {type: "Kill", name: "Crystal", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "840"}, {type: "Item", name: "Iron Ore", amount: "8"}],
 			chainEvents: []
 		}, {
 			location:    {area: "Oltrum Bastion", stage: "Illial Temple: Lift"},
-			type:        "M",
 			name:        "Demonic Summons",
 			goals:       [
 				{type: "Kill", name: "Summoned Devourer", amount: "4"},
@@ -7194,7 +7089,6 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Oltrum Bastion", stage: "Illial Temple: Sage Hall"},
-			type:        "M",
 			name:        "The Final Battle",
 			goals:       [{type: "Kill", name: "Duel Seeker", amount: 1}],
 			rewards:     [
@@ -7203,7 +7097,6 @@ var DATA    = {
 			chainEvents: []
 		}, {
 			location:    {area: "Oltrum Bastion", stage: "Illial Temple: Sage Hall"},
-			type:        "M",
 			name:        "A Show of Strength",
 			goals:       [{type: "Kill", name: "Duel Seeker Ignatius", amount: 1}],
 			rewards:     [{type: "EXP", name: "EXP", amount: "1150"}, {type: "Chest", name: "Silver", amount: 1}],
@@ -7335,11 +7228,12 @@ var DATA    = {
 		}, {
 			locations: [
 				{area: "Great Plains of Rustoria", stage: "Centallia Rise"},
-				{area: "Great Plains of Rustoria", stage: "Pazirius Wildwood"}
+				{area: "Great Plains of Rustoria", stage: "Pazirius Wildwood"},
+				{area: "Great Plains of Rustoria", stage: "Sophinastrum Gorge"}
 			],
 			type:      "M",
 			race:      "Beast",
-			family:    "Beast",
+			family:    "Crested Beast",
 			name:      "Crested Beast",
 			drops:     ["Bestial Mane", "Bestial Pelt"]
 		}, {
@@ -7485,6 +7379,7 @@ var DATA    = {
 				{area: "Great Plains of Rustoria", stage: "Lake Steschal"},
 				{area: "Great Plains of Rustoria", stage: "Tremseine Highlands"},
 				{area: "Great Plains of Rustoria", stage: "Pazirius Wildwood"},
+				{area: "Great Plains of Rustoria", stage: "Sophinastrum Gorge"},
 				{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail"}
 			],
 			type:      "M",
@@ -7497,6 +7392,7 @@ var DATA    = {
 				{area: "Great Plains of Rustoria", stage: "Lake Steschal"},
 				{area: "Great Plains of Rustoria", stage: "Tremseine Highlands"},
 				{area: "Great Plains of Rustoria", stage: "Pazirius Wildwood"},
+				{area: "Great Plains of Rustoria", stage: "Sophinastrum Gorge"},
 				{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail"}
 			],
 			type:      "M",
@@ -7608,6 +7504,7 @@ var DATA    = {
 			locations: [
 				{area: "Great Plains of Rustoria", stage: "Tremseine Highlands"},
 				{area: "Great Plains of Rustoria", stage: "Pazirius Wildwood"},
+				{area: "Great Plains of Rustoria", stage: "Sophinastrum Gorge"},
 				{area: "Kurjiez Desert", stage: "Garoon Sandstone Tunel"},
 				{area: "Kurjiez Desert", stage: "Remetta Excavation"},
 				{area: "Oltrum Bastion", stage: "Oltrum Bastion: Flail"}
@@ -7620,7 +7517,8 @@ var DATA    = {
 		}, {
 			locations: [
 				{area: "Great Plains of Rustoria", stage: "Tremseine Highlands"},
-				{area: "Great Plains of Rustoria", stage: "Pazirius Wildwood"}
+				{area: "Great Plains of Rustoria", stage: "Pazirius Wildwood"},
+				{area: "Great Plains of Rustoria", stage: "Sophinastrum Gorge"}
 			], type:   "M", race: "Bug", family: "Mite", name: "Crack Mite", drops: []
 		}, {
 			locations: [
@@ -7743,6 +7641,20 @@ var DATA    = {
 			family:    "Wasp",
 			name:      "Her Majesty's Needle",
 			drops:     ["Insectoid Exoskeleton", "Insectoid Gold Wing", "Insectoid Stinger"]
+		}, {
+			locations: [{area: "Great Plains of Rustoria", stage: "Sophinastrum Gorge"}],
+			type:      "M",
+			race:      "Beast",
+			family:    "Crested Beast",
+			name:      "Large Crested Beast",
+			drops:     ["Bestial Mane", "Bestial Pelt"]
+		}, {
+			locations: [{area: "Great Plains of Rustoria", stage: "Sophinastrum Gorge"}],
+			type:      "M",
+			race:      "Bug",
+			family:    "Mite",
+			name:      "Giant Venom Mite",
+			drops:     []
 		}, {
 			locations: [{area: "Great Plains of Rustoria", stage: "Guban Hill"}],
 			type:      "M",
