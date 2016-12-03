@@ -1,4 +1,5 @@
 "use strict";
+Chart.defaults.global.defaultFontColor = "#999";
 GH.showLoader(false);
 var rootView = null;
 try {

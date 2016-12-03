@@ -16,9 +16,12 @@
 	<script src="resources/vendor/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
 	<script src="resources/vendor/bootstrap3-dialog-1.35.3/dist/js/bootstrap-dialog.min.js"></script>
 	<script src="resources/vendor/toastr-2.1.1/toastr.min.js"></script>
-	<script src="resources/vendor/knockout/knockout-3.4.1.min.js"></script>
-	<script src="resources/vendor/knockout/extension/foreachprop.js"></script>
 	<script src="resources/vendor/mousetrap-1.6.0/mousetrap.min.js"></script>
+	<script src="resources/vendor/Chart.js-2.1.2/Chart.js"></script>
+	<script src="resources/vendor/knockout/knockout-3.4.1.min.js"></script>
+	<script src="resources/vendor/knockout/extension/pausableComputed.js"></script>
+	<script src="resources/vendor/knockout/extension/foreachprop.js"></script>
+	<script src="resources/vendor/knockout/extension/chart.js"></script>
 </head>
 <body>
 <div data-lists>
@@ -100,8 +103,8 @@
 </script>
 <script type="text/html" id="preset-location">
 	<!-- ko with: location -->
-	<div class="inputBox hasTitle">
-		<span class="inputTitle">Area / Stage</span>
+	<div class="inputBox hasHeader">
+		<header>Area / Stage</header>
 		<select class="Areas" data-bind="options: listAreas, value: area, event: {change:changeArea}, valueAllowUnset: true"></select>
 		<select class="Stages" data-bind="options: listStages, value: stage, event: {change:setLast}, valueAllowUnset: true"></select>
 	</div>
@@ -110,9 +113,9 @@
 <script type="text/html" id="preset-locations">
 	<div>
 		<!-- ko foreach: locations -->
-			<div class="inputBox" data-bind="css: {hasTitle: $index() == 0}">
+			<div class="inputBox" data-bind="css: {hasHeader: $index() == 0}">
 				<!-- ko if: $index() == 0 -->
-				<span class="inputTitle">Area / Stage</span>
+				<header>Area / Stage</header>
 				<!-- /ko -->
 				<select class="Areas" data-bind="options: listAreas, value: area, event: {change:changeArea}, valueAllowUnset: true"></select>
 				<select class="Stages" data-bind="options: listStages, value: stage, event: {change:$parent.sortLocations}, valueAllowUnset: true"></select>
@@ -130,16 +133,16 @@
 	</div>
 </script>
 <script type="text/html" id="preset-gear-stat">
-	<div class="inputBox hasTitle effect" data-bind="visible: !$parent.locked() || value() != 0">
-		<span class="inputTitle" data-bind="html: name">&nbsp;</span>
+	<div class="inputBox hasHeader effect" data-bind="visible: !$parent.locked() || value() != 0">
+		<header data-bind="html: name">&nbsp;</header>
 		<input type="number" class="Stat" data-bind="textInput: value"/>
 	</div>
 </script>
 <script type="text/html" id="preset-required-material">
 	<br>
-	<div class="inputBox indent"data-bind="css: {hasTitle: $index() == 0}">
+	<div class="inputBox indent"data-bind="css: {hasHeader: $index() == 0}">
 		<!-- ko if: $index() == 0 -->
-		<span class="inputTitle">Materials</span>
+		<header>Materials</header>
 		<!-- /ko -->
 		<input type="text" class="ItemMaterial" list="listItemMaterial" placeholder="Material" data-bind="textInput: material"/>
 		<input type="number" class="goalAmount" data-bind="textInput: amount">
@@ -150,8 +153,8 @@
 </script>
 <script type="text/html" id="preset-gear-transformation">
 	<hr class="m-y-5">
-	<div class="inputBox hasTitle">
-		<span class="inputTitle">Transform to</span>
+	<div class="inputBox hasHeader">
+		<header>Transform to</header>
 		<input type="text" list="listGear" class="Gear" data-bind="textInput: name"/>
 		<!-- ko template: {name: 'preset-add-show', data: {check: isNewGear,show: showTransformation}} --><!-- /ko -->
 
@@ -167,9 +170,9 @@
 	</div>
 </script>
 <script type="text/html" id="preset-goal">
-	<div class="inputBox" data-goal-type data-bind="css: {hasTitle: $index() == 0}, attr: {'data-goal-type': type}">
+	<div class="inputBox" data-goal-type data-bind="css: {hasHeader: $index() == 0}, attr: {'data-goal-type': type}">
 		<!-- ko if: $index() == 0 -->
-		<span class="inputTitle">Goal</span>
+		<header>Goal</header>
 		<!-- /ko -->
 		<select class="GoalType" data-bind="options: listGoalType, value: type, valueAllowUnset: true"></select>
 		<span class="inputName MonsterType" data-bind="html: monsterType">&nbsp;</span>
@@ -183,14 +186,14 @@
 	<br>
 </script>
 <script type="text/html" id="preset-reward">
-	<div class="inputBox" data-bind="css: {hasTitle: $index() == 0}">
+	<div class="inputBox" data-bind="css: {hasHeader: $index() == 0}">
 		<!-- ko if: $index() == 0 -->
-		<span class="inputTitle">Reward</span>
+		<header>Reward</header>
 		<!-- /ko -->
 		<select class="RewardType" data-bind="options: listRewardType, value: type, event:{change:switchType}, valueAllowUnset: true"></select>
 		<!-- ko if: isItem() -->
 		<input list="listItemOre" class="ItemOre" data-bind="textInput: name"/>
-		<span type="button" class="inputBtn btn-success showOnLock" data-bind="visible: isNewOre(), click: addNewOre">
+		<span type="button" tabindex="0" class="inputBtn btn-success showOnLock" data-bind="visible: isNewOre(), click: addNewOre">
 			<i class="fa fa-sign-in"></i>
 		</span>
 		<!-- /ko -->
@@ -209,8 +212,27 @@
 	</div>
 	<br>
 </script>
+<script type="text/html" id="preset-blacksmith-stat">
+	<div class="inputBox hasHeader" name="" data-bind="attr: {name: name}">
+		<header class="BlacksmithStat" data-bind="text: $data.name">Precision</header>
+		<input type="number" class="BlacksmithStat" data-bind="textInput: $data.value"/>
+	</div>
+</script>
+<script type="text/html" id="preset-blacksmith-skill">
+	<div class="inputBox" data-bind="css: {hasHeader: $index() == 0}">
+		<!-- ko if: $index() == 0 -->
+		<header>Skills</header>
+		<!-- /ko -->
+		<select class="BlacksmithSkill" data-bind="css: skillClass, options: listBlacksmithSkills, value: name, valueAllowUnset: true"></select>
+		<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeSkill" tabindex="-1">
+			<i class="fa fa-minus"></i>
+		</button>
+		<span data-bind="text: description"></span>
+	</div>
+	<br>
+</script>
 <script type="text/html" id="preset-add-show">
-	<span type="button" class="inputBtn showOnLock" data-bind="css: check() ? 'btn-success' : 'btn-info', click: check() ? function(){$root.createPresetModel($parent)} : show">
+	<span type="button" tabindex="0" class="inputBtn showOnLock" data-bind="css: check() ? 'btn-success' : 'btn-info', click: check() ? function(){$root.createPresetModel($parent)} : show">
 		<i class="fa" data-bind="css: check() ? 'fa-sign-in' : 'fa-eye'"></i>
 	</span>
 </script>
@@ -276,16 +298,16 @@
 </script>
 
 <script type="text/html" id="item-gear">
-	<div id="tempGearId" class="media" data-bind="css: mediaCss, attr: {id: id}">
+	<article id="tempGearId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
 				<div class="col-xs-12 col-md-2">
-					<div class="inputBox hasTitle block">
-						<span class="inputTitle">Type</span>
+					<div class="inputBox hasHeader block">
+						<header>Type</header>
 						<select class="GearType" data-bind="options: $root.OPTIONS().itemTypeGear, value: type, valueAllowUnset: true"></select>
 					</div>
-					<div class="inputBox hasTitle">
-						<span class="inputTitle">Name</span>
+					<div class="inputBox hasHeader">
+						<header>Name</header>
 						<input type="text" list="listGear" placeholder="Name" data-bind="textInput: name">
 						<!-- ko if: isTmp() && isDuplicate() -->
 							<button type="button" class="inputBtn btn-info" title="load original model" data-bind="click: $root.loadOriginalModel">
@@ -293,8 +315,8 @@
 							</button>
 						<!-- /ko -->
 					</div>
-					<div class="inputBox hasTitle">
-						<span class="inputTitle">Rarity / Stars</span>
+					<div class="inputBox hasHeader">
+						<header>Rarity / Stars</header>
 						<select class="ItemRarity" data-bind="options: $root.OPTIONS().itemRarity, value: rarity, valueAllowUnset: true"></select>
 						<input type="text" class="Stars" list="listStars" data-bind="textInput: stars"/>
 						<span class="inputName starsText" data-bind="text: starsText"></span>
@@ -313,7 +335,7 @@
 						<!-- ko foreach: groupedEffects().other -->
 						<div class="inputBox effect">
 							<input class="inputName GearEffect" type="text" list="listGearEffect" placeholder="Effect" data-bind="textInput: name"/>
-							<span type="button" class="inputBtn btn-success showOnLock" data-bind="visible: isNewEffect(), click: addNewEffect">
+							<span type="button" tabindex="0" class="inputBtn btn-success showOnLock" data-bind="visible: isNewEffect(), click: addNewEffect">
 								<i class="fa fa-sign-in"></i>
 							</span>
 							<input type="number" class="Stat" data-bind="textInput: value"/>
@@ -331,10 +353,10 @@
 				</div>
 				<div class="col-xs-12 col-md-3">
 
-					<div class="inputBox hasTitle" data-bind="visible: !locked() || transformedFrom() != ''">
-						<strong class="inputTitle">Tranformed from:</strong>
+					<div class="inputBox hasHeader" data-bind="visible: !locked() || transformedFrom() != ''">
+						<strong>Tranformed from:</strong>
 						<input type="text" list="listGear" class="Gear" placeholder="Tranformed from" data-bind="textInput: transformedFrom"/>
-						<span type="button" class="inputBtn btn-info showOnLock" data-bind="visible: transformedFrom() != '', click: showTransformedFrom">
+						<span type="button" tabindex="0" class="inputBtn btn-info showOnLock" data-bind="visible: transformedFrom() != '', click: showTransformedFrom">
 							<i class="fa fa-eye"></i>
 						</span>
 					</div>
@@ -349,23 +371,23 @@
 			</fieldset>
 			<!-- ko template: "preset-media-actions" --><!-- /ko -->
 		</div>
-	</div>
+	</article>
 </script>
 <script type="text/html" id="item-chest">
-	<div id="tempChestId" class="media" data-bind="css: mediaCss, attr: {id: id}">
+	<article id="tempChestId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
 				<div class="col-xs-12 col-md-5">
 					<!-- ko template: 'preset-location' --><!-- /ko -->
-					<div class="inputBox hasTitle">
-						<span class="inputTitle">Type / Where or How</span>
+					<div class="inputBox hasHeader">
+						<header>Type / Where or How</header>
 						<select class="ChestRarity" data-bind="options: $root.OPTIONS().chestRarity, value: rarity, event: {change: changeRarity}, valueAllowUnset: true"></select>
 						<select class="Location" data-bind="options: listWhere, value: where, valueAllowUnset: true"></select>
 					</div>
 				</div>
 				<div class="col-xs-12 col-md-4">
-					<div class="inputBox hasTitle">
-						<span class="inputTitle">Content</span>
+					<div class="inputBox hasHeader">
+						<header>Content</header>
 						<span type="text" class="inputName GearType" data-bind="css: 'bg-'+itemInfo().rarity.toLowerCase(),html: itemInfo().type">&nbsp;</span>
 						<input type="text" list="listGear" class="Gear" placeholder="Gear" data-bind="textInput: item"/>
 						<!-- ko template: {name: 'preset-add-show', data: {check: isNewGear,show: showGear}} --><!-- /ko -->
@@ -374,27 +396,27 @@
 			</fieldset>
 			<!-- ko template: "preset-media-actions" --><!-- /ko -->
 		</div>
-	</div>
+	</article>
 </script>
 <script type="text/html" id="item-event">
-	<div id="tempEventId" class="media" data-bind="css: mediaCss, attr: {id: id}">
+	<article id="tempEventId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
 				<div class="col-xs-12 col-md-5">
 					<!-- ko template: 'preset-location' --><!-- /ko -->
-					<div class="inputBox hasTitle">
-						<span class="inputTitle">Name</span>
+					<div class="inputBox hasHeader">
+						<header>Name</header>
 						<input type="text" class="EventName" data-bind="textInput: name" placeholder="Name">
 					</div>
 					<hr class="m-y-5">
 					<!-- ko foreach: chainEvents -->
-					<div class="inputBox" data-bind="css: {hasTitle: $index() == 0}">
+					<div class="inputBox" data-bind="css: {hasHeader: $index() == 0}">
 						<!-- ko if: $index() == 0 -->
-						<span class="inputTitle">Chain Events</span>
+						<header>Chain Events</header>
 						<!-- /ko -->
 						<span class="Areas" data-bind="text: $data.stage"></span>
 						<span class="EventName" data-bind="text: $data.name"></span>
-						<span type="button" class="inputBtn btn-info showOnLock" data-bind="click: $parent.showChainEvent">
+						<span type="button" tabindex="1" class="inputBtn btn-info showOnLock" data-bind="click: $parent.showChainEvent">
 							<i class="fa fa-eye"></i>
 						</span>
 						<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeChainEvent">
@@ -432,22 +454,22 @@
 			</fieldset>
 			<!-- ko template: "preset-media-actions" --><!-- /ko -->
 		</div>
-	</div>
+	</article>
 </script>
 <script type="text/html" id="item-monster">
-	<div id="tempMonsterId" class="media" data-bind="css: mediaCss, attr: {id: id}">
+	<article id="tempMonsterId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
 				<div class="col-xs-12 col-md-4" data-bind="template: 'preset-locations'"></div>
 				<div class="col-xs-12 col-md-3">
-					<div class="inputBox hasTitle">
-						<span class="inputTitle">Type / Race / Family</span>
+					<div class="inputBox hasHeader">
+						<header>Type / Race / Family</header>
 						<select class="MonsterType" data-bind="options: $root.OPTIONS().monsterType, value: type, valueAllowUnset: true"></select>
 						<select class="MonsterRace" data-bind="options: $root.OPTIONS().monsterRace, value: race, valueAllowUnset: true"></select>
 						<input type="text" list="listMonsterFamily" class="MonsterFamily" placeholder="Family" data-bind="textInput: family">
 					</div>
-					<div class="inputBox hasTitle">
-						<span class="inputTitle">Name</span>
+					<div class="inputBox hasHeader">
+						<header>Name</header>
 						<input type="text" list="listMonsterName" class="MonsterName" placeholder="Name" data-bind="textInput: name">
 						<!-- ko if: isTmp() && isDuplicate() -->
 							<button type="button" class="inputBtn btn-info" title="load original model" data-bind="click: $root.loadOriginalModel">
@@ -458,9 +480,9 @@
 				</div>
 				<div class="col-xs-12 col-md-4">
 					<!-- ko foreach: drops -->
-						<div class="inputBox" data-bind="css: {hasTitle: $index() == 0}">
+						<div class="inputBox" data-bind="css: {hasHeader: $index() == 0}">
 							<!-- ko if: $index() == 0 -->
-							<span class="inputTitle">Drops</span>
+							<header>Drops</header>
 							<!-- /ko -->
 							<span class="inputName ItemMaterial" data-bind="text: $data, css: $parent.dropRarity($data)"></span>
 							<!-- ko if: !$parent.dropInRaceDrops($data) -->
@@ -474,7 +496,7 @@
 					<!-- /ko -->
 					<div class="inputBox">
 						<input type="text" class="ItemMaterial hideOnLock" list="listItemMaterial" placeholder="Drop" data-bind="textInput: dropToAdd"/>
-						<span type="button" class="inputBtn btn-success showOnLock" data-bind="visible: isNewMaterial(), click: addNewMaterial">
+						<span type="button" tabindex="0" class="inputBtn btn-success showOnLock" data-bind="visible: isNewMaterial(), click: addNewMaterial">
 							<i class="fa fa-sign-in"></i>
 						</span>
 						<button type="button" class="inputBtn btn-primary" title="add" data-bind="click: addDrop">
@@ -489,9 +511,53 @@
 			</fieldset>
 			<!-- ko template: "preset-media-actions" --><!-- /ko -->
 		</div>
-	</div>
+	</article>
+</script>
+<script type="text/html" id="item-blacksmith">
+	<article id="tempBlacksmithId" class="media" data-bind="css: mediaCss, attr: {id: id}">
+		<div class="media-body">
+			<fieldset class="row" data-bind="disable: locked">
+				<div class="col-xs-12 col-md-5">
+					<!-- ko template: 'preset-location' --><!-- /ko -->
+					<div class="inputBox hasHeader">
+						<header>Name</header>
+						<input type="text" class="CharName" placeholder="Name" data-bind="textInput: name">
+					</div>
+					<br>
+					<!-- ko template: {name:'preset-blacksmith-skill',foreach: skills} --><!-- /ko -->
+					<div class="inputBox" data-bind="visible: skills().length < 6">
+						<button type="button" class="inputBtn btn-primary" data-bind="click: addSkill">
+							<i class="fa fa-plus"></i>
+						</button>
+					</div>
+				</div>
+				<div class="col-xs-12 col-md-7">
+					<div class="blacksmithStatsContainer">
+						<div class="blacksmithChartContainer">
+							<canvas data-bind="chart: {type: 'radar', data: chartData, options: chartOptions}"></canvas>
+						</div>
+						<!-- ko template: {name: 'preset-blacksmith-stat', data:{name:'Precision',value:stats.precision}} --><!-- /ko -->
+						<!-- ko template: {name: 'preset-blacksmith-stat', data:{name:'Technique',value:stats.technique}} --><!-- /ko -->
+						<!-- ko template: {name: 'preset-blacksmith-stat', data:{name:'Growth Potential',value:stats.growthPotential}} --><!-- /ko -->
+						<!-- ko template: {name: 'preset-blacksmith-stat', data:{name:'Knowledge',value:stats.knowledge}} --><!-- /ko -->
+						<!-- ko template: {name: 'preset-blacksmith-stat', data:{name:'Recycling',value:stats.recycling}} --><!-- /ko -->
+					</div>
+				</div>
+			</fieldset>
+			<!-- ko template: "preset-media-actions" --><!-- /ko -->
+		</div>
+	</article>
 </script>
 <script type="text/html" id="template-filter">
+	<!-- ko with: FILTERS -->
+	<h1 class="modal-title inputBox noBorder">
+		<span class="inputName">Filters Active</span>
+		<label type="button" class="inputBtn">
+			<input type="checkbox" class="hidden" data-bind="checked: filtersActive">
+			<i class="fa" data-bind="css: filtersActive() ? 'fa-check-square' : 'fa-square'"></i>
+		</label>
+	</h1>
+	<hr class="m-y-5">
 	<h4 class="inputBox noBorder">
 		<span class="inputName">Location Active</span>
 		<label type="button" class="inputBtn">
@@ -522,6 +588,7 @@
 			</label>
 		</div>
 	</div>
+	<!-- /ko -->
 </script>
 <script type="text/html" id="preset"></script>
 </div>
@@ -532,7 +599,7 @@
 			<li class="active"><a data-toggle="tab" href="#gear">
 				Gear
 				<div class="inputBox smallBtn">
-					<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createGear">
+					<button type="button" class="inputBtn btn-primary" data-bind="click: createGear">
 						<i class="fa fa-plus"></i>
 					</button>
 				</div>
@@ -540,7 +607,7 @@
 			<li><a data-toggle="tab" href="#chests">
 				Chests
 				<div class="inputBox smallBtn">
-					<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createChest">
+					<button type="button" class="inputBtn btn-primary" data-bind="click: createChest">
 						<i class="fa fa-plus"></i>
 					</button>
 				</div>
@@ -548,7 +615,7 @@
 			<li><a data-toggle="tab" href="#events">
 				Events
 				<div class="inputBox smallBtn">
-					<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createEvent">
+					<button type="button" class="inputBtn btn-primary" data-bind="click: createEvent">
 						<i class="fa fa-plus"></i>
 					</button>
 				</div>
@@ -556,15 +623,23 @@
 			<li><a data-toggle="tab" href="#monster">
 				Monster
 				<div class="inputBox smallBtn">
-					<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createMonster">
+					<button type="button" class="inputBtn btn-primary" data-bind="click: createMonster">
 						<i class="fa fa-plus"></i>
 					</button>
 				</div>
 			</a></li>
-			<li><a href="#filtersModal" data-toggle="modal">
+			<li><a data-toggle="tab" href="#blacksmiths">
+				Blacksmiths
+				<div class="inputBox smallBtn">
+					<button type="button" class="inputBtn btn-primary" data-bind="click: createBlacksmith">
+						<i class="fa fa-plus"></i>
+					</button>
+				</div>
+			</a></li>
+			<li><a href="#" data-bind="click: openFilter">
 				Filter
 				<div class="inputBox smallBtn">
-					<button type="button" class="inputBtn btn-info" data-bind="">
+					<button type="button" class="inputBtn btn-info">
 						<i class="fa" data-bind="css: FILTERS.filtersActive() ? 'fa-check' : 'fa-square'"></i>
 					</button>
 				</div>
@@ -572,17 +647,17 @@
 			<li>
 				<a href="#">
 					<div class="inputBox smallBtn">
-						<button type="button" class="inputBtn btn-primary" title="Sort Data" data-bind="click: $root.sortData">
+						<button type="button" class="inputBtn btn-primary" title="Sort Data" data-bind="click: sortData">
 							<i class="fa fa-sort"></i>
 						</button>
 					</div>
 					<div class="inputBox smallBtn">
-						<button type="button" class="inputBtn btn-success" title="Save Data" data-bind="click: $root.saveData">
+						<button type="button" class="inputBtn btn-success" title="Save Data" data-bind="click: saveData">
 							<i class="fa fa-floppy-o"></i>
 						</button>
 					</div>
 					<div class="inputBox smallBtn">
-						<button type="button" class="inputBtn btn-success" title="export Data" data-bind="click: $root.exportData">
+						<button type="button" class="inputBtn btn-success" title="export Data" data-bind="click: exportData">
 							<i class="fa fa-download"></i>
 						</button>
 					</div>
@@ -598,44 +673,14 @@
 </nav>
 <main class="container-fluid">
 	<div class="tab-content">
-		<div role="tabpanel" class="tab-pane active" id="gear">
-			<div class="media-list" data-bind="template: {name: 'item-gear', foreach: filteredData.gear}"></div>
-		</div>
-		<div role="tabpanel" class="tab-pane" id="chests">
-			<div class="media-list" data-bind="template: {name: 'item-chest', foreach: filteredData.chests}"></div>
-		</div>
-		<div role="tabpanel" class="tab-pane" id="events">
-			<div class="media-list" data-bind="template: {name: 'item-event', foreach: filteredData.events}"></div>
-		</div>
-		<div role="tabpanel" class="tab-pane" id="monster">
-			<div class="media-list" data-bind="template: {name: 'item-monster', foreach: filteredData.monster}"></div>
-		</div>
+		<section class="media-list tab-pane active" id="gear" data-bind="template: {name: 'item-gear', foreach: filteredData.gear}"></section>
+		<section class="media-list tab-pane" id="chests" data-bind="template: {name: 'item-chest', foreach: filteredData.chests}"></section>
+		<section class="media-list tab-pane" id="events" data-bind="template: {name: 'item-event', foreach: filteredData.events}"></section>
+		<section class="media-list tab-pane" id="monster" data-bind="template: {name: 'item-monster', foreach: filteredData.monster}"></section>
+		<section class="media-list tab-pane" id="blacksmiths" data-bind="template: {name: 'item-blacksmith', foreach: DATA.blacksmiths}"></section>
 	</div>
 </main>
 
-<div class="modal fade" id="filtersModal" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h1 class="modal-title inputBox noBorder">
-					<span class="inputName">Filters Active</span>
-					<label type="button" class="inputBtn">
-						<input type="checkbox" class="hidden" data-bind="checked: FILTERS.filtersActive">
-						<i class="fa" data-bind="css: FILTERS.filtersActive() ? 'fa-check-square' : 'fa-square'"></i>
-					</label>
-				</h1>
-			</div>
-			<div class="modal-body" data-bind="with: FILTERS">
-				<!-- ko template: 'template-filter' --><!-- /ko -->
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-block btn-default" data-dismiss="modal">
-					Close
-				</button>
-			</div>
-		</div>
-	</div>
-</div>
 <div id="loading"></div>
 <div data-app-js>
 	<script src="resources/js/settings.js"></script>
@@ -645,6 +690,7 @@
 	<script src="resources/ko/baseModel/ChestModel.js"></script>
 	<script src="resources/ko/baseModel/EventModel.js"></script>
 	<script src="resources/ko/baseModel/MonsterModel.js"></script>
+	<script src="resources/ko/baseModel/BlacksmithModel.js"></script>
 	<script src="resources/ko/baseModel/FiltersModel.js"></script>
 	<script src="resources/ko/subModel/EffectModel.js"></script>
 	<script src="resources/ko/subModel/CraftingMaterialModel.js"></script>
@@ -652,6 +698,7 @@
 	<script src="resources/ko/subModel/LocationModel.js"></script>
 	<script src="resources/ko/subModel/GoalModel.js"></script>
 	<script src="resources/ko/subModel/RewardModel.js"></script>
+	<script src="resources/ko/subModel/BlacksmithSKillModel.js"></script>
 	<script src="resources/ko/RootViewModel.js"></script>
 	<script src="resources/js/initRoot.js"></script>
 </div>

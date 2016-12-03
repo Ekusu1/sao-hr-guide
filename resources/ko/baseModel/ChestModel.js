@@ -60,12 +60,7 @@ function ChestModel(newData = {
 		return info;
 	});
 	self.item      = ko.observable(newData.item);
-	self.isNewGear = ko.pureComputed(()=> {
-		return GH.isNewData(self, 'item', 'gear', 'name');
-		// var curItem = self.item();
-		// var isNew   = !(GH.getData('gear')().some(m=>m.name() === curItem));
-		// return curItem !== '' && isNew;
-	});
+	self.isNewGear = ko.pureComputed(()=>GH.isNewData(self, 'item', 'gear', 'name'));
 
 	self.showGear = ()=>GH.findByName('gear', self.item()).forEach(r=>rootView.showModel(r.model));
 
@@ -73,8 +68,7 @@ function ChestModel(newData = {
 	self.getDuplicateCheckData = ko.computed(()=>[
 		self.location.stage(),
 		self.rarity(),
-		self.where(),
-		self.item()
+		self.where()
 	].join('|'));
 	self.isDuplicate           = ko.computed(()=>GH.findDuplicates(self).length > 0);
 

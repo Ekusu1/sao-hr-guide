@@ -76,10 +76,8 @@ function EventModel(newData = {
 		self.chainEventToAdd('');
 	}
 	self.showChainEvent = (chainEvent)=>{
-		console.log(chainEvent);
 		var events = GH.getData('events')()
 			.filter(m=>chainEvent.stage == m.location.stage() && chainEvent.name == m.name());
-		console.log(events);
 		events.forEach(m=>GH.showModel(m));
 	}
 	self.removeChainEvent = (chainEvent)=>self.chainEvents.remove(chainEvent);

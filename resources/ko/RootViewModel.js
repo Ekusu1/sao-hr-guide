@@ -6,48 +6,58 @@ function RootViewModel() {
 		gear:    GearModel,
 		chests:  ChestModel,
 		events:  EventModel,
-		monster: MonsterModel
+		monster: MonsterModel,
+		blacksmiths: BlacksmithModel
 	};
 	self.DATA     = {
 		gear:    ko.observableArray(),
 		chests:  ko.observableArray(),
 		events:  ko.observableArray(),
-		monster: ko.observableArray()
+		monster: ko.observableArray(),
+		blacksmiths: ko.observableArray(),
 	};
 	self.LAST     = {
 		area:  '',
 		stage: '',
 	};
 
+	self.filteredData = {
+		gear: ko.pauseablePureComputed(()=>filterBase('gear')),
+		chests: ko.pauseablePureComputed(()=>filterBase('chests')),
+		events: ko.pauseablePureComputed(()=>filterBase('events')),
+		monster: ko.pauseablePureComputed(()=>filterBase('monster')),
+		blacksmiths: ko.pauseablePureComputed(()=>filterBase('blacksmiths')),
+	};
+	function pauseFilter () {
+		$.each(self.filteredData, (dataType, data)=>data.pause());
+	}
+	function resumeFilter () {
+		$.each(self.filteredData, (dataType, data)=>{
+			data.resume()
+			self.DATA[dataType].notifySubscribers();
+		});
+	}
 	self.FILTERS           = null;
 	function filterBase (dataType) {
 		if (self.FILTERS == null) return [];
 		var filters = self.FILTERS.getFilter();
 		var filterResult = self.DATA[dataType]();
 		filters.filtersActive && (filterResult = filterResult.filter(m=>m.filter(filters)));
-		// console.clear();
-		// console.log(self.DATA[dataType]());
-		// console.log(filterResult);
 		return filterResult;
 	}
-	self.filteredData = {
-		gear: ko.pureComputed(()=>filterBase('gear')),
-		chests: ko.pureComputed(()=>filterBase('chests')),
-		events: ko.pureComputed(()=>filterBase('events')),
-		monster: ko.pureComputed(()=>filterBase('monster')),
-	};
+	var filterDialogInstance = null;
+	self.openFilter = ()=>filterDialogInstance.open();
 
 	self.sortData = ()=> {
+		pauseFilter();
 		$.each(self.DATA, (dataType, data)=> {
 			var sortedData = data().sort((a, b)=>{
-				if(dataType == 'monster') {
-					a.sortLocations();
-					b.sortLocations();
-				}
-				return a.sortKey() == b.sortKey() ? 0 : a.sortKey() < b.sortKey() ? -1 : 1
+				if(dataType == 'monster') { a.sortLocations(); b.sortLocations(); }
+				return a.sortKey() == b.sortKey() ? 0 : a.sortKey() < b.sortKey() ? -1 : 1;
 			});
 			self.DATA[dataType](sortedData);
-		})
+		});
+		resumeFilter();
 	};
 
 	self.tmpModels           = ko.observableArray();
@@ -116,6 +126,7 @@ function RootViewModel() {
 	self.createChest         = ()=>addNewDialog('chests', {});
 	self.createEvent         = ()=>addNewDialog('events', {});
 	self.createMonster       = ()=>addNewDialog('monster', {});
+	self.createBlacksmith       = ()=>addNewDialog('blacksmiths', {});
 	self.createPresetModel   = m=>addNewDialog(m.dataType, m.getTmpPreset(), 'new');
 	self.cloneModel          = m=>addNewDialog(m.dataType, m.export(), 'clone');
 	self.loadOriginalModel   = m=>self.tmpModels.replace(m, GH.findDuplicates(m)[0].locked(false).isTmp(true).additionalCss('showModel'));
@@ -134,7 +145,6 @@ function RootViewModel() {
 	self.removeTmpMainModel  = m=>confirmRemoveDialog(m, r=>r && self.tmpModels.remove(m), self.DATA[m.dataType].remove(m));
 
 	self.saveData = ()=>GH.saveData();
-
 	self.exportData = function () {
 		self.saveData();
 		var regex1     = /"([A-Za-z0-9_]*)":/gm;
@@ -158,7 +168,26 @@ function RootViewModel() {
 		self.loadData();
 		self.OPTIONS(OPTIONS);
 		self.FILTERS = new FiltersModel(GH.getLocalStorage('FILTERS'));
+		pauseFilter();
 		$.each(dataTypes, (dataType, model)=>self.DATA[dataType](DATA[dataType].map(data=>new model(data))));
+		resumeFilter();
+
+		filterDialogInstance = new BootstrapDialog({
+			autodestroy: false,
+			onshow:      ()=>pauseFilter(),
+			onhide:      ()=>resumeFilter(),
+			message:     `<!-- ko template: 'template-filter' --><!-- /ko -->`,
+			buttons:     [
+				{
+					label:    'Close',
+					cssClass: 'btn-sm btn-primary col-xs-12',
+					action:   dialogRef=>dialogRef.close()
+				}
+			]
+		});
+		filterDialogInstance.open();
+		filterDialogInstance.getModalHeader().hide();
+		filterDialogInstance.close();
 
 		addNewDialogInstance = new BootstrapDialog({
 			size:        'size-extra-wide',
@@ -166,7 +195,7 @@ function RootViewModel() {
 			onshow:      ()=>self.tmpModels.valueHasMutated(),
 			onhide:      ()=>resetTmpModels(),
 			onhidden:    ()=>self.tmpModels([]),
-			message:     `<div class="media-list" data-bind="foreach: $root.tmpModels"><!-- ko template: template --><!-- /ko --></div><div class="row" data-bind="template: 'preset-modal-new'"></div>`,
+			message:     `<section class="media-list" data-bind="foreach: $root.tmpModels"><!-- ko template: template --><!-- /ko --></section><div class="row" data-bind="template: 'preset-modal-new'"></div>`,
 			buttons:     [
 				{
 					label:    'Cancel',
@@ -198,9 +227,10 @@ function RootViewModel() {
 		Mousetrap.bind(['alt+2'], function() { self.createChest(); return false; });
 		Mousetrap.bind(['alt+3'], function() { self.createEvent(); return false; });
 		Mousetrap.bind(['alt+4'], function() { self.createMonster(); return false; });
-		Mousetrap.bind(['alt+5', 'ctrl+shift+f'], function() { $('#filtersModal').modal('toggle'); return false; });
-		Mousetrap.bind(['ctrl+s'], function() { GH.saveData(); return false; });
+		Mousetrap.bind(['alt+5'], function() { self.createBlacksmith(); return false; });
+		Mousetrap.bind(['alt+6', 'ctrl+shift+f'], function() { $('#filtersModal').modal('toggle'); return false; });
 		Mousetrap.bind(['ctrl+shift+s'], function() { self.sortData(); return false; });
+		Mousetrap.bind(['ctrl+s'], function() { GH.saveData(); return false; });
 		Mousetrap.bind(['ctrl+e'], function() { self.exportData(); return false; });
 		Mousetrap.bind(['ctrl+shift+r'], function() { GH.clearLocalStorage(); return false; });
 	};

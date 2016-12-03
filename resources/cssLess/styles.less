@@ -88,7 +88,7 @@ option {
 			border-left-width: 0;
 		}
 	}
-	span, select, input, textarea, [contenteditable] {
+	header, span, select, input, textarea, [contenteditable] {
 		background: #222;
 		color: #FFF;
 	}
@@ -118,9 +118,9 @@ option {
 			color: #000;
 		}
 	}
-	&.hasTitle {
+	&.hasHeader {
 		padding-top: 1.1em;
-		> .inputTitle:first-child {
+		> header:first-child {
 			.inputName();
 			position: absolute;
 			top: 0;
@@ -168,7 +168,7 @@ option {
 	> .MonsterRace { width: 70px; }
 	> .MonsterFamily { width: 160px; }
 	> .MonsterName { width: 180px; }
-
+	> .BlacksmithStat { width: 80px; }
 	> .starsText { width: 61px; }
 	> .statName, > .difficulty { width: 80px; }
 	> .small3 { width: 40px; }
@@ -189,7 +189,9 @@ option {
 	&[data-goal-type=Stealth] > * { border-color: #0F0; }
 	&[data-goal-type=Protect] > * { border-color: #0FF; }
 
-
+	> .bs-yellow { background: @color-gold; }
+	> .bs-red { background: @color-red; }
+	> .bs-grey {  }
 
 	&.block {
 		display: block;
@@ -238,6 +240,26 @@ option {
 	transition: opacity 2s;
 	display: block;
 	opacity: .95;
+}
+
+.blacksmithStatsContainer {
+	position: relative;
+	width: 310px;
+	height: 208px;
+	padding-top: 23px;
+	.blacksmithChartContainer {
+		width: 350px;
+		height: 175px;
+		margin-left: -20px;
+	}
+	> .inputBox {
+		position: absolute;
+		&[name="Precision"] { top:0; left: 115px;}
+		&[name="Technique"] { top:70px; right: 0;}
+		&[name="Growth Potential"] { bottom: 0; right: 50px;}
+		&[name="Knowledge"] { bottom:0; left: 50px;}
+		&[name="Recycling"] { top: 70px; left: 0;}
+	}
 }
 
 @import "_overrides";
