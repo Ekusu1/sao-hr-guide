@@ -9,7 +9,7 @@ function TransformationModel(newData = {
 	self.name       = ko.observable(newData.name);
 	function findGear (name) {
 		var result = GH.findByKeyValue('gear', 'name', self.name());
-		return result.length > 0 ? result[0].model : null;
+		return result.length > 0 ? result[0] : null;
 	}
 	self.isNewGear   = ko.pureComputed(()=> {
 		var curName   = self.name();
@@ -37,8 +37,8 @@ function TransformationModel(newData = {
 
 	self.showTransformation = function () {
 		var gear = GH.findByName('gear', self.name());
-		gear.unshift({model: parent});
-		gear.forEach(r=>rootView.showModel(r.model))
+		gear.unshift(parent);
+		gear.forEach(r=>GH.showModel(r));
 	}
 
 	self.export = ()=>({

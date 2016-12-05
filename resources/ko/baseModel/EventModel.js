@@ -50,25 +50,27 @@ function EventModel(newData = {
 
 	self.hasMissingData = ko.pureComputed(()=>
 		self.location.stage() == '' ||
-		self.name() == ''
+		self.name() == '' ||
+		self.goals().some(m=>m.hasMissingData()) ||
+		self.rewards().some(m=>m.hasMissingData())
 	);
 
 	self.eventType = ko.pureComputed(()=> {
-		var result = 'bg-event-normal';
+		var result = 'normal';
 
 		self.rewards().some(m=> {
 			if (m.type() == 'Chest') {
 				if (m.name() == 'Silver') {
-					result = 'bg-event-silver';
+					result = 'silver';
 					return true;
 				}
 				if (m.name() == 'Gold') {
-					result = 'bg-event-gold';
+					result = 'gold';
 					return true;
 				}
 			}
-			if (['Gear', 'LastHit', 'GearSP', 'LastHitSP', 'GearMP', 'LastHitMP',].includes(m.type())) {
-				result = 'bg-event-boss';
+			if (['GearSP', 'LastHitSP', 'GearMP', 'LastHitMP',].includes(m.type())) {
+				result = 'boss';
 				return true;
 			}
 			return false;
@@ -77,30 +79,12 @@ function EventModel(newData = {
 	});
 	function getEventTypeSortIndex() {
 		switch (self.eventType()) {
-			case 'bg-event-normal':
-				return 0;
-			case 'bg-event-silver':
-				return 1;
-			case 'bg-event-gold':
-				return 2;
-			case 'bg-event-boss':
-				return 3;
+			case 'normal': return 0;
+			case 'silver': return 1;
+			case 'gold': return 2;
+			case 'boss': return 3;
 		}
 	}
-
-	self.additionalCss = ko.observable('');
-	self.mediaCss      = ko.pureComputed(()=>`${self.eventType()} ${self.isDuplicate() ? 'duplicateModel' : ''} ${self.additionalCss()} ${self.hasMissingData() ? 'hasMissingData' : ''}`);
-
-	self.filter = function (filter) {
-		var results = []
-		if (filter.location !== undefined) {
-			filter.location.area != undefined && results.push(self.location.area() == filter.location.area);
-			filter.location.stage != undefined && results.push(self.location.stage() == filter.location.stage);
-		} else {
-			return true;
-		}
-		return results.every(r=>r === true);
-	};
 
 	self.chainEvents      = ko.observableArray(newData.chainEvents || []);
 	self.chainEventToAdd  = ko.observable('');
@@ -109,19 +93,40 @@ function EventModel(newData = {
 			var toAdd = self.chainEventToAdd().split(' | ');
 			self.chainEvents.push({stage: toAdd[0], name: toAdd[1]});
 		}
-		;
 		self.chainEventToAdd('');
-	}
+	};
 	self.showChainEvent   = (chainEvent)=> {
 		var events = GH.getData('events')()
 			.filter(m=>chainEvent.stage == m.location.stage() && chainEvent.name == m.name());
 		events.forEach(m=>GH.showModel(m));
-	}
+	};
 	self.removeChainEvent = (chainEvent)=>self.chainEvents.remove(chainEvent);
 	self.listAreaEvents   = ko.computed(()=>
 		GH.getData('events')()
 			.filter(m=>self.location.area() == m.location.area())
 	);
+
+	self.additionalCss = ko.observable('');
+	self.mediaCss      = ko.pureComputed(()=>`bg-event-${self.eventType()} ${self.isDuplicate() ? 'duplicateModel' : ''} ${self.additionalCss()} ${self.hasMissingData() ? 'hasMissingData' : ''}`);
+
+	self.filter = function (filter) {
+		var results = [];
+
+		var showTypes = [];
+		filter.eventTypeNormal && showTypes.push('normal');
+		filter.eventTypeSilver && showTypes.push('silver');
+		filter.eventTypeGold && showTypes.push('gold');
+		filter.eventTypeBoss && showTypes.push('boss');
+		results.push(showTypes.includes(self.eventType()));
+
+		if (filter.location !== undefined) {
+			filter.location.area != undefined && results.push(self.location.area() == filter.location.area);
+			filter.location.stage != undefined && results.push(self.location.stage() == filter.location.stage);
+		} else {
+			results.push(true);
+		}
+		return results.every(r=>r === true);
+	};
 
 	self.export = ()=>({
 		location:    self.location.export(),

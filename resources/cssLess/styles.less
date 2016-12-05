@@ -70,11 +70,19 @@ option {
 }
 
 .inputBox {
+	@inputBox-backcolor-default: #000;
+	@inputBox-backcolor-header: @inputBox-backcolor-default;
+	@inputBox-backcolor-readonly: #0D0D0D;
+	@inputBox-backcolor-editable: #262626;
+	@inputBox-backcolor-editable-alt: #404040;
+	@inputBox-frontcolor-default: #fff;
 	z-index: 0;
 	position: relative;
 	display: inline-block;
+	margin-bottom: 3px;
+	vertical-align: top;
 	&.indent {
-		margin-left: 15px;
+		margin-left: 30px;
 	}
 
 	> * {
@@ -83,14 +91,22 @@ option {
 		display: block;
 		float: left;
 		padding: 0 5px;
-		border: 1px solid #FFF;
+		border: 1px solid @inputBox-frontcolor-default;
+		//background-color: @inputBox-backcolor-default;
+		color: @inputBox-frontcolor-default;
+
 		+ * {
 			border-left-width: 0;
 		}
 	}
-	header, span, select, input, textarea, [contenteditable] {
-		background: #222;
-		color: #FFF;
+
+	header { background-color: @inputBox-backcolor-header; }
+	.inputText { background-color: @inputBox-backcolor-readonly; }
+	select, input, textarea, [contenteditable] { background-color: @inputBox-backcolor-editable; }
+	.inputName { background-color: @inputBox-backcolor-editable-alt; }
+	label {
+		margin-bottom: 0;
+		padding: 0 1px;
 	}
 	input {
 		&[type=number] {
@@ -102,105 +118,144 @@ option {
 			}
 		}
 	}
-	> [list], > select {
-		background: #555;
+	[list], select {
 		-webkit-appearance: none;
 		width: auto;
 		&::-webkit-calendar-picker-indicator {
 			display: none;
 		}
 	}
-	.inputName {
-		background: #000;
-		color: #FFF;
-		&[readonly] {
-			background: #FFF;
-			color: #000;
-		}
-	}
 	&.hasHeader {
 		padding-top: 1.1em;
-		> header:first-child {
-			.inputName();
+		> header {
+			.inputText();
 			position: absolute;
 			top: 0;
 			z-index: 1;
 			font-size: 75%;
 			padding-bottom: 3px;
-			border-color: #fff !important;
-			+ * {
-				border-left-width: 1px;
-			}
+			border-color: @inputBox-frontcolor-default !important;
+
+		}
+		:nth-child(2) { border-left-width: 1px; }
+		&.hasTypeIcon {
+			:nth-child(2), :nth-child(3) { border-left-width: 0px; }
 		}
 	}
+
+	&.hasTypeIcon {
+		padding-left: 32px;
+		> .typeIcon {
+			//overflow: hidden;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 32px !important;
+			height: 32px !important;
+			padding: 0;
+			background: @inputBox-frontcolor-default;
+
+			.iconStars {
+				position: absolute;
+				bottom: 0;
+				color: #ff0;
+				line-height: 1;
+				font-size: 9px;
+				letter-spacing: -3px;
+				text-shadow: 0 0 1px black;
+			}
+
+			select {
+				position: absolute;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				border: none;
+				background: transparent;
+				color: transparent;
+				cursor: pointer;
+			}
+		}
+
+	}
 	.inputBtn {
-		//border: 1px solid #FFF;
-		padding: 0 5px;
 		[disabled] & {
 			display: none;
 		}
 	}
 
 	[disabled] &.showOnLock,
-	[disabled] & > .showOnLock {
+	[disabled] & .showOnLock {
 		display: block;
 	}
 	[disabled] &.hideOnLock,
-	[disabled] & > .hideOnLock {
+	[disabled] & .hideOnLock {
 		display: none;
 	}
 
-	> .Areas { width: 145px; }
-	> .Stages { width: 160px; }
-	> .Location { width: 80px; }
-	> .Gear { width: auto; }
-	> .GearType { width: 90px; }
-	> .Stars { width: 20px; }
-	> .ItemUse { width: 145px; }
-	> .ItemOre { width: 100px; }
-	> .ItemMaterial { width: 170px; }
-	> .ItemRarity { width: 75px; }
-	> .ChestRarity { width: 46px; }
-	> .GoalType { width: 20px; }
-	> .EventName { width: 220px; }
-	> .RewardType { width: 70px; }
-	> .MonsterType { width: 40px; }
-	> .MonsterRace { width: 70px; }
-	> .MonsterFamily { width: 160px; }
-	> .MonsterName { width: 180px; }
-	> .BlacksmithStat { width: 80px; }
-	> .starsText { width: 61px; }
-	> .statName, > .difficulty { width: 80px; }
-	> .small3 { width: 40px; }
-	> .Stat { width: 60px; }
-	> .lv { width: 31px; }
-	> .amount { width: 37px; }
-	> .goalAmount { width: 24px; }
-	.dropRarityStyle (@color: #FFF) {
+	.Areas { width: 145px; }
+	.Stages { width: 160px; }
+	.Location { width: 80px; }
+	.Gear { width: auto; }
+	.GearType { width: 90px; }
+	.Stars { width: 20px; }
+	.ItemUse { width: 145px; }
+	.ItemOre { width: 100px; }
+	.ItemMaterial { width: 170px; }
+	.ItemRarity { width: 75px; }
+	.ChestRarity { width: 46px; }
+	.GoalType { width: 20px; }
+	.EventName { width: 220px; }
+	.RewardType { width: 70px; }
+	.MonsterType { width: 40px; }
+	.MonsterRace { width: 70px; }
+	.MonsterFamily { width: 160px; }
+	.MonsterName { width: 180px; }
+	.BlacksmithStat { width: 80px; }
+	.starsText { width: 61px; }
+	.statName, > .difficulty { width: 80px; }
+	.small3 { width: 40px; }
+	.Stat { width: 60px; }
+	.lv { width: 31px; }
+	.amount { width: 37px; }
+	.goalAmount { width: 24px; }
+	.dropRarityStyle (@color: @inputBox-frontcolor-default) {
 		border-color: lighten(@color, 40%);
 		color: lighten(@color, 40%);
 	}
-	> .CommonDrop { background-color: #000; border-color: #fff; color: #FFF; }
-	> .UncommonDrop { .dropRarityStyle(@color-blue); }
-	> .RareDrop { .dropRarityStyle(@color-gold); }
-	> .OreDrop { background-color: darken(@color-brown, 0); }
-	> .SpecialDrop { background: @color-gold; }
+	.CommonDrop { background-color: #000; border-color: @inputBox-frontcolor-default; color: @inputBox-frontcolor-default; }
+	.UncommonDrop { .dropRarityStyle(@color-blue); }
+	.RareDrop { .dropRarityStyle(@color-gold); }
+	.OreDrop { background-color: darken(@color-brown, 0); }
+	.SpecialDrop { background: @color-gold; }
 	&[data-goal-type=Kill] > * { border-color: #F00; }
 	&[data-goal-type=Stealth] > * { border-color: #0F0; }
 	&[data-goal-type=Protect] > * { border-color: #0FF; }
 
-	> .bs-yellow { background: @color-gold; }
-	> .bs-red { background: @color-red; }
-	> .bs-grey {  }
+	.bs-yellow { background: @color-gold; }
+	.bs-red { background: @color-red; }
+	.bs-grey {  }
+
+	.GearType,
+	.ItemRarity,
+	.ChestRarity,
+	.Location,
+	.MonsterType,
+	.MonsterRace,
+	.BlacksmithSkill {
+		option:first-child { display: none; }
+	}
 
 	&.block {
 		display: block;
-		margin-bottom: 2px;
+		//+ .inputBox {
+		//	margin-top: 5px;
+		//}
 		> * {
 			width: 100% !important;
 			float: none;
 			+ * {
-				border-left: 1px solid #FFF !important;
+				border-left-width: 1px !important;
 			}
 		}
 	}
@@ -216,10 +271,11 @@ option {
 
 	&.noBorder {
 		> * {
-			border: none !important;
+			border-width: 0 !important;
 		}
 	}
 
+	.bgs-mixin();
 	> * { .bgs-mixin(); }
 }
 
@@ -260,6 +316,54 @@ option {
 		&[name="Knowledge"] { bottom:0; left: 50px;}
 		&[name="Recycling"] { top: 70px; left: 0;}
 	}
+}
+
+.hr-Icon-mixin(@x: 0, @y: 0) {
+	@s: 30px;
+	@imgX: @s * @x - @s;
+	@imgY: @s * @y - @s;
+	background-position: -@imgX -@imgY;
+}
+
+.hr-gear-icon-mixin (@weapon: '', @y: 0) {
+	&.gear-@{weapon}-common { .hr-Icon-mixin(1,@y)}
+	&.gear-@{weapon}-uncommon { .hr-Icon-mixin(2,@y)}
+	&.gear-@{weapon}-rare { .hr-Icon-mixin(3,@y)}
+	&.gear-@{weapon}-exotic { .hr-Icon-mixin(4,@y)}
+	&.gear-@{weapon}-legendary { .hr-Icon-mixin(5,@y)}
+}
+
+.hr-icon {
+	display: block;
+	width: 30px;
+	height: 30px;
+	background-image: url("../images/SAOHR-icons.png");
+	background-repeat: no-repeat;
+	background-position: 30px;
+
+	&.chest-brown { .hr-Icon-mixin(1,1)}
+	&.chest-blue { .hr-Icon-mixin(2,1)}
+	&.chest-red { .hr-Icon-mixin(3,1)}
+	&.chest-silver { .hr-Icon-mixin(4,1)}
+	&.chest-gold { .hr-Icon-mixin(5,1)}
+	.hr-gear-icon-mixin(~'1h-sword', 3);
+	.hr-gear-icon-mixin(~'rapier', 4);
+	.hr-gear-icon-mixin(~'scimitar', 5);
+	.hr-gear-icon-mixin(~'dagger', 6);
+	.hr-gear-icon-mixin(~'1h-club', 7);
+	.hr-gear-icon-mixin(~'katana', 8);
+	.hr-gear-icon-mixin(~'2h-sword', 9);
+	.hr-gear-icon-mixin(~'2h-axe', 10);
+	.hr-gear-icon-mixin(~'spear', 11);
+	.hr-gear-icon-mixin(~'shield', 12);
+	.hr-gear-icon-mixin(~'head', 13);
+	.hr-gear-icon-mixin(~'armor', 14);
+	.hr-gear-icon-mixin(~'greaves', 15);
+	.hr-gear-icon-mixin(~'neck', 16);
+	.hr-gear-icon-mixin(~'waist', 17);
+	.hr-gear-icon-mixin(~'wrist', 18);
+	.hr-gear-icon-mixin(~'ring', 19);
+	.hr-gear-icon-mixin(~'carm', 20);
 }
 
 @import "_overrides";

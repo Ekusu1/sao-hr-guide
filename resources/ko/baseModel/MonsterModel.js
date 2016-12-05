@@ -24,13 +24,13 @@ function MonsterModel(newData = {
 	self.sortKey    = ko.pureComputed(()=>[
 		GH.getSortNumber('stages', self.locations()[0].stage()),
 		self.race(),
-		self.family() || 'Z',
 		GH.getSortNumber('monsterType', self.type()),
+		self.family() || 'Z',
 		self.name()
 	].join('|'));
 
 	self.locations     = ko.observableArray(newData.locations.map(data=>new LocationModel(data)));
-	self.addLocation   = ()=>{
+	self.addLocation   = ()=> {
 		self.locations.push(new LocationModel());
 		self.sortLocations();
 	};
@@ -52,20 +52,20 @@ function MonsterModel(newData = {
 
 	function cleanupDrops() {
 		self.drops([...new Set(self.drops())]);
+		self.raceDrops().forEach(drop=>self.drops.remove(drop));
 		self.drops.sort();
 	}
 
-	function getRaceDrops() { return GH.getOptions('monsterRaceDrops.' + self.race()); }
-
-	function getRaceDropPrefix() { return GH.getOptions('monsterRaceDropPrefix.' + self.race()); }
-
-	function hasDrop(drop) { return self.drops().includes(drop) }
-
-	self.drops = ko.observableArray(newData.drops);
+	self.raceDrops = ko.pureComputed(()=>GH.getOptions('monsterRaceDrops.' + self.race()));
+	self.drops     = ko.observableArray(newData.drops);
+	self.dropToAdd = ko.observable(GH.getOptions('monsterRaceDropPrefix.' + self.race()));
 	cleanupDrops();
-	self.dropToAdd          = ko.observable(getRaceDropPrefix());
-	self.hasMissingRaceDrop = ko.computed(()=>getRaceDrops().some(drop=>!hasDrop(drop)));
-	self.dropRarity         = drop=> {
+
+	self.changeRace = ()=>self.dropToAdd(GH.getOptions('monsterRaceDropPrefix.' + self.race()));
+	self.isNewDrop = drop=>{
+		return drop !== '' && !self.drops().includes(drop) && !self.raceDrops().includes(drop)
+	};
+	self.dropRarity = drop=> {
 		var result = 'CommonDrop';
 		$.each(GH.getOptions('dropRarity'), (rarity, drops)=> {
 			if (drops.includes(drop)) {
@@ -76,27 +76,28 @@ function MonsterModel(newData = {
 		});
 		return result;
 	};
-	self.dropInRaceDrops    = drop=>getRaceDrops().includes(drop);
-	self.addRaceDrops       = ()=> {
-		getRaceDrops().forEach(drop=>!hasDrop(drop) && self.drops.push(drop));
+	self.isRaceDrop     = drop=>self.raceDrops().includes(drop);
+	self.addNewRaceDrop = drop=> {
+		var OPTIONS = GH.getOptions();
+		OPTIONS.monsterRaceDrops[self.race()].push(drop);
+		OPTIONS.monsterRaceDrops[self.race()] = OPTIONS.monsterRaceDrops[self.race()].sort();
+		rootView.OPTIONS(OPTIONS);
+		self.drops.remove(drop);
+	};
+	self.addDrop    = ()=> {
+		var dropToAdd = self.dropToAdd();
+		self.isNewDrop(dropToAdd) && self.drops.push(dropToAdd);
+		self.dropToAdd(GH.getOptions('monsterRaceDropPrefix.' + self.race()));
 		cleanupDrops();
 	};
-	self.addDrop            = ()=> {
-		var drops     = self.drops,
-		    dropToAdd = self.dropToAdd();
-		(dropToAdd !== '' && !hasDrop(dropToAdd)) && drops.push(dropToAdd);
-		cleanupDrops();
-		self.dropToAdd(getRaceDropPrefix());
-	};
-	self.removeDrop         = drop=>self.drops.remove(drop);
+	self.removeDrop = drop=>self.drops.remove(drop);
 
 	self.isNewMaterial  = ko.pureComputed(()=> GH.isNewOption('itemMaterial', self.dropToAdd()));
 	self.addNewMaterial = function () {
-		var OPTIONS = rootView.OPTIONS();
+		var OPTIONS = GH.getOptions();
 		OPTIONS.itemMaterial.push(self.dropToAdd());
 		OPTIONS.itemMaterial = OPTIONS.itemMaterial.sort();
 		rootView.OPTIONS(OPTIONS);
-		// GH.saveData();
 	};
 
 	self.getDuplicateCheckData = ko.computed(()=>[
@@ -114,7 +115,7 @@ function MonsterModel(newData = {
 
 	self.loadMonsterAddLocation = function () {
 		rootView.loadOriginalModel(self).addLocation();
-	}
+	};
 
 	self.additionalCss = ko.observable('');
 	self.mediaCss      = ko.pureComputed(()=>`bg-monster-${self.type().toLowerCase()} ${self.isDuplicate() ? 'duplicateModel' : ''} ${self.additionalCss()} ${self.hasMissingData() ? 'hasMissingData' : ''}`);
@@ -122,14 +123,14 @@ function MonsterModel(newData = {
 	self.filter = function (filter) {
 		if (filter.location !== undefined) {
 			return self.locations().some(location=> {
-				var results = []
+				var results = [];
 				filter.location.area != undefined && results.push(location.area() == filter.location.area);
 				filter.location.stage != undefined && results.push(location.stage() == filter.location.stage);
 				return results.every(r=>r === true);
 			});
 		}
 		return true;
-	}
+	};
 
 	self.export = ()=>({
 		locations: self.locations().map(m=>m.export()),

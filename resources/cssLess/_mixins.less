@@ -9,14 +9,19 @@
 }
 
 .bgs-mixin() {
-	&.bg-common, &.bg-monster-m, &.bg-monster-ms { background: @color-normal; }
-	&.bg-uncommon, &.bg-event-boss, &.bg-monster-snm, &.bg-monster-boss { background: @color-purple; }
-	&.bg-blue, &.bg-rare { background: @color-blue; }
-	&.bg-green, &.bg-exotic, &.bg-event-normal { background: @color-green; }
-	&.bg-gold, &.bg-legendary, &.bg-event-gold, &.bg-monster-hnm { background: @color-gold; }
-	&.bg-brown { background: @color-brown; }
-	&.bg-red, &.bg-monster-nm { background: @color-red; }
-	&.bg-silver, &.bg-event-silver { background: @color-silver; }
+	&.bg-primary { background-color: @brand-primary; }
+	&.bg-success { background-color: @brand-success; }
+	&.bg-info { background-color: @brand-info; }
+	&.bg-warning { background-color: @brand-warning; }
+	&.bg-danger { background-color: @brand-danger; }
+	&.bg-common, &.bg-monster-m, &.bg-monster-ms { background-color: @color-normal; }
+	&.bg-uncommon, &.bg-event-boss, &.bg-monster-snm, &.bg-monster-boss { background-color: @color-purple; }
+	&.bg-blue, &.bg-rare { background-color: @color-blue; }
+	&.bg-green, &.bg-exotic, &.bg-event-normal { background-color: @color-green; }
+	&.bg-gold, &.bg-legendary, &.bg-event-gold, &.bg-monster-hnm { background-color: @color-gold; }
+	&.bg-brown { background-color: @color-brown; }
+	&.bg-red, &.bg-monster-nm { background-color: @color-red; }
+	&.bg-silver, &.bg-event-silver { background-color: @color-silver; }
 }
 
 .padding-mix (@prefix, @suffix, @value) {

@@ -3,17 +3,17 @@ function RootViewModel() {
 
 	self.OPTIONS  = ko.observable();
 	var dataTypes = {
-		gear:    GearModel,
-		chests:  ChestModel,
-		events:  EventModel,
-		monster: MonsterModel,
+		gear:        GearModel,
+		chests:      ChestModel,
+		events:      EventModel,
+		monster:     MonsterModel,
 		blacksmiths: BlacksmithModel
 	};
 	self.DATA     = {
-		gear:    ko.observableArray(),
-		chests:  ko.observableArray(),
-		events:  ko.observableArray(),
-		monster: ko.observableArray(),
+		gear:        ko.observableArray(),
+		chests:      ko.observableArray(),
+		events:      ko.observableArray(),
+		monster:     ko.observableArray(),
 		blacksmiths: ko.observableArray(),
 	};
 	self.LAST     = {
@@ -22,45 +22,57 @@ function RootViewModel() {
 	};
 
 	self.filteredData = {
-		gear: ko.pauseablePureComputed(()=>filterBase('gear')),
-		chests: ko.pauseablePureComputed(()=>filterBase('chests')),
-		events: ko.pauseablePureComputed(()=>filterBase('events')),
-		monster: ko.pauseablePureComputed(()=>filterBase('monster')),
+		gear:        ko.pauseablePureComputed(()=>filterBase('gear')),
+		chests:      ko.pauseablePureComputed(()=>filterBase('chests')),
+		events:      ko.pauseablePureComputed(()=>filterBase('events')),
+		monster:     ko.pauseablePureComputed(()=>filterBase('monster')),
 		blacksmiths: ko.pauseablePureComputed(()=>filterBase('blacksmiths')),
 	};
-	function pauseFilter () {
+	function pauseFilter() {
 		$.each(self.filteredData, (dataType, data)=>data.pause());
 	}
-	function resumeFilter () {
-		$.each(self.filteredData, (dataType, data)=>{
-			data.resume()
+
+	function resumeFilter() {
+		$.each(self.filteredData, (dataType, data)=> {
+			data.resume();
 			self.DATA[dataType].notifySubscribers();
 		});
 	}
-	self.FILTERS           = null;
-	function filterBase (dataType) {
+
+	self.FILTERS = null;
+	function filterBase(dataType) {
 		if (self.FILTERS == null) return [];
-		var filters = self.FILTERS.getFilter();
-		var filterResult = self.DATA[dataType]();
-		filters.filtersActive && (filterResult = filterResult.filter(m=>m.filter(filters)));
-		return filterResult;
+		return self.DATA[dataType]().filter(m=>m.filter(self.FILTERS.getFilter()));
 	}
+
 	var filterDialogInstance = null;
-	self.openFilter = ()=>filterDialogInstance.open();
+	self.openFilter          = ()=>filterDialogInstance.open();
 
 	self.sortData = ()=> {
 		pauseFilter();
 		$.each(self.DATA, (dataType, data)=> {
-			var sortedData = data().sort((a, b)=>{
-				if(dataType == 'monster') { a.sortLocations(); b.sortLocations(); }
+			var sortedData = data().sort((a, b)=> {
+				if (dataType == 'monster') {
+					a.sortLocations();
+					b.sortLocations();
+				}
 				return a.sortKey() == b.sortKey() ? 0 : a.sortKey() < b.sortKey() ? -1 : 1;
 			});
 			self.DATA[dataType](sortedData);
 		});
 		resumeFilter();
 	};
-
 	self.tmpModels           = ko.observableArray();
+	self.addAnim = elem=>{
+		if (elem.nodeType === 1) {
+			// var article = $(elem),
+			//     offset = article.offset().top;
+			/*animate({scrollBottom: 0}, 250)*/
+			// ()=>$('#tmpModelsDialog').animate({scrollTop: $(document).height()-$(window).height()},500)
+			$(elem).hide().slideDown(500);
+		}
+	};
+	self.removeAnim = elem=>elem.nodeType === 1 && $(elem).slideUp(500);
 	var addNewDialogInstance = null;
 
 	function resetTmpModels() {
@@ -73,8 +85,13 @@ function RootViewModel() {
 			size:     BootstrapDialog.SIZE_SMALL,
 			message:  `<div class="text-center"><h5>Are you sure you want to remove: </h5><h3>${model.name()}</h3></div>`,
 			closable: true,
+			btnCancelHotkey: 27,
+			btnOKHotkey: 13,
 			type:     BootstrapDialog.TYPE_WARNING,
-			callback: callback
+			callback: r=> {
+				callback(r);
+				return true;
+			}
 		});
 		dialog.getModalHeader().hide();
 	}
@@ -116,9 +133,9 @@ function RootViewModel() {
 		}
 		model.isTmp(true);
 		if (action == 'show' && self.tmpModels().includes(model)) {
-			 self.tmpModels.remove(model);
+			self.tmpModels.remove(model);
 		}
-		self.tmpModels.push(model)
+		self.tmpModels.push(model);
 		addNewDialogInstance.open();
 	}
 
@@ -126,10 +143,10 @@ function RootViewModel() {
 	self.createChest         = ()=>addNewDialog('chests', {});
 	self.createEvent         = ()=>addNewDialog('events', {});
 	self.createMonster       = ()=>addNewDialog('monster', {});
-	self.createBlacksmith       = ()=>addNewDialog('blacksmiths', {});
+	self.createBlacksmith    = ()=>addNewDialog('blacksmiths', {});
 	self.createPresetModel   = m=>addNewDialog(m.dataType, m.getTmpPreset(), 'new');
 	self.cloneModel          = m=>addNewDialog(m.dataType, m.export(), 'clone');
-	self.loadOriginalModel   = m=>{
+	self.loadOriginalModel   = m=> {
 		var result = GH.findDuplicates(m)[0].locked(false).isTmp(true).additionalCss('showModel');
 		self.tmpModels.replace(m, result);
 		return result;
@@ -148,7 +165,7 @@ function RootViewModel() {
 	self.removeTmpModel      = m=>confirmRemoveDialog(m, r=>(r && self.tmpModels.remove(m)));
 	self.removeTmpMainModel  = m=>confirmRemoveDialog(m, r=>r && self.tmpModels.remove(m), self.DATA[m.dataType].remove(m));
 
-	self.saveData = ()=>GH.saveData();
+	self.saveData   = ()=>GH.saveData();
 	self.exportData = function () {
 		self.saveData();
 		var regex1     = /"([A-Za-z0-9_]*)":/gm;
@@ -168,10 +185,17 @@ function RootViewModel() {
 		!$.isEmptyObject(last) && (self.LAST = last);
 	};
 
+
+	self.btnSpanKeyboardAction = function (current,event,trigger) {
+		if ([0,13,32].includes(event.keyCode))
+			trigger(current);
+	}
+
 	self.init = function () {
 		self.loadData();
 		self.OPTIONS(OPTIONS);
-		self.FILTERS = new FiltersModel(GH.getLocalStorage('FILTERS'));
+		var filters = GH.getLocalStorage('FILTERS');
+		self.FILTERS = new FiltersModel(JSON.stringify(filters) != '{}' ? filters : undefined);
 		pauseFilter();
 		$.each(dataTypes, (dataType, model)=>self.DATA[dataType](DATA[dataType].map(data=>new model(data))));
 		resumeFilter();
@@ -194,17 +218,32 @@ function RootViewModel() {
 		filterDialogInstance.close();
 
 		addNewDialogInstance = new BootstrapDialog({
-			size:        'size-extra-wide',
-			autodestroy: false,
-			onshow:      ()=>self.tmpModels.valueHasMutated(),
-			onhide:      ()=>resetTmpModels(),
-			onhidden:    ()=>self.tmpModels([]),
-			message:     `<section class="media-list" data-bind="foreach: $root.tmpModels"><!-- ko template: template --><!-- /ko --></section><div class="row" data-bind="template: 'preset-modal-new'"></div>`,
-			buttons:     [
+			id: 'tmpModelsDialog',
+			size:            'size-extra-wide',
+			autodestroy:     false,
+			closeByBackdrop: false,
+			closeByKeyboard: false,
+			onshow:          ()=>self.tmpModels.valueHasMutated(),
+			onhide:          ()=>resetTmpModels(),
+			onhidden:        ()=>self.tmpModels([]),
+			message:         `<section class="media-list" data-bind="foreach: {data: tmpModels, afterAdd: addAnim, beforeRemove: removeAnim}"><!-- ko template: template --><!-- /ko --></section><div class="row" data-bind="template: 'preset-modal-new'"></div>`,
+			buttons:         [
 				{
 					label:    'Cancel',
 					cssClass: 'btn-sm btn-default col-xs-4 pull-left',
-					action:   dialogRef=>dialogRef.close()
+					hotkey:   27,
+					action:   dialogRef=>
+						BootstrapDialog.confirm({
+							size:            BootstrapDialog.SIZE_SMALL,
+							title:           false,
+							btnCancelHotkey: 27,
+							btnOKHotkey:     13,
+							message:         '<div class="text-center"><h4>New entries will be lost!</h4><h3>Close Temporary Editor?</h3></div>',
+							callback:        r=> {
+								r && dialogRef.close();
+								return true;
+							}
+						})
 				}, {
 					label:    'Confirm',
 					cssClass: 'btn-sm btn-primary col-xs-7 pull-right',
@@ -227,15 +266,15 @@ function RootViewModel() {
 		addNewDialogInstance.close();
 
 		// map multiple combinations to the same callback
-		Mousetrap.bind(['alt+1'], function() { self.createGear(); return false; });
-		Mousetrap.bind(['alt+2'], function() { self.createChest(); return false; });
-		Mousetrap.bind(['alt+3'], function() { self.createEvent(); return false; });
-		Mousetrap.bind(['alt+4'], function() { self.createMonster(); return false; });
-		Mousetrap.bind(['alt+5'], function() { self.createBlacksmith(); return false; });
-		Mousetrap.bind(['alt+6', 'ctrl+shift+f'], function() { $('#filtersModal').modal('toggle'); return false; });
-		Mousetrap.bind(['ctrl+shift+s'], function() { self.sortData(); return false; });
-		Mousetrap.bind(['ctrl+s'], function() { GH.saveData(); return false; });
-		Mousetrap.bind(['ctrl+e'], function() { self.exportData(); return false; });
-		Mousetrap.bind(['ctrl+shift+r'], function() { GH.clearLocalStorage(); return false; });
+		Mousetrap.bind(['1', 'alt+1'], ()=>{ self.createGear(); return false; });
+		Mousetrap.bind(['2', 'alt+2'], ()=>{ self.createChest(); return false; });
+		Mousetrap.bind(['3', 'alt+3'], ()=>{ self.createEvent(); return false; });
+		Mousetrap.bind(['4', 'alt+4'], ()=>{ self.createMonster(); return false; });
+		Mousetrap.bind(['5', 'alt+5'], ()=>{ self.createBlacksmith(); return false; });
+		Mousetrap.bind(['alt+6', 'ctrl+shift+f'], ()=>{ $('#filtersModal').modal('toggle'); return false; });
+		Mousetrap.bind(['ctrl+shift+s'], ()=>{ self.sortData(); return false; });
+		Mousetrap.bind(['ctrl+s'], ()=>{ GH.saveData(); return false; });
+		Mousetrap.bind(['ctrl+e'], ()=>{ self.exportData(); return false; });
+		Mousetrap.bind(['ctrl+shift+r'], ()=>{ GH.clearLocalStorage(); return false; });
 	};
 }

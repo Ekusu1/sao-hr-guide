@@ -12,7 +12,7 @@ function GoalModel(newData = {
 
 	self.monsterType = ko.pureComputed(()=> {
 		var result = GH.findByKeyValue('monster', 'name', self.name());
-		return result.length > 0 ? result[0].model.type() : 'M';
+		return result.length > 0 ? result[0].type() : 'M';
 	});
 	self.name        = ko.observable(newData.name);
 	self.amount      = ko.observable(newData.amount);
@@ -31,7 +31,7 @@ function GoalModel(newData = {
 		return types[self.type()]();
 	});
 
-	self.showMonster = ()=>GH.findByName('monster', self.name()).forEach(r=>rootView.showModel(r.model));
+	self.showMonster = ()=>GH.findByName('monster', self.name()).forEach(r=>GH.showModel(r));
 
 	self.listGoalType = ["Kill", "Protect", "Stealth"];
 
@@ -42,7 +42,9 @@ function GoalModel(newData = {
 	});
 
 	self.getTmpPreset = ()=>({locations: [new LocationModel(parent.location.export())], name: self.name()});
-
+	self.hasMissingData = ko.pureComputed(()=>
+		self.name() == ''
+	);
 	self.export = ()=>({
 		type:   self.type(),
 		name:   self.name(),

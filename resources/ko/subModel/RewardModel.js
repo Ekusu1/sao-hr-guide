@@ -14,7 +14,7 @@ function RewardModel(newData = {
 			'Item':    ()=>self.name('').amount(1),
 			'Gear':    ()=>self.name('').amount(1),
 			'LastHit': ()=>self.name('').amount(1),
-			'Chest':   ()=>self.name('Red').amount(1)
+			'Chest':   ()=>self.name('Silver').amount(1)
 		},
 		name:   {
 			'EXP':     ()=>false,
@@ -54,6 +54,9 @@ function RewardModel(newData = {
 			case 'LastHitMP':
 				self.dataType = 'gear';
 				return 'LastHit';
+			case 'Chest':
+				self.dataType = 'chests';
+				return 'Chest';
 			default:
 				self.dataType = undefined;
 				return self.type();
@@ -62,7 +65,7 @@ function RewardModel(newData = {
 	self.gearType   = ko.pureComputed(()=> {
 		if (!(self.isGear() || self.isLastHit())) { return "&nbsp;"; }
 		var result = GH.findByKeyValue('gear', 'name', self.name());
-		return result.length > 0 ? result[0].model.type() : "&nbsp;";
+		return result.length > 0 ? result[0].type() : "&nbsp;";
 	});
 	self.name       = ko.observable(newData.name);
 	self.nameShow   = ko.pureComputed(()=>types.name[self.getType()]());
@@ -70,7 +73,7 @@ function RewardModel(newData = {
 	self.amountShow = ko.pureComputed(()=>types.amount[self.getType()]());
 
 	self.listRewardType  = [
-		'EXP', 'Col', 'Item', 'Chest', 'Gear', 'LastHit', 'GearSP', 'LastHitSP', 'GearMP', 'LastHitMP'
+		'EXP', 'Col', 'Item', 'Chest', 'Gear',/* 'LastHit',*/ 'GearSP', 'LastHitSP', 'GearMP', 'LastHitMP'
 	];
 
 	self.isEXP     = ()=>['EXP'].includes(self.type());
@@ -88,23 +91,24 @@ function RewardModel(newData = {
 
 	self.isNewOre = ko.pureComputed(()=> {
 		var curName = self.name();
-		var isNewName = !rootView.OPTIONS().itemOre.includes(curName);
+		var isNewName = !GH.getOptions('itemOre').includes(curName);
 		return curName !== '' && isNewName;
 	});
 
 	self.addNewOre = function () {
-		var OPTIONS = rootView.OPTIONS();
+		var OPTIONS = GH.getOptions();
 		OPTIONS.itemOre.push(self.name());
 		OPTIONS.itemOre = OPTIONS.itemOre.sort();
 		rootView.OPTIONS(OPTIONS);
-		rootView.saveData();
 	};
 
-	self.showGear = function () {
-		GH.findByName('gear', self.name()).forEach(r=>rootView.showModel(r.model))
-	}
+	self.showGear = ()=>GH.findByName('gear', self.name()).forEach(r=>GH.showModel(r))
 
 	self.getTmpPreset = ()=>types.preset[self.getType()]();
+
+	self.hasMissingData = ko.pureComputed(()=>
+		self.name() == ''
+	);
 
 	self.export = ()=>({
 		type:   self.type(),

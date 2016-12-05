@@ -44,16 +44,7 @@ var GH = new function () {
 	 * @returns {Array}
 	 */
 	self.findByKeyValue = function (dataName, searchKey, searchValue) {
-		var returnValue = [];
-		var data        = self.getData(dataName)().slice();
-
-		data.forEach((model, index)=> {
-			if (model[searchKey]() === searchValue) {
-				returnValue.push({index, model});
-			}
-		});
-
-		return returnValue;
+		return self.getData(dataName)().slice().filter((model, index)=>model[searchKey]() === searchValue)
 	};
 
 	/**
@@ -62,7 +53,7 @@ var GH = new function () {
 	 * @returns {Object}
 	 */
 	self.findById = function (dataName, id) {
-		return self.findByKeyValue(dataName, 'id', parseInt(id))[0];
+		return self.findByKeyValue(dataName, 'id', id)[0] || null;
 	};
 
 	/**
@@ -79,6 +70,12 @@ var GH = new function () {
 		var options = JSON.parse(JSON.stringify(rootView.OPTIONS()));
 		tree && tree.split(DEFAULT_TREE_SEPERATOR).forEach(k=>options = options[k]);
 		return options;
+	}
+	self.isNewOption = function (optionTree, value) {
+		return value !== '' && !self.getOptions(optionTree).includes(value);
+	}
+	self.setOptions = function (tree='', value) {
+		rootView.OPTIONS(value);
 	}
 	self.getData = function (dataType = '') {
 		return rootView.DATA[dataType] || rootView.DATA;
@@ -99,9 +96,6 @@ var GH = new function () {
 		);
 	};
 
-	self.isNewOption = function (optionTree, value) {
-		return value !== '' && !self.getOptions(optionTree).includes(value);
-	}
 	self.showModel = function (model) {
 		rootView.showModel(model);
 	}

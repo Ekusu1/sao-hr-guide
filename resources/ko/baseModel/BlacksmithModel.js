@@ -93,9 +93,14 @@ function BlacksmithModel(newData = {
 	self.isDuplicate           = ko.computed(()=>GH.findDuplicates(self).length > 0);
 
 	self.hasMissingData = ko.pureComputed(()=>
-		self.location.area() == '' ||
 		self.location.stage() == '' ||
-		self.name() == ''
+		self.name() == '' ||
+		self.stats.precision() == 0 ||
+		self.stats.technique() == 0 ||
+		self.stats.growthPotential() == 0 ||
+		self.stats.knowledge() == 0 ||
+		self.stats.recycling() == 0 ||
+		self.skills().length == 0
 	);
 
 	self.additionalCss = ko.observable('');

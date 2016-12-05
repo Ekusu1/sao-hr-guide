@@ -13,17 +13,15 @@ function EffectModel(newData = {
 
 	self.isNewEffect = ko.pureComputed(()=> {
 		var curName = self.name();
-		var options = GH.getOptions('gearEffect').concat(GH.getOptions('baseEffect'));
-		var newName = !options.includes(curName);
+		var newName = !GH.getOptions('gearEffect').concat(GH.getOptions('baseEffect')).includes(curName);
 		return curName !== '' && newName;
 	});
 
 	self.addNewEffect = function () {
-		var OPTIONS = rootView.OPTIONS();
+		var OPTIONS = GH.getOptions();
 		OPTIONS.gearEffect.push(self.name());
 		OPTIONS.gearEffect = OPTIONS.gearEffect.sort();
 		rootView.OPTIONS(OPTIONS);
-		rootView.saveData();
 	};
 
 	self.export = ()=>({

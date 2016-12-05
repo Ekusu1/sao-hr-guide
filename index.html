@@ -101,7 +101,7 @@
 		</div>
 	</div>
 </script>
-<script type="text/html" id="preset-location">
+<script type="text/html" id="select-location">
 	<!-- ko with: location -->
 	<div class="inputBox hasHeader">
 		<header>Area / Stage</header>
@@ -110,7 +110,7 @@
 	</div>
 	<!-- /ko -->
 </script>
-<script type="text/html" id="preset-locations">
+<script type="text/html" id="select-locations">
 	<div>
 		<!-- ko foreach: locations -->
 			<div class="inputBox" data-bind="css: {hasHeader: $index() == 0}">
@@ -132,7 +132,7 @@
 		</div>
 	</div>
 </script>
-<script type="text/html" id="preset-gear-stat">
+<script type="text/html" id="input-gear-stat">
 	<div class="inputBox hasHeader effect" data-bind="visible: !$parent.locked() || value() != 0">
 		<header data-bind="html: name">&nbsp;</header>
 		<input type="number" class="Stat" data-bind="textInput: value"/>
@@ -144,7 +144,7 @@
 		<!-- ko if: $index() == 0 -->
 		<header>Materials</header>
 		<!-- /ko -->
-		<input type="text" class="ItemMaterial" list="listItemMaterial" placeholder="Material" data-bind="textInput: material"/>
+		<input type="text" list="listItemMaterial" class="ItemMaterial inputName" placeholder="Material" data-bind="textInput: material"/>
 		<input type="number" class="goalAmount" data-bind="textInput: amount">
 		<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeRequiredMaterial" tabindex="-1">
 			<i class="fa fa-minus"></i>
@@ -155,15 +155,15 @@
 	<hr class="m-y-5">
 	<div class="inputBox hasHeader">
 		<header>Transform to</header>
-		<input type="text" list="listGear" class="Gear" data-bind="textInput: name"/>
-		<!-- ko template: {name: 'preset-add-show', data: {check: isNewGear,show: showTransformation}} --><!-- /ko -->
-
+		<input type="text" list="listGear" class="Gear inputName" data-bind="textInput: name"/>
+		<!-- ko template: {name: 'btn-span-add-show', data: {check: isNewGear,show: showTransformation}} --><!-- /ko -->
 		<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeTransformation" tabindex="-1">
 			<i class="fa fa-minus"></i>
 		</button>
 	</div>
 	<!-- ko template: {name: "preset-required-material", foreach: requiredMaterials} --><!-- /ko -->
-	<div class="inputBox">
+	<br>
+	<div class="inputBox indent">
 		<button type="button" class="inputBtn btn-primary" data-bind="click: addRequiredMaterial">
 			<i class="fa fa-plus"></i>
 		</button>
@@ -175,9 +175,9 @@
 		<header>Goal</header>
 		<!-- /ko -->
 		<select class="GoalType" data-bind="options: listGoalType, value: type, valueAllowUnset: true"></select>
-		<span class="inputName MonsterType" data-bind="html: monsterType">&nbsp;</span>
+		<span class="inputText MonsterType" data-bind="html: monsterType">&nbsp;</span>
 		<input type="text" class="MonsterName" list="listMonsterName" placeholder="Monster" data-bind="textInput: name"/>
-		<!-- ko template: {name: 'preset-add-show', data: {check: isNew,show: showMonster}} --><!-- /ko -->
+		<!-- ko template: {name: 'btn-span-add-show', data: {check: isNew,show: showMonster}} --><!-- /ko -->
 		<input type="number" class="goalAmount" data-bind="textInput: amount, visible: amountShow()" />
 		<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeGoal" tabindex="-1">
 			<i class="fa fa-minus"></i>
@@ -190,20 +190,23 @@
 		<!-- ko if: $index() == 0 -->
 		<header>Reward</header>
 		<!-- /ko -->
-		<select class="RewardType" data-bind="options: listRewardType, value: type, event:{change:switchType}, valueAllowUnset: true"></select>
+		<select class="RewardType inputName" data-bind="options: listRewardType, value: type, event:{change:switchType}, valueAllowUnset: true"></select>
 		<!-- ko if: isItem() -->
 		<input list="listItemOre" class="ItemOre" data-bind="textInput: name"/>
-		<span type="button" tabindex="0" class="inputBtn btn-success showOnLock" data-bind="visible: isNewOre(), click: addNewOre">
-			<i class="fa fa-sign-in"></i>
-		</span>
+		<!-- ko template: {name: 'btn-span-if', data:{
+			btnClass: 'btn-success',
+			iconClass: 'fa-sign-in',
+			condition: isNewOre(),
+			event: addNewOre
+		}} --><!-- /ko -->
 		<!-- /ko -->
 		<!-- ko if: isChest() -->
-		<select class="ChestRarity" data-bind="options: $root.OPTIONS().chestRarity, value: name, valueAllowUnset: true"></select>
+		<select class="ChestRarity" data-bind="options: ['','Silver','Gold'], value: name, valueAllowUnset: true"></select>
 		<!-- /ko -->
 		<!-- ko if: isGear() || isLastHit() -->
-			<span class="inputName GearType" data-bind="html: gearType">&nbsp;</span>
+			<span class="inputText GearType" data-bind="html: gearType">&nbsp;</span>
 			<input type="text" list="listGear" class="Gear" data-bind="textInput: name"/>
-			<!-- ko template: {name: 'preset-add-show', data: {check: isNewGear,show: showGear}} --><!-- /ko -->
+			<!-- ko template: {name: 'btn-span-add-show', data: {check: isNewGear,show: showGear}} --><!-- /ko -->
 		<!-- /ko -->
 		<input type="number" class="amount" data-bind="textInput: amount, visible: amountShow()"/>
 		<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeReward" tabindex="-1">
@@ -212,13 +215,13 @@
 	</div>
 	<br>
 </script>
-<script type="text/html" id="preset-blacksmith-stat">
+<script type="text/html" id="input-blacksmith-skill">
 	<div class="inputBox hasHeader" name="" data-bind="attr: {name: name}">
 		<header class="BlacksmithStat" data-bind="text: $data.name">Precision</header>
-		<input type="number" class="BlacksmithStat" data-bind="textInput: $data.value"/>
+		<input type="number" class="BlacksmithStat" min="0" max="5" data-bind="textInput: $data.value"/>
 	</div>
 </script>
-<script type="text/html" id="preset-blacksmith-skill">
+<script type="text/html" id="select-blacksmith-skill">
 	<div class="inputBox" data-bind="css: {hasHeader: $index() == 0}">
 		<!-- ko if: $index() == 0 -->
 		<header>Skills</header>
@@ -227,14 +230,9 @@
 		<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeSkill" tabindex="-1">
 			<i class="fa fa-minus"></i>
 		</button>
-		<span data-bind="text: description"></span>
+		<span class="inputText" data-bind="text: description"></span>
 	</div>
 	<br>
-</script>
-<script type="text/html" id="preset-add-show">
-	<span type="button" tabindex="0" class="inputBtn showOnLock" data-bind="css: check() ? 'btn-success' : 'btn-info', click: check() ? function(){$root.createPresetModel($parent)} : show">
-		<i class="fa" data-bind="css: check() ? 'fa-sign-in' : 'fa-eye'"></i>
-	</span>
 </script>
 <script type="text/html" id="preset-media-actions">
 	<div class="media-actions">
@@ -297,16 +295,38 @@
 	</div>
 </script>
 
+<script type="text/html" id="btn-span-add-show">
+	<span type="button" tabindex="0" class="inputBtn showOnLock" data-bind="css: check() ? 'btn-success' : 'btn-info', click: check() ? function(){$root.createPresetModel($parent)} : show">
+		<i class="fa" data-bind="css: check() ? 'fa-sign-in' : 'fa-eye'"></i>
+	</span>
+</script>
+<script type="text/html" id="btn-span-if">
+	<span type="button" tabindex="0" class="inputBtn showOnLock" data-bind="css: btnClass, visible: condition, event:{click: event, keyup: function(d,e){$root.btnSpanKeyboardAction(d,e,event)}}">
+		<i class="fa" data-bind="css: iconClass"></i>
+	</span>
+</script>
+<script type="text/html" id="preset-inputBox-check">
+	<div class="inputBox" data-bind="css: $data.cssClass">
+		<span class="inputText" data-bind="html: name"></span>
+		<label type="button" class="inputBtn">
+			<input type="checkbox" class="hidden" data-bind="checked: $data.value">
+			<i class="fa fa-fw" data-bind="css: $data.value() ? 'fa-check' : ''"></i>
+		</label>
+	</div>
+	<br>
+</script>
+
 <script type="text/html" id="item-gear">
 	<article id="tempGearId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
 				<div class="col-xs-12 col-md-2">
-					<div class="inputBox hasHeader block">
-						<header>Type</header>
-						<select class="GearType" data-bind="options: $root.OPTIONS().itemTypeGear, value: type, valueAllowUnset: true"></select>
-					</div>
-					<div class="inputBox hasHeader">
+					<div class="inputBox hasHeader hasTypeIcon">
+						<div class="typeIcon">
+							<i class="hr-icon" data-bind="css:iconCss"></i>
+							<i class="iconStars" data-bind="html: starsText"></i>
+							<select class="GearType" data-bind="options: $root.OPTIONS().itemTypeGear, value: type, attr:{title: type}, valueAllowUnset: true"></select>
+						</div>
 						<header>Name</header>
 						<input type="text" list="listGear" placeholder="Name" data-bind="textInput: name">
 						<!-- ko if: isTmp() && isDuplicate() -->
@@ -316,28 +336,34 @@
 						<!-- /ko -->
 					</div>
 					<div class="inputBox hasHeader">
-						<header>Rarity / Stars</header>
+						<header>Rarity</header>
 						<select class="ItemRarity" data-bind="options: $root.OPTIONS().itemRarity, value: rarity, valueAllowUnset: true"></select>
-						<input type="text" class="Stars" list="listStars" data-bind="textInput: stars"/>
-						<span class="inputName starsText" data-bind="text: starsText"></span>
+					</div>
+					<div class="inputBox hasHeader">
+						<header>Stars</header>
+						<input type="number" min="0" max="5" class="Stars" list="listStars" data-bind="textInput: stars"/>
+						<span class="inputText starsText" data-bind="html: starsText"></span>
 					</div>
 					<br>
 					<!-- ko if: transformable () -->
 						<div class="inputBox">
-							<span class="inputName">Transformable</span>
+							<span class="inputText">Transformable</span>
 						</div>
 					<!-- /ko -->
 				</div>
 				<div class="col-xs-12 col-md-7">
-					<div data-bind="template: {name: 'preset-gear-stat', foreach: groupedEffects().base}"></div>
-					<div data-bind="template: {name: 'preset-gear-stat', foreach: groupedEffects().resistance}"></div>
+					<div data-bind="template: {name: 'input-gear-stat', foreach: groupedEffects().base}"></div>
+					<div data-bind="template: {name: 'input-gear-stat', foreach: groupedEffects().resistance}"></div>
 					<div>
 						<!-- ko foreach: groupedEffects().other -->
 						<div class="inputBox effect">
 							<input class="inputName GearEffect" type="text" list="listGearEffect" placeholder="Effect" data-bind="textInput: name"/>
-							<span type="button" tabindex="0" class="inputBtn btn-success showOnLock" data-bind="visible: isNewEffect(), click: addNewEffect">
-								<i class="fa fa-sign-in"></i>
-							</span>
+							<!-- ko template: {name: 'btn-span-if', data:{
+								btnClass: 'btn-success',
+								iconClass: 'fa-sign-in',
+								condition: isNewEffect(),
+								event: addNewEffect
+							}} --><!-- /ko -->
 							<input type="number" class="Stat" data-bind="textInput: value"/>
 							<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeEffect" tabindex="-1">
 								<i class="fa fa-minus"></i>
@@ -354,11 +380,14 @@
 				<div class="col-xs-12 col-md-3">
 
 					<div class="inputBox hasHeader" data-bind="visible: !locked() || transformedFrom() != ''">
-						<strong>Tranformed from:</strong>
-						<input type="text" list="listGear" class="Gear" placeholder="Tranformed from" data-bind="textInput: transformedFrom"/>
-						<span type="button" tabindex="0" class="inputBtn btn-info showOnLock" data-bind="visible: transformedFrom() != '', click: showTransformedFrom">
-							<i class="fa fa-eye"></i>
-						</span>
+						<header>Tranformed from</header>
+						<input type="text" list="listGear" class="Gear inputName" placeholder="Tranformed from" data-bind="textInput: transformedFrom"/>
+						<!-- ko template: {name: 'btn-span-if', data:{
+							btnClass: 'btn-info',
+							iconClass: 'fa-eye',
+							condition: transformedFrom() != '',
+							event: showTransformedFrom
+						}} --><!-- /ko -->
 					</div>
 					<!-- ko template: {name: "preset-gear-transformation", foreach: transformations} --><!-- /ko -->
 					<hr class="m-y-5" data-bind="visible: !locked()">
@@ -378,19 +407,22 @@
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
 				<div class="col-xs-12 col-md-5">
-					<!-- ko template: 'preset-location' --><!-- /ko -->
-					<div class="inputBox hasHeader">
-						<header>Type / Where or How</header>
-						<select class="ChestRarity" data-bind="options: $root.OPTIONS().chestRarity, value: rarity, event: {change: changeRarity}, valueAllowUnset: true"></select>
+					<!-- ko template: 'select-location' --><!-- /ko -->
+					<div class="inputBox hasHeader hasTypeIcon">
+						<div class="typeIcon">
+							<i class="hr-icon" data-bind="css:iconCss"></i>
+							<select class="ChestRarity" data-bind="options: $root.OPTIONS().chestRarity, value: rarity, event: {change: changeRarity}, valueAllowUnset: true"></select>
+						</div>
+						<header>Where or How</header>
 						<select class="Location" data-bind="options: listWhere, value: where, valueAllowUnset: true"></select>
 					</div>
 				</div>
 				<div class="col-xs-12 col-md-4">
 					<div class="inputBox hasHeader">
 						<header>Content</header>
-						<span type="text" class="inputName GearType" data-bind="css: 'bg-'+itemInfo().rarity.toLowerCase(),html: itemInfo().type">&nbsp;</span>
+						<span class="inputText GearType" data-bind="css: 'bg-'+itemInfo().rarity.toLowerCase(),html: itemInfo().type">&nbsp;</span>
 						<input type="text" list="listGear" class="Gear" placeholder="Gear" data-bind="textInput: item"/>
-						<!-- ko template: {name: 'preset-add-show', data: {check: isNewGear,show: showGear}} --><!-- /ko -->
+						<!-- ko template: {name: 'btn-span-add-show', data: {check: isNewGear,show: showGear}} --><!-- /ko -->
 					</div>
 				</div>
 			</fieldset>
@@ -403,12 +435,12 @@
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
 				<div class="col-xs-12 col-md-5">
-					<!-- ko template: 'preset-location' --><!-- /ko -->
+					<!-- ko template: 'select-location' --><!-- /ko -->
 					<div class="inputBox hasHeader">
 						<header>Name</header>
 						<input type="text" class="EventName" data-bind="textInput: name" placeholder="Name">
 					</div>
-					<hr class="m-y-5">
+					<hr class="m-y-5" data-bind="visible: !locked() || chainEvents().length > 0">
 					<!-- ko foreach: chainEvents -->
 					<div class="inputBox" data-bind="css: {hasHeader: $index() == 0}">
 						<!-- ko if: $index() == 0 -->
@@ -416,9 +448,12 @@
 						<!-- /ko -->
 						<span class="Areas" data-bind="text: $data.stage"></span>
 						<span class="EventName" data-bind="text: $data.name"></span>
-						<span type="button" tabindex="1" class="inputBtn btn-info showOnLock" data-bind="click: $parent.showChainEvent">
-							<i class="fa fa-eye"></i>
-						</span>
+						<!-- ko template: {name: 'btn-span-if', data:{
+							btnClass: 'btn-info',
+							iconClass: 'fa-eye',
+							condition: true,
+							event: $parent.showChainEvent
+						}} --><!-- /ko -->
 						<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeChainEvent">
 							<i class="fa fa-minus"></i>
 						</button>
@@ -460,12 +495,18 @@
 	<article id="tempMonsterId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
-				<div class="col-xs-12 col-md-4" data-bind="template: 'preset-locations'"></div>
+				<div class="col-xs-12 col-md-4" data-bind="template: 'select-locations'"></div>
 				<div class="col-xs-12 col-md-3">
 					<div class="inputBox hasHeader">
-						<header>Type / Race / Family</header>
+						<header>Type</header>
 						<select class="MonsterType" data-bind="options: $root.OPTIONS().monsterType, value: type, valueAllowUnset: true"></select>
-						<select class="MonsterRace" data-bind="options: $root.OPTIONS().monsterRace, value: race, valueAllowUnset: true"></select>
+					</div>
+					<div class="inputBox hasHeader">
+						<header>Race</header>
+						<select class="MonsterRace" data-bind="options: $root.OPTIONS().monsterRace, value: race, valueAllowUnset: true, event: {change: changeRace}"></select>
+					</div>
+					<div class="inputBox hasHeader">
+						<header>Family</header>
 						<input type="text" list="listMonsterFamily" class="MonsterFamily" placeholder="Family" data-bind="textInput: family">
 					</div>
 					<div class="inputBox hasHeader">
@@ -483,32 +524,41 @@
 					</div>
 				</div>
 				<div class="col-xs-12 col-md-4">
+					<!-- ko foreach: raceDrops -->
+					<div class="inputBox" data-bind="css: {hasHeader: $index() == 0}">
+						<!-- ko if: $index() == 0 -->
+						<header>Race Drops</header>
+						<!-- /ko -->
+						<span class="inputText ItemMaterial" data-bind="text: $data, css: $parent.dropRarity($data)"></span>
+					</div>
+					<br>
+					<!-- /ko -->
 					<!-- ko foreach: drops -->
-						<div class="inputBox" data-bind="css: {hasHeader: $index() == 0}">
-							<!-- ko if: $index() == 0 -->
-							<header>Drops</header>
-							<!-- /ko -->
-							<span class="inputName ItemMaterial" data-bind="text: $data, css: $parent.dropRarity($data)"></span>
-							<!-- ko if: !$parent.dropInRaceDrops($data) -->
-							<span class="SpecialDrop" title="Event drop or other condition">S</span>
-							<!-- /ko -->
-							<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeDrop" tabindex="-1">
-								<i class="fa fa-minus"></i>
-							</button>
-						</div>
-						<br>
+					<div class="inputBox" data-bind="css: {hasHeader: $index() == 0}">
+						<!-- ko if: $index() == 0 -->
+						<header>Special Drops</header>
+						<!-- /ko -->
+						<span class="inputText ItemMaterial" data-bind="text: $data, css: $parent.dropRarity($data)"></span>
+						<span class="bg-warning" data-bind="visible: $parent.isRaceDrop($data)"><strong>!!</strong></span>
+						<button type="button" class="inputBtn btn-success" data-bind="visible: !$parent.isRaceDrop($data), click: $parent.addNewRaceDrop" tabindex="-1">
+							<i class="fa fa-level-up"></i>
+						</button>
+						<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeDrop" tabindex="-1">
+							<i class="fa fa-minus"></i>
+						</button>
+					</div>
+					<br>
 					<!-- /ko -->
 					<div class="inputBox hasHeader hideOnLock">
 						<header>Drop to add</header>
 						<input type="text" class="ItemMaterial" list="listItemMaterial" placeholder="Drop" data-bind="textInput: dropToAdd"/>
-						<span type="button" tabindex="0" class="inputBtn btn-success showOnLock" data-bind="visible: isNewMaterial(), click: addNewMaterial">
-							<i class="fa fa-sign-in"></i>
-						</span>
-						<button type="button" class="inputBtn btn-primary" title="add" data-bind="click: addDrop">
-							<i class="fa fa-plus"></i>
-						</button>
-						<button type="button" class="inputBtn btn-primary" title="add all race drops" data-bind="click: addRaceDrops, visible: hasMissingRaceDrop()">
-							<i class="fa fa-plus"></i>
+						<!-- ko template: {name: 'btn-span-if', data:{
+							btnClass: 'btn-success',
+							iconClass: 'fa-sign-in',
+							condition: isNewMaterial(),
+							event: addNewMaterial
+						}} --><!-- /ko -->
+						<button type="button" class="inputBtn btn-primary" title="add" data-bind="visible: isNewDrop(dropToAdd()), click: addDrop">
 							<i class="fa fa-plus"></i>
 						</button>
 					</div>
@@ -523,13 +573,13 @@
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
 				<div class="col-xs-12 col-md-5">
-					<!-- ko template: 'preset-location' --><!-- /ko -->
+					<!-- ko template: 'select-location' --><!-- /ko -->
 					<div class="inputBox hasHeader">
 						<header>Name</header>
 						<input type="text" class="CharName" placeholder="Name" data-bind="textInput: name">
 					</div>
 					<br>
-					<!-- ko template: {name:'preset-blacksmith-skill',foreach: skills} --><!-- /ko -->
+					<!-- ko template: {name:'select-blacksmith-skill',foreach: skills} --><!-- /ko -->
 					<div class="inputBox" data-bind="visible: skills().length < 6">
 						<button type="button" class="inputBtn btn-primary" data-bind="click: addSkill">
 							<i class="fa fa-plus"></i>
@@ -541,11 +591,11 @@
 						<div class="blacksmithChartContainer">
 							<canvas data-bind="chart: {type: 'radar', data: chartData, options: chartOptions}"></canvas>
 						</div>
-						<!-- ko template: {name: 'preset-blacksmith-stat', data:{name:'Precision',value:stats.precision}} --><!-- /ko -->
-						<!-- ko template: {name: 'preset-blacksmith-stat', data:{name:'Technique',value:stats.technique}} --><!-- /ko -->
-						<!-- ko template: {name: 'preset-blacksmith-stat', data:{name:'Growth Potential',value:stats.growthPotential}} --><!-- /ko -->
-						<!-- ko template: {name: 'preset-blacksmith-stat', data:{name:'Knowledge',value:stats.knowledge}} --><!-- /ko -->
-						<!-- ko template: {name: 'preset-blacksmith-stat', data:{name:'Recycling',value:stats.recycling}} --><!-- /ko -->
+						<!-- ko template: {name: 'input-blacksmith-skill', data:{name:'Precision',value:stats.precision}} --><!-- /ko -->
+						<!-- ko template: {name: 'input-blacksmith-skill', data:{name:'Technique',value:stats.technique}} --><!-- /ko -->
+						<!-- ko template: {name: 'input-blacksmith-skill', data:{name:'Growth Potential',value:stats.growthPotential}} --><!-- /ko -->
+						<!-- ko template: {name: 'input-blacksmith-skill', data:{name:'Knowledge',value:stats.knowledge}} --><!-- /ko -->
+						<!-- ko template: {name: 'input-blacksmith-skill', data:{name:'Recycling',value:stats.recycling}} --><!-- /ko -->
 					</div>
 				</div>
 			</fieldset>
@@ -555,46 +605,49 @@
 </script>
 <script type="text/html" id="template-filter">
 	<!-- ko with: FILTERS -->
-	<h1 class="modal-title inputBox noBorder">
-		<span class="inputName">Filters Active</span>
-		<label type="button" class="inputBtn">
-			<input type="checkbox" class="hidden" data-bind="checked: filtersActive">
-			<i class="fa" data-bind="css: filtersActive() ? 'fa-check-square' : 'fa-square'"></i>
-		</label>
-	</h1>
-	<hr class="m-y-5">
-	<h4 class="inputBox noBorder">
-		<span class="inputName">Location Active</span>
-		<label type="button" class="inputBtn">
-			<input type="checkbox" class="hidden" data-bind="checked: locationActive">
-			<i class="fa" data-bind="css: locationActive() ? 'fa-check-square' : 'fa-square'"></i>
-		</label>
-	</h4>
-	<div data-bind="visible: locationActive()">
-		<!-- ko template: 'preset-location' --><!-- /ko -->
-	</div>
-	<hr class="m-y-5">
-	<h4 class="inputBox noBorder">
-		<span class="inputName">Gear Type Active</span>
-		<label type="button" class="inputBtn">
-			<input type="checkbox" class="hidden" data-bind="checked: gearTypeActive">
-			<i class="fa" data-bind="css: gearTypeActive() ? 'fa-check-square' : 'fa-square'"></i>
-		</label>
-	</h4>
-	<div data-bind="visible: gearTypeActive()">
-		<div class="inputBox hasHeader">
-			<header>Gear Type</header>
-			<select class="GearType" data-bind="options: $root.OPTIONS().itemTypeGear, value: gearType, valueAllowUnset: true"></select>
-		</div>
-		<br>
-		<div class="inputBox">
-			<span class="inputName">Only transformable gear</span>
+		<h1 class="modal-title inputBox noBorder">
+			<span class="inputText">Filters</span>
+		</h1>
+		<hr class="m-y-5">
+		<h4 class="inputBox noBorder">
+			<span class="inputText">Location Active</span>
 			<label type="button" class="inputBtn">
-				<input type="checkbox" class="hidden" data-bind="checked: onlyTransformableGear">
-				<i class="fa" data-bind="css: onlyTransformableGear() ? 'fa-check-square' : 'fa-square'"></i>
+				<input type="checkbox" class="hidden" data-bind="checked: locationActive">
+				<i class="fa" data-bind="css: locationActive() ? 'fa-check-square' : 'fa-square'"></i>
 			</label>
+		</h4>
+		<div data-bind="visible: locationActive()">
+			<!-- ko template: 'select-location' --><!-- /ko -->
 		</div>
-	</div>
+		<hr class="m-y-5">
+		<h4 class="inputBox noBorder">
+			<span class="inputText">Gear Type Active</span>
+			<label type="button" class="inputBtn">
+				<input type="checkbox" class="hidden" data-bind="checked: gearTypeActive">
+				<i class="fa" data-bind="css: gearTypeActive() ? 'fa-check-square' : 'fa-square'"></i>
+			</label>
+		</h4>
+		<div data-bind="visible: gearTypeActive()">
+			<div class="inputBox hasHeader">
+				<header>Gear Type</header>
+				<select class="GearType" data-bind="options: $root.OPTIONS().itemTypeGear, value: gearType, valueAllowUnset: true"></select>
+			</div>
+			<br>
+			<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Show only transformable gear', value: onlyTransformableGear, cssClass: ''}} --><!-- /ko -->
+		</div>
+		<hr class="m-y-5">
+		<h4 class="m-5">Chests</h4>
+	<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Brown Chests', value: chestTypeBrown, cssClass: 'bg-brown'}} --><!-- /ko -->
+	<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Blue Chests', value: chestTypeBlue, cssClass: 'bg-blue'}} --><!-- /ko -->
+	<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Red Chests', value: chestTypeRed, cssClass: 'bg-red'}} --><!-- /ko -->
+		<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Silver', value: chestTypeSilver, cssClass: 'bg-silver'}} --><!-- /ko -->
+		<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Gold', value: chestTypeGold, cssClass: 'bg-gold'}} --><!-- /ko -->
+		<hr class="m-y-5">
+		<h4 class="m-5">Events</h4>
+		<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Normal', value: eventTypeNormal, cssClass: 'bg-event-normal'}} --><!-- /ko -->
+		<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Silver', value: eventTypeSilver, cssClass: 'bg-event-silver'}} --><!-- /ko -->
+		<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Gold', value: eventTypeGold, cssClass: 'bg-event-gold'}} --><!-- /ko -->
+		<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Boss', value: eventTypeBoss, cssClass: 'bg-event-boss'}} --><!-- /ko -->
 	<!-- /ko -->
 </script>
 <script type="text/html" id="preset"></script>
@@ -645,11 +698,6 @@
 			</a></li>
 			<li><a href="#" data-bind="click: openFilter">
 				Filter
-				<div class="inputBox smallBtn">
-					<button type="button" class="inputBtn btn-info">
-						<i class="fa" data-bind="css: FILTERS.filtersActive() ? 'fa-check' : 'fa-square'"></i>
-					</button>
-				</div>
 			</a></li>
 			<li>
 				<a href="#">

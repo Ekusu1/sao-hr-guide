@@ -76,9 +76,11 @@ option[value=Gold] {
   z-index: 0;
   position: relative;
   display: inline-block;
+  margin-bottom: 3px;
+  vertical-align: top;
 }
 .inputBox.indent {
-  margin-left: 15px;
+  margin-left: 30px;
 }
 .inputBox > * {
   position: relative;
@@ -86,19 +88,30 @@ option[value=Gold] {
   display: block;
   float: left;
   padding: 0 5px;
-  border: 1px solid #FFF;
+  border: 1px solid #ffffff;
+  color: #ffffff;
 }
 .inputBox > * + * {
   border-left-width: 0;
 }
-.inputBox header,
-.inputBox span,
+.inputBox header {
+  background-color: #000000;
+}
+.inputBox .inputText {
+  background-color: #0d0d0d;
+}
 .inputBox select,
 .inputBox input,
 .inputBox textarea,
 .inputBox [contenteditable] {
-  background: #222;
-  color: #FFF;
+  background-color: #262626;
+}
+.inputBox .inputName {
+  background-color: #404040;
+}
+.inputBox label {
+  margin-bottom: 0;
+  padding: 0 1px;
 }
 .inputBox input[type=number] {
   font-family: Consolas;
@@ -108,154 +121,172 @@ option[value=Gold] {
 .inputBox input[type=number]::-webkit-inner-spin-button {
   display: none;
 }
-.inputBox > [list],
-.inputBox > select {
-  background: #555;
+.inputBox [list],
+.inputBox select {
   -webkit-appearance: none;
   width: auto;
 }
-.inputBox > [list]::-webkit-calendar-picker-indicator,
-.inputBox > select::-webkit-calendar-picker-indicator {
+.inputBox [list]::-webkit-calendar-picker-indicator,
+.inputBox select::-webkit-calendar-picker-indicator {
   display: none;
-}
-.inputBox .inputName {
-  background: #000;
-  color: #FFF;
-}
-.inputBox .inputName[readonly] {
-  background: #FFF;
-  color: #000;
 }
 .inputBox.hasHeader {
   padding-top: 1.1em;
 }
-.inputBox.hasHeader > header:first-child {
-  background: #000;
-  color: #FFF;
+.inputBox.hasHeader > header {
+  background-color: #0d0d0d;
   position: absolute;
   top: 0;
   z-index: 1;
   font-size: 75%;
   padding-bottom: 3px;
-  border-color: #fff !important;
+  border-color: #ffffff !important;
 }
-.inputBox.hasHeader > header:first-child[readonly] {
-  background: #FFF;
-  color: #000;
-}
-.inputBox.hasHeader > header:first-child + * {
+.inputBox.hasHeader :nth-child(2) {
   border-left-width: 1px;
 }
-.inputBox .inputBtn {
-  padding: 0 5px;
+.inputBox.hasHeader.hasTypeIcon :nth-child(2),
+.inputBox.hasHeader.hasTypeIcon :nth-child(3) {
+  border-left-width: 0px;
+}
+.inputBox.hasTypeIcon {
+  padding-left: 32px;
+}
+.inputBox.hasTypeIcon > .typeIcon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32px !important;
+  height: 32px !important;
+  padding: 0;
+  background: #ffffff;
+}
+.inputBox.hasTypeIcon > .typeIcon .iconStars {
+  position: absolute;
+  bottom: 0;
+  color: #ff0;
+  line-height: 1;
+  font-size: 9px;
+  letter-spacing: -3px;
+  text-shadow: 0 0 1px black;
+}
+.inputBox.hasTypeIcon > .typeIcon select {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
 }
 [disabled] .inputBox .inputBtn {
   display: none;
 }
 [disabled] .inputBox.showOnLock,
-[disabled] .inputBox > .showOnLock {
+[disabled] .inputBox .showOnLock {
   display: block;
 }
 [disabled] .inputBox.hideOnLock,
-[disabled] .inputBox > .hideOnLock {
+[disabled] .inputBox .hideOnLock {
   display: none;
 }
-.inputBox > .Areas {
+.inputBox .Areas {
   width: 145px;
 }
-.inputBox > .Stages {
+.inputBox .Stages {
   width: 160px;
 }
-.inputBox > .Location {
+.inputBox .Location {
   width: 80px;
 }
-.inputBox > .Gear {
+.inputBox .Gear {
   width: auto;
 }
-.inputBox > .GearType {
+.inputBox .GearType {
   width: 90px;
 }
-.inputBox > .Stars {
+.inputBox .Stars {
   width: 20px;
 }
-.inputBox > .ItemUse {
+.inputBox .ItemUse {
   width: 145px;
 }
-.inputBox > .ItemOre {
+.inputBox .ItemOre {
   width: 100px;
 }
-.inputBox > .ItemMaterial {
+.inputBox .ItemMaterial {
   width: 170px;
 }
-.inputBox > .ItemRarity {
+.inputBox .ItemRarity {
   width: 75px;
 }
-.inputBox > .ChestRarity {
+.inputBox .ChestRarity {
   width: 46px;
 }
-.inputBox > .GoalType {
+.inputBox .GoalType {
   width: 20px;
 }
-.inputBox > .EventName {
+.inputBox .EventName {
   width: 220px;
 }
-.inputBox > .RewardType {
+.inputBox .RewardType {
   width: 70px;
 }
-.inputBox > .MonsterType {
+.inputBox .MonsterType {
   width: 40px;
 }
-.inputBox > .MonsterRace {
+.inputBox .MonsterRace {
   width: 70px;
 }
-.inputBox > .MonsterFamily {
+.inputBox .MonsterFamily {
   width: 160px;
 }
-.inputBox > .MonsterName {
+.inputBox .MonsterName {
   width: 180px;
 }
-.inputBox > .BlacksmithStat {
+.inputBox .BlacksmithStat {
   width: 80px;
 }
-.inputBox > .starsText {
+.inputBox .starsText {
   width: 61px;
 }
-.inputBox > .statName,
+.inputBox .statName,
 .inputBox > .difficulty {
   width: 80px;
 }
-.inputBox > .small3 {
+.inputBox .small3 {
   width: 40px;
 }
-.inputBox > .Stat {
+.inputBox .Stat {
   width: 60px;
 }
-.inputBox > .lv {
+.inputBox .lv {
   width: 31px;
 }
-.inputBox > .amount {
+.inputBox .amount {
   width: 37px;
 }
-.inputBox > .goalAmount {
+.inputBox .goalAmount {
   width: 24px;
 }
-.inputBox > .CommonDrop {
+.inputBox .CommonDrop {
   background-color: #000;
-  border-color: #fff;
-  color: #FFF;
+  border-color: #ffffff;
+  color: #ffffff;
 }
-.inputBox > .UncommonDrop {
+.inputBox .UncommonDrop {
   border-color: #33bbff;
   color: #33bbff;
 }
-.inputBox > .RareDrop {
+.inputBox .RareDrop {
   border-color: #ffff33;
   color: #ffff33;
 }
-.inputBox > .OreDrop {
+.inputBox .OreDrop {
   background-color: #663300;
 }
-.inputBox > .SpecialDrop {
+.inputBox .SpecialDrop {
   background: #666600;
 }
 .inputBox[data-goal-type=Kill] > * {
@@ -267,22 +298,30 @@ option[value=Gold] {
 .inputBox[data-goal-type=Protect] > * {
   border-color: #0FF;
 }
-.inputBox > .bs-yellow {
+.inputBox .bs-yellow {
   background: #666600;
 }
-.inputBox > .bs-red {
+.inputBox .bs-red {
   background: #660000;
+}
+.inputBox .GearType option:first-child,
+.inputBox .ItemRarity option:first-child,
+.inputBox .ChestRarity option:first-child,
+.inputBox .Location option:first-child,
+.inputBox .MonsterType option:first-child,
+.inputBox .MonsterRace option:first-child,
+.inputBox .BlacksmithSkill option:first-child {
+  display: none;
 }
 .inputBox.block {
   display: block;
-  margin-bottom: 2px;
 }
 .inputBox.block > * {
   width: 100% !important;
   float: none;
 }
 .inputBox.block > * + * {
-  border-left: 1px solid #FFF !important;
+  border-left-width: 1px !important;
 }
 .inputBox.smallBtn {
   margin: 0;
@@ -293,44 +332,111 @@ option[value=Gold] {
   font-size: 10px;
 }
 .inputBox.noBorder > * {
-  border: none !important;
+  border-width: 0 !important;
+}
+.inputBox.bg-primary {
+  background-color: #337ab7;
+}
+.inputBox.bg-success {
+  background-color: #5cb85c;
+}
+.inputBox.bg-info {
+  background-color: #5bc0de;
+}
+.inputBox.bg-warning {
+  background-color: #f0ad4e;
+}
+.inputBox.bg-danger {
+  background-color: #d9534f;
+}
+.inputBox.bg-common,
+.inputBox.bg-monster-m,
+.inputBox.bg-monster-ms {
+  background-color: #1a1a1a;
+}
+.inputBox.bg-uncommon,
+.inputBox.bg-event-boss,
+.inputBox.bg-monster-snm,
+.inputBox.bg-monster-boss {
+  background-color: #660066;
+}
+.inputBox.bg-blue,
+.inputBox.bg-rare {
+  background-color: #004466;
+}
+.inputBox.bg-green,
+.inputBox.bg-exotic,
+.inputBox.bg-event-normal {
+  background-color: #006600;
+}
+.inputBox.bg-gold,
+.inputBox.bg-legendary,
+.inputBox.bg-event-gold,
+.inputBox.bg-monster-hnm {
+  background-color: #666600;
+}
+.inputBox.bg-brown {
+  background-color: #663300;
+}
+.inputBox.bg-red,
+.inputBox.bg-monster-nm {
+  background-color: #660000;
+}
+.inputBox.bg-silver,
+.inputBox.bg-event-silver {
+  background-color: #666666;
+}
+.inputBox > *.bg-primary {
+  background-color: #337ab7;
+}
+.inputBox > *.bg-success {
+  background-color: #5cb85c;
+}
+.inputBox > *.bg-info {
+  background-color: #5bc0de;
+}
+.inputBox > *.bg-warning {
+  background-color: #f0ad4e;
+}
+.inputBox > *.bg-danger {
+  background-color: #d9534f;
 }
 .inputBox > *.bg-common,
 .inputBox > *.bg-monster-m,
 .inputBox > *.bg-monster-ms {
-  background: #1a1a1a;
+  background-color: #1a1a1a;
 }
 .inputBox > *.bg-uncommon,
 .inputBox > *.bg-event-boss,
 .inputBox > *.bg-monster-snm,
 .inputBox > *.bg-monster-boss {
-  background: #660066;
+  background-color: #660066;
 }
 .inputBox > *.bg-blue,
 .inputBox > *.bg-rare {
-  background: #004466;
+  background-color: #004466;
 }
 .inputBox > *.bg-green,
 .inputBox > *.bg-exotic,
 .inputBox > *.bg-event-normal {
-  background: #006600;
+  background-color: #006600;
 }
 .inputBox > *.bg-gold,
 .inputBox > *.bg-legendary,
 .inputBox > *.bg-event-gold,
 .inputBox > *.bg-monster-hnm {
-  background: #666600;
+  background-color: #666600;
 }
 .inputBox > *.bg-brown {
-  background: #663300;
+  background-color: #663300;
 }
 .inputBox > *.bg-red,
 .inputBox > *.bg-monster-nm {
-  background: #660000;
+  background-color: #660000;
 }
 .inputBox > *.bg-silver,
 .inputBox > *.bg-event-silver {
-  background: #666666;
+  background-color: #666666;
 }
 .size-extra-wide .modal-dialog {
   width: 100%;
@@ -383,6 +489,299 @@ option[value=Gold] {
   top: 70px;
   left: 0;
 }
+.hr-icon {
+  display: block;
+  width: 30px;
+  height: 30px;
+  background-image: url("../images/SAOHR-icons.png");
+  background-repeat: no-repeat;
+  background-position: 30px;
+}
+.hr-icon.chest-brown {
+  background-position: 0px 0px;
+}
+.hr-icon.chest-blue {
+  background-position: -30px 0px;
+}
+.hr-icon.chest-red {
+  background-position: -60px 0px;
+}
+.hr-icon.chest-silver {
+  background-position: -90px 0px;
+}
+.hr-icon.chest-gold {
+  background-position: -120px 0px;
+}
+.hr-icon.gear-1h-sword-common {
+  background-position: 0px -60px;
+}
+.hr-icon.gear-1h-sword-uncommon {
+  background-position: -30px -60px;
+}
+.hr-icon.gear-1h-sword-rare {
+  background-position: -60px -60px;
+}
+.hr-icon.gear-1h-sword-exotic {
+  background-position: -90px -60px;
+}
+.hr-icon.gear-1h-sword-legendary {
+  background-position: -120px -60px;
+}
+.hr-icon.gear-rapier-common {
+  background-position: 0px -90px;
+}
+.hr-icon.gear-rapier-uncommon {
+  background-position: -30px -90px;
+}
+.hr-icon.gear-rapier-rare {
+  background-position: -60px -90px;
+}
+.hr-icon.gear-rapier-exotic {
+  background-position: -90px -90px;
+}
+.hr-icon.gear-rapier-legendary {
+  background-position: -120px -90px;
+}
+.hr-icon.gear-scimitar-common {
+  background-position: 0px -120px;
+}
+.hr-icon.gear-scimitar-uncommon {
+  background-position: -30px -120px;
+}
+.hr-icon.gear-scimitar-rare {
+  background-position: -60px -120px;
+}
+.hr-icon.gear-scimitar-exotic {
+  background-position: -90px -120px;
+}
+.hr-icon.gear-scimitar-legendary {
+  background-position: -120px -120px;
+}
+.hr-icon.gear-dagger-common {
+  background-position: 0px -150px;
+}
+.hr-icon.gear-dagger-uncommon {
+  background-position: -30px -150px;
+}
+.hr-icon.gear-dagger-rare {
+  background-position: -60px -150px;
+}
+.hr-icon.gear-dagger-exotic {
+  background-position: -90px -150px;
+}
+.hr-icon.gear-dagger-legendary {
+  background-position: -120px -150px;
+}
+.hr-icon.gear-1h-club-common {
+  background-position: 0px -180px;
+}
+.hr-icon.gear-1h-club-uncommon {
+  background-position: -30px -180px;
+}
+.hr-icon.gear-1h-club-rare {
+  background-position: -60px -180px;
+}
+.hr-icon.gear-1h-club-exotic {
+  background-position: -90px -180px;
+}
+.hr-icon.gear-1h-club-legendary {
+  background-position: -120px -180px;
+}
+.hr-icon.gear-katana-common {
+  background-position: 0px -210px;
+}
+.hr-icon.gear-katana-uncommon {
+  background-position: -30px -210px;
+}
+.hr-icon.gear-katana-rare {
+  background-position: -60px -210px;
+}
+.hr-icon.gear-katana-exotic {
+  background-position: -90px -210px;
+}
+.hr-icon.gear-katana-legendary {
+  background-position: -120px -210px;
+}
+.hr-icon.gear-2h-sword-common {
+  background-position: 0px -240px;
+}
+.hr-icon.gear-2h-sword-uncommon {
+  background-position: -30px -240px;
+}
+.hr-icon.gear-2h-sword-rare {
+  background-position: -60px -240px;
+}
+.hr-icon.gear-2h-sword-exotic {
+  background-position: -90px -240px;
+}
+.hr-icon.gear-2h-sword-legendary {
+  background-position: -120px -240px;
+}
+.hr-icon.gear-2h-axe-common {
+  background-position: 0px -270px;
+}
+.hr-icon.gear-2h-axe-uncommon {
+  background-position: -30px -270px;
+}
+.hr-icon.gear-2h-axe-rare {
+  background-position: -60px -270px;
+}
+.hr-icon.gear-2h-axe-exotic {
+  background-position: -90px -270px;
+}
+.hr-icon.gear-2h-axe-legendary {
+  background-position: -120px -270px;
+}
+.hr-icon.gear-spear-common {
+  background-position: 0px -300px;
+}
+.hr-icon.gear-spear-uncommon {
+  background-position: -30px -300px;
+}
+.hr-icon.gear-spear-rare {
+  background-position: -60px -300px;
+}
+.hr-icon.gear-spear-exotic {
+  background-position: -90px -300px;
+}
+.hr-icon.gear-spear-legendary {
+  background-position: -120px -300px;
+}
+.hr-icon.gear-shield-common {
+  background-position: 0px -330px;
+}
+.hr-icon.gear-shield-uncommon {
+  background-position: -30px -330px;
+}
+.hr-icon.gear-shield-rare {
+  background-position: -60px -330px;
+}
+.hr-icon.gear-shield-exotic {
+  background-position: -90px -330px;
+}
+.hr-icon.gear-shield-legendary {
+  background-position: -120px -330px;
+}
+.hr-icon.gear-head-common {
+  background-position: 0px -360px;
+}
+.hr-icon.gear-head-uncommon {
+  background-position: -30px -360px;
+}
+.hr-icon.gear-head-rare {
+  background-position: -60px -360px;
+}
+.hr-icon.gear-head-exotic {
+  background-position: -90px -360px;
+}
+.hr-icon.gear-head-legendary {
+  background-position: -120px -360px;
+}
+.hr-icon.gear-armor-common {
+  background-position: 0px -390px;
+}
+.hr-icon.gear-armor-uncommon {
+  background-position: -30px -390px;
+}
+.hr-icon.gear-armor-rare {
+  background-position: -60px -390px;
+}
+.hr-icon.gear-armor-exotic {
+  background-position: -90px -390px;
+}
+.hr-icon.gear-armor-legendary {
+  background-position: -120px -390px;
+}
+.hr-icon.gear-greaves-common {
+  background-position: 0px -420px;
+}
+.hr-icon.gear-greaves-uncommon {
+  background-position: -30px -420px;
+}
+.hr-icon.gear-greaves-rare {
+  background-position: -60px -420px;
+}
+.hr-icon.gear-greaves-exotic {
+  background-position: -90px -420px;
+}
+.hr-icon.gear-greaves-legendary {
+  background-position: -120px -420px;
+}
+.hr-icon.gear-neck-common {
+  background-position: 0px -450px;
+}
+.hr-icon.gear-neck-uncommon {
+  background-position: -30px -450px;
+}
+.hr-icon.gear-neck-rare {
+  background-position: -60px -450px;
+}
+.hr-icon.gear-neck-exotic {
+  background-position: -90px -450px;
+}
+.hr-icon.gear-neck-legendary {
+  background-position: -120px -450px;
+}
+.hr-icon.gear-waist-common {
+  background-position: 0px -480px;
+}
+.hr-icon.gear-waist-uncommon {
+  background-position: -30px -480px;
+}
+.hr-icon.gear-waist-rare {
+  background-position: -60px -480px;
+}
+.hr-icon.gear-waist-exotic {
+  background-position: -90px -480px;
+}
+.hr-icon.gear-waist-legendary {
+  background-position: -120px -480px;
+}
+.hr-icon.gear-wrist-common {
+  background-position: 0px -510px;
+}
+.hr-icon.gear-wrist-uncommon {
+  background-position: -30px -510px;
+}
+.hr-icon.gear-wrist-rare {
+  background-position: -60px -510px;
+}
+.hr-icon.gear-wrist-exotic {
+  background-position: -90px -510px;
+}
+.hr-icon.gear-wrist-legendary {
+  background-position: -120px -510px;
+}
+.hr-icon.gear-ring-common {
+  background-position: 0px -540px;
+}
+.hr-icon.gear-ring-uncommon {
+  background-position: -30px -540px;
+}
+.hr-icon.gear-ring-rare {
+  background-position: -60px -540px;
+}
+.hr-icon.gear-ring-exotic {
+  background-position: -90px -540px;
+}
+.hr-icon.gear-ring-legendary {
+  background-position: -120px -540px;
+}
+.hr-icon.gear-carm-common {
+  background-position: 0px -570px;
+}
+.hr-icon.gear-carm-uncommon {
+  background-position: -30px -570px;
+}
+.hr-icon.gear-carm-rare {
+  background-position: -60px -570px;
+}
+.hr-icon.gear-carm-exotic {
+  background-position: -90px -570px;
+}
+.hr-icon.gear-carm-legendary {
+  background-position: -120px -570px;
+}
 .media {
   position: relative;
   padding: 5px;
@@ -400,42 +799,57 @@ option[value=Gold] {
 .media:hover .media-actions {
   opacity: 1;
 }
+.media.bg-primary {
+  background-color: #337ab7;
+}
+.media.bg-success {
+  background-color: #5cb85c;
+}
+.media.bg-info {
+  background-color: #5bc0de;
+}
+.media.bg-warning {
+  background-color: #f0ad4e;
+}
+.media.bg-danger {
+  background-color: #d9534f;
+}
 .media.bg-common,
 .media.bg-monster-m,
 .media.bg-monster-ms {
-  background: #1a1a1a;
+  background-color: #1a1a1a;
 }
 .media.bg-uncommon,
 .media.bg-event-boss,
 .media.bg-monster-snm,
 .media.bg-monster-boss {
-  background: #660066;
+  background-color: #660066;
 }
 .media.bg-blue,
 .media.bg-rare {
-  background: #004466;
+  background-color: #004466;
 }
 .media.bg-green,
 .media.bg-exotic,
 .media.bg-event-normal {
-  background: #006600;
+  background-color: #006600;
 }
 .media.bg-gold,
 .media.bg-legendary,
 .media.bg-event-gold,
 .media.bg-monster-hnm {
-  background: #666600;
+  background-color: #666600;
 }
 .media.bg-brown {
-  background: #663300;
+  background-color: #663300;
 }
 .media.bg-red,
 .media.bg-monster-nm {
-  background: #660000;
+  background-color: #660000;
 }
 .media.bg-silver,
 .media.bg-event-silver {
-  background: #666666;
+  background-color: #666666;
 }
 .media.newModel {
   box-shadow: inset 0 0 5px 2px #00aa00, 0 0 2px 1px #00aa00;

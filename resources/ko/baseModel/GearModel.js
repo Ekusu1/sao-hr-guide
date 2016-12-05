@@ -4,7 +4,7 @@ function GearModel(newData = {
 	name:    '',
 	type:    '',
 	rarity:  'Uncommon',
-	stars:   0,
+	stars:   1,
 	effects: [
 		{name: 'ATK', value: 0, baseStat: true},
 		{name: 'DEF', value: 0, baseStat: true},
@@ -56,10 +56,10 @@ function GearModel(newData = {
 	self.stars     = ko.observable(newData.stars);
 	self.starsText = ko.computed(()=> {
 		var text = '';
-		for (var i = 0; i < self.stars(); i++) {
-			text += '★';
-		}
-		return text.length > 0 ? text : '-';
+		self.stars() < 0 && self.stars(0);
+		self.stars() > 5 && self.stars(5);
+		for (var i = 0; i < self.stars(); i++) { text += '★'; }
+		return text.length > 0 ? text : '&nbsp;';
 	});
 
 	self.effects        = ko.observableArray(newData.effects.map(data=>new EffectModel(data)));
@@ -98,9 +98,9 @@ function GearModel(newData = {
 
 	self.showTransformedFrom = function () {
 		var gear = GH.findByName('gear', self.transformedFrom());
-		gear.push({model: self});
-		gear.forEach(r=>rootView.showModel(r.model))
-	}
+		gear.push(self);
+		gear.forEach(r=>GH.showModel(r));
+	};
 
 	//region require
 	self.getDuplicateCheckData = ko.computed(()=>[
@@ -113,15 +113,16 @@ function GearModel(newData = {
 		self.name() == ''
 	);
 
+	self.iconCss = ko.computed(()=>`gear-${self.type().toLowerCase().replace(' ','-')}-${self.rarity().toLowerCase()}`);
 	self.mediaCss = ko.pureComputed(()=>`bg-${self.rarity().toLowerCase()} ${self.isDuplicate() ? 'duplicateModel' : ''} ${self.additionalCss()} ${self.hasMissingData() ? 'hasMissingData' : ''}`);
 
 	self.filter = function (filter) {
-		var results = []
+		var results = [];
 		filter.gearType !== undefined && results.push(self.type() == filter.gearType);
 		filter.gearType == '' && results.push(true);
 		filter.onlyTransformableGear !== undefined && results.push(self.transformable() == filter.onlyTransformableGear);
 		return results.every(r=>r === true);
-	}
+	};
 
 	self.export = ()=>({
 		name:            self.name(),
