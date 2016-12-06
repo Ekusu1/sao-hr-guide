@@ -31,9 +31,6 @@
 	<datalist id="listMonsterName" data-bind="foreach: DATA.monster">
 		<option data-bind="value: name"></option>
 	</datalist>
-	<datalist id="listMonsterFamily" data-bind="foreach: DATA.monster">
-		<option data-bind="value: family"></option>
-	</datalist>
 	<datalist id="listEvents" data-bind="foreach: DATA.events">
 		<option data-bind="value: name, text: location.area()+' - '+location.stage()"></option>
 	</datalist>
@@ -50,57 +47,11 @@
 	<datalist id="listItemMaterial" data-bind="foreach: $root.OPTIONS().itemMaterial">
 		<option data-bind="value: $data"></option>
 	</datalist>
-
-	<datalist id="listStars">
-		<option value="0">-</option>
-		<option value="1">★</option>
-		<option value="2">★★</option>
-		<option value="3">★★★</option>
-		<option value="4">★★★★</option>
-		<option value="5">★★★★★</option>
-	</datalist>
-	<datalist id="listLocation">
-		<option value="Top"></option>
-		<option value="Right"></option>
-		<option value="Bottom"></option>
-		<option value="Left"></option>
-		<option value="Stage Boss"></option>
-		<option value="Area Boss"></option>
-		<option value="Events"></option>
-		<option value="Event Chain"></option>
+	<datalist id="listMonsterFamily" data-bind="foreach: listMonsterFamilies">
+		<option data-bind="value: $data"></option>
 	</datalist>
 </div>
 <div data-templates>
-<script type="text/html" id="preset-modal-new">
-	<div class="col-xs-6 col-md-3">
-		<div class="inputBox block">
-			<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createGear">
-				<i class="fa fa-plus"></i> Gear
-			</button>
-		</div>
-	</div>
-	<div class="col-xs-6 col-md-3">
-		<div class="inputBox block">
-			<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createChest">
-				<i class="fa fa-plus"></i> Chest
-			</button>
-		</div>
-	</div>
-	<div class="col-xs-6 col-md-3">
-		<div class="inputBox block">
-			<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createEvent">
-				<i class="fa fa-plus"></i> Event
-			</button>
-		</div>
-	</div>
-	<div class="col-xs-6 col-md-3">
-		<div class="inputBox block">
-			<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createMonster">
-				<i class="fa fa-plus"></i> Monster
-			</button>
-		</div>
-	</div>
-</script>
 <script type="text/html" id="select-location">
 	<!-- ko with: location -->
 	<div class="inputBox hasHeader">
@@ -192,7 +143,7 @@
 		<!-- /ko -->
 		<select class="RewardType inputName" data-bind="options: listRewardType, value: type, event:{change:switchType}, valueAllowUnset: true"></select>
 		<!-- ko if: isItem() -->
-		<input list="listItemOre" class="ItemOre" data-bind="textInput: name"/>
+		<input list="listItemOre" placeholder="Item" class="ItemOre" data-bind="textInput: name"/>
 		<!-- ko template: {name: 'btn-span-if', data:{
 			btnClass: 'btn-success',
 			iconClass: 'fa-sign-in',
@@ -205,7 +156,7 @@
 		<!-- /ko -->
 		<!-- ko if: isGear() || isLastHit() -->
 			<span class="inputText GearType" data-bind="html: gearType">&nbsp;</span>
-			<input type="text" list="listGear" class="Gear" data-bind="textInput: name"/>
+			<input type="text" list="listGear" placeholder="Gear" class="Gear" data-bind="textInput: name"/>
 			<!-- ko template: {name: 'btn-span-add-show', data: {check: isNewGear,show: showGear}} --><!-- /ko -->
 		<!-- /ko -->
 		<input type="number" class="amount" data-bind="textInput: amount, visible: amountShow()"/>
@@ -325,7 +276,7 @@
 						<div class="typeIcon">
 							<i class="hr-icon" data-bind="css:iconCss"></i>
 							<i class="iconStars" data-bind="html: starsText"></i>
-							<select class="GearType" data-bind="options: $root.OPTIONS().itemTypeGear, value: type, attr:{title: type}, valueAllowUnset: true"></select>
+							<select class="GearType" data-bind="options: $root.OPTIONS().itemTypeGear, value: type, attr:{title: type}, valueAllowUnset: true, hasFocus: isTmp()"></select>
 						</div>
 						<header>Name</header>
 						<input type="text" list="listGear" placeholder="Name" data-bind="textInput: name">
@@ -341,14 +292,12 @@
 					</div>
 					<div class="inputBox hasHeader">
 						<header>Stars</header>
-						<input type="number" min="0" max="5" class="Stars" list="listStars" data-bind="textInput: stars"/>
+						<input type="number" class="Stars" min="0" max="5" data-bind="textInput: stars"/>
 						<span class="inputText starsText" data-bind="html: starsText"></span>
 					</div>
 					<br>
 					<!-- ko if: transformable () -->
-						<div class="inputBox">
-							<span class="inputText">Transformable</span>
-						</div>
+						<div class="inputBox"><span class="inputText">Transformable</span></div>
 					<!-- /ko -->
 				</div>
 				<div class="col-xs-12 col-md-7">
@@ -411,7 +360,7 @@
 					<div class="inputBox hasHeader hasTypeIcon">
 						<div class="typeIcon">
 							<i class="hr-icon" data-bind="css:iconCss"></i>
-							<select class="ChestRarity" data-bind="options: $root.OPTIONS().chestRarity, value: rarity, event: {change: changeRarity}, valueAllowUnset: true"></select>
+							<select class="ChestRarity" data-bind="options: $root.OPTIONS().chestRarity, value: rarity, event: {change: changeRarity}, valueAllowUnset: true, hasFocus: isTmp()"></select>
 						</div>
 						<header>Where or How</header>
 						<select class="Location" data-bind="options: listWhere, value: where, valueAllowUnset: true"></select>
@@ -438,7 +387,7 @@
 					<!-- ko template: 'select-location' --><!-- /ko -->
 					<div class="inputBox hasHeader">
 						<header>Name</header>
-						<input type="text" class="EventName" data-bind="textInput: name" placeholder="Name">
+						<input type="text" class="EventName" data-bind="textInput: name, hasFocus: isTmp()" placeholder="Name">
 					</div>
 					<hr class="m-y-5" data-bind="visible: !locked() || chainEvents().length > 0">
 					<!-- ko foreach: chainEvents -->
@@ -507,11 +456,11 @@
 					</div>
 					<div class="inputBox hasHeader">
 						<header>Family</header>
-						<input type="text" list="listMonsterFamily" class="MonsterFamily" placeholder="Family" data-bind="textInput: family">
+						<input type="text" list="listMonsterFamily" placeholder="Family" class="MonsterFamily" data-bind="textInput:family">
 					</div>
 					<div class="inputBox hasHeader">
 						<header>Name</header>
-						<input type="text" list="listMonsterName" class="MonsterName" placeholder="Name" data-bind="textInput: name">
+						<input type="text" list="listMonsterName" class="MonsterName" placeholder="Name" data-bind="textInput: name, hasFocus: isTmp()">
 						<!-- ko if: isTmp() && isDuplicate() -->
 							<button type="button" class="inputBtn btn-info" title="load original model" data-bind="click: $root.loadOriginalModel">
 								<i class="fa fa-edit"></i>
@@ -576,7 +525,7 @@
 					<!-- ko template: 'select-location' --><!-- /ko -->
 					<div class="inputBox hasHeader">
 						<header>Name</header>
-						<input type="text" class="CharName" placeholder="Name" data-bind="textInput: name">
+						<input type="text" placeholder="Name" class="CharName" data-bind="textInput:name">
 					</div>
 					<br>
 					<!-- ko template: {name:'select-blacksmith-skill',foreach: skills} --><!-- /ko -->
@@ -603,6 +552,7 @@
 		</div>
 	</article>
 </script>
+
 <script type="text/html" id="template-filter">
 	<!-- ko with: FILTERS -->
 		<h1 class="modal-title inputBox noBorder">
@@ -650,7 +600,41 @@
 		<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Boss', value: eventTypeBoss, cssClass: 'bg-event-boss'}} --><!-- /ko -->
 	<!-- /ko -->
 </script>
-<script type="text/html" id="preset"></script>
+<script type="text/html" id="template-tmp">
+	<section class="media-list" data-bind="foreach: {data: tmpModels, afterAdd: addAnim, beforeRemove: removeAnim}">
+		<!-- ko template: template --><!-- /ko -->
+	</section>
+	<div class="row">
+		<div class="col-xs-6 col-md-3">
+			<div class="inputBox block">
+				<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createGear">
+					<i class="fa fa-plus"></i> Gear
+				</button>
+			</div>
+		</div>
+		<div class="col-xs-6 col-md-3">
+			<div class="inputBox block">
+				<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createChest">
+					<i class="fa fa-plus"></i> Chest
+				</button>
+			</div>
+		</div>
+		<div class="col-xs-6 col-md-3">
+			<div class="inputBox block">
+				<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createEvent">
+					<i class="fa fa-plus"></i> Event
+				</button>
+			</div>
+		</div>
+		<div class="col-xs-6 col-md-3">
+			<div class="inputBox block">
+				<button type="button" class="inputBtn btn-primary" data-bind="click: $root.createMonster">
+					<i class="fa fa-plus"></i> Monster
+				</button>
+			</div>
+		</div>
+	</div>
+</script>
 </div>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">

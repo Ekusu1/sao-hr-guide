@@ -1,11 +1,11 @@
 "use strict";
 
 function GearModel(newData = {
-	name:    '',
-	type:    '',
-	rarity:  'Uncommon',
-	stars:   1,
-	effects: [
+	name:            '',
+	type:            '',
+	rarity:          'Uncommon',
+	stars:           1,
+	effects:         [
 		{name: 'ATK', value: 0, baseStat: true},
 		{name: 'DEF', value: 0, baseStat: true},
 		{name: 'HP', value: 0, baseStat: true},
@@ -28,25 +28,54 @@ function GearModel(newData = {
 	],
 	transformedFrom: '',
 	transformations: []
-}) {
-	//region require
+}){
+	//region base
+	GH.modelBaseGenerator(this);
 	var self           = this;
-	self.id            = ko.observable(GH.newGuid());
-	self.isTmp         = ko.observable(false);
-	self.isNew         = ko.observable(false);
-	self.locked        = ko.observable(DEFAULT_LOCK_STATUS);
-	self.switchLock    = ()=> self.locked(!self.locked());
-	self.sortKey       = ko.pureComputed(()=>[
+	//endregion
+
+	//region require (probably has to be edited!)
+	self.dataType = 'gear';
+	self.template = 'item-gear';
+	self.sortKey  = ko.pureComputed(()=>[
 		GH.getSortNumber('itemType', self.type()),
 		GH.getSortNumber('itemRarity', self.rarity()),
 		GH.padNumber(self.stars()),
 		self.name(),
 	].join('-'));
-	self.additionalCss = ko.observable('');
-	//endregion
-	//region require (probably has to be edited!)
-	self.dataType = 'gear';
-	self.template = 'item-gear';
+
+	self.iconCss  = ko.pureComputed(()=>GH.iconCssGenerator([
+		'gear', self.type(), self.rarity()
+	]));
+	self.mediaCss = ko.pureComputed(()=>GH.mediaCssGenerator(self, [
+		`bg-${self.rarity().toLowerCase()}`
+	]));
+
+	self.hasMissingData        = ko.pureComputed(()=>
+		self.type() == '' ||
+		self.rarity() == '' ||
+		self.name() == ''
+	);
+	self.getDuplicateCheckData = ko.pureComputed(()=>[
+		self.name()
+	].join('|'));
+
+	self.filter = filter=>{
+		var results = [];
+		filter.gearType !== undefined && results.push(self.type() == filter.gearType);
+		filter.gearType == '' && results.push(true);
+		filter.onlyTransformableGear !== undefined && results.push(self.transformable() == filter.onlyTransformableGear);
+		return results.every(r=>r === true);
+	};
+	self.export = ()=>({
+		name:            self.name(),
+		type:            self.type(),
+		rarity:          self.rarity(),
+		stars:           self.stars(),
+		transformedFrom: self.transformedFrom(),
+		transformations: self.transformations().map(m=>m.export()),
+		effects:         self.effects().map(m=>m.export())
+	});
 	//endregion
 
 	self.name   = ko.observable(newData.name);
@@ -54,7 +83,7 @@ function GearModel(newData = {
 	self.rarity = ko.observable(newData.rarity);
 
 	self.stars     = ko.observable(newData.stars);
-	self.starsText = ko.computed(()=> {
+	self.starsText = ko.pureComputed(()=>{
 		var text = '';
 		self.stars() < 0 && self.stars(0);
 		self.stars() > 5 && self.stars(5);
@@ -63,13 +92,13 @@ function GearModel(newData = {
 	});
 
 	self.effects        = ko.observableArray(newData.effects.map(data=>new EffectModel(data)));
-	self.groupedEffects = ko.pureComputed(()=> {
+	self.groupedEffects = ko.pureComputed(()=>{
 		var grouped = {
 			base:       [],
 			resistance: [],
 			other:      []
 		};
-		self.effects().forEach(effect=> {
+		self.effects().forEach(effect=>{
 			var baseStats       = ['ATK', 'DEF', 'HP', 'SP', 'STR', 'VIT', 'AGI', 'DEX'],
 			    resistanceStats = [
 				    'Slashing', 'Thrusting', 'Crushing', 'Knockdown', 'Stun', 'Numb', 'Poison', 'Bleed', 'Physical',
@@ -92,49 +121,13 @@ function GearModel(newData = {
 
 	self.transformedFrom      = ko.observable(newData.transformedFrom || '');
 	self.transformations      = ko.observableArray(newData.transformations.map(data=>new TransformationModel(data, self)));
-	self.transformable = ko.pureComputed(()=>self.transformedFrom() !== '' || self.transformations().length > 0);
+	self.transformable        = ko.pureComputed(()=>self.transformedFrom() !== '' || self.transformations().length > 0);
 	self.addTransformation    = ()=>self.transformations.push(new TransformationModel(undefined, self));
 	self.removeTransformation = transformation=>self.transformations.remove(transformation);
 
-	self.showTransformedFrom = function () {
+	self.showTransformedFrom = ()=>{
 		var gear = GH.findByName('gear', self.transformedFrom());
 		gear.push(self);
 		gear.forEach(r=>GH.showModel(r));
 	};
-
-	//region require
-	self.getDuplicateCheckData = ko.computed(()=>[
-		self.name()
-	].join('|'));
-
-	self.hasMissingData = ko.pureComputed(()=>
-		self.type() == '' ||
-		self.rarity() == '' ||
-		self.name() == ''
-	);
-
-	self.iconCss = ko.computed(()=>`gear-${self.type().toLowerCase().replace(' ','-')}-${self.rarity().toLowerCase()}`);
-	self.mediaCss = ko.pureComputed(()=>`bg-${self.rarity().toLowerCase()} ${self.isDuplicate() ? 'duplicateModel' : ''} ${self.additionalCss()} ${self.hasMissingData() ? 'hasMissingData' : ''}`);
-
-	self.filter = function (filter) {
-		var results = [];
-		filter.gearType !== undefined && results.push(self.type() == filter.gearType);
-		filter.gearType == '' && results.push(true);
-		filter.onlyTransformableGear !== undefined && results.push(self.transformable() == filter.onlyTransformableGear);
-		return results.every(r=>r === true);
-	};
-
-	self.export = ()=>({
-		name:            self.name(),
-		type:            self.type(),
-		rarity:          self.rarity(),
-		stars:           self.stars(),
-		transformedFrom: self.transformedFrom(),
-		transformations: self.transformations().map(m=>m.export()),
-		effects:         self.effects().map(m=>m.export())
-	});
-	//endregion
-	//region required bottom
-	self.isDuplicate = ko.computed(()=>GH.findDuplicates(self).length > 0);
-	//endregion
 }

@@ -14,19 +14,61 @@ function BlacksmithModel(newData = {
 		knowledge:       0,
 		recycling:       0,
 	}
-}) {
-	var self        = this;
-	self.dataType   = 'blacksmiths';
-	self.template   = 'item-blacksmith';
-	self.id         = ko.observable(GH.newGuid());
-	self.isTmp      = ko.observable(false);
-	self.isNew      = ko.observable(false);
-	self.locked     = ko.observable(DEFAULT_LOCK_STATUS);
-	self.switchLock = ()=> self.locked(!self.locked());
-	self.sortKey    = ko.pureComputed(()=>[
+}){
+	//region base
+	GH.modelBaseGenerator(this);
+	var self           = this;
+	//endregion
+
+	//region require (probably has to be edited!)
+	self.dataType = 'blacksmiths';
+	self.template = 'item-blacksmith';
+	self.sortKey  = ko.pureComputed(()=>[
 		GH.getSortNumber('stages', self.location.stage()),
 		self.name()
 	].join('|'));
+
+
+	self.mediaCss = ko.pureComputed(()=>GH.mediaCssGenerator(self));
+
+	self.hasMissingData        = ko.pureComputed(()=>
+		self.location.stage() == '' ||
+		self.name() == '' ||
+		self.stats.precision() == 0 ||
+		self.stats.technique() == 0 ||
+		self.stats.growthPotential() == 0 ||
+		self.stats.knowledge() == 0 ||
+		self.stats.recycling() == 0 ||
+		self.skills().length == 0
+	);
+	self.getDuplicateCheckData = ko.pureComputed(()=>[
+		self.location.stage(),
+		self.name()
+	].join('|'));
+
+	self.filter = filter=>{
+		var results = []
+		if (filter.location !== undefined) {
+			filter.location.area != undefined && results.push(self.location.area() == filter.location.area);
+			filter.location.stage != undefined && results.push(self.location.stage() == filter.location.stage);
+		} else {
+			return true;
+		}
+		return results.every(r=>r === true);
+	};
+	self.export = ()=>({
+		location: self.location.export(),
+		name:     self.name(),
+		stats:    {
+			precision:       self.stats.precision(),
+			technique:       self.stats.technique(),
+			growthPotential: self.stats.growthPotential(),
+			knowledge:       self.stats.knowledge(),
+			recycling:       self.stats.recycling(),
+		},
+		skills:   self.skills().map(m=>m.export()),
+	});
+	//endregion
 
 	self.location = new LocationModel(newData.location);
 	self.name     = ko.observable(newData.name);
@@ -43,7 +85,7 @@ function BlacksmithModel(newData = {
 		recycling:       ko.observable(newData.stats.recycling),
 	};
 
-	self.chartData = ko.pureComputed(()=> {
+	self.chartData = ko.pureComputed(()=>{
 		return {
 			// labels:   ["Precision", "Technique", "Growth Potential", "Knowledge", "Recycling"],
 			labels:   ["", "", "", "", ""],
@@ -66,7 +108,6 @@ function BlacksmithModel(newData = {
 		// observeChanges: true,
 		// throttle: 100,
 		scale:  {
-			// lineArc: true,
 			gridLines:  {
 				color:         "rgba(255,255,255,.1)",
 				zeroLineColor: "rgba(255,255,255,.25)"
@@ -85,48 +126,4 @@ function BlacksmithModel(newData = {
 		legend: {display: false},
 		title:  {display: false},
 	};
-
-	self.getDuplicateCheckData = ko.computed(()=>[
-		self.location.stage(),
-		self.name()
-	].join('|'));
-	self.isDuplicate           = ko.computed(()=>GH.findDuplicates(self).length > 0);
-
-	self.hasMissingData = ko.pureComputed(()=>
-		self.location.stage() == '' ||
-		self.name() == '' ||
-		self.stats.precision() == 0 ||
-		self.stats.technique() == 0 ||
-		self.stats.growthPotential() == 0 ||
-		self.stats.knowledge() == 0 ||
-		self.stats.recycling() == 0 ||
-		self.skills().length == 0
-	);
-
-	self.additionalCss = ko.observable('');
-	self.mediaCss      = ko.pureComputed(()=>`${self.isDuplicate() ? 'duplicateModel' : ''} ${self.additionalCss()} ${self.hasMissingData() ? 'hasMissingData' : ''}`);
-
-	self.filter = function (filter) {
-		var results = []
-		if (filter.location !== undefined) {
-			filter.location.area != undefined && results.push(self.location.area() == filter.location.area);
-			filter.location.stage != undefined && results.push(self.location.stage() == filter.location.stage);
-		} else {
-			return true;
-		}
-		return results.every(r=>r === true);
-	};
-
-	self.export = ()=>({
-		location: self.location.export(),
-		name:     self.name(),
-		stats:    {
-			precision:       self.stats.precision(),
-			technique:       self.stats.technique(),
-			growthPotential: self.stats.growthPotential(),
-			knowledge:       self.stats.knowledge(),
-			recycling:       self.stats.recycling(),
-		},
-		skills:   self.skills().map(m=>m.export()),
-	});
 }

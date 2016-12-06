@@ -7,58 +7,75 @@ function EventModel(newData = {
 	},
 	name:        '',
 	goals:       [
-		{type:   'Kill', name:   '', amount: 1}
+		{type: 'Kill', name: '', amount: 1}
 	],
 	rewards:     [
 		{type: 'EXP', name: 'EXP', amount: 0},
 		{type: 'Item', name: '', amount: 1},
 	],
 	chainEvents: []
-}) {
-	var self        = this;
-	self.dataType   = 'events';
-	self.template   = 'item-event';
-	self.id         = ko.observable(GH.newGuid());
-	self.isTmp      = ko.observable(false);
-	self.isNew      = ko.observable(false);
-	self.locked     = ko.observable(DEFAULT_LOCK_STATUS);
-	self.switchLock = ()=> self.locked(!self.locked());
-	self.sortKey    = ko.pureComputed(()=>[
+}){
+	//region base
+	GH.modelBaseGenerator(this);
+	var self           = this;
+	//endregion
+
+	//region require (probably has to be edited!)
+	self.dataType = 'events';
+	self.template = 'item-event';
+	self.sortKey  = ko.pureComputed(()=>[
 		GH.getSortNumber('stages', self.location.stage()),
 		getEventTypeSortIndex()
 	].join('|'));
 
-	self.location = new LocationModel(newData.location);
-	self.name     = ko.observable(newData.name);
+	self.mediaCss = ko.pureComputed(()=>GH.mediaCssGenerator(self, [
+		`bg-event-${self.eventType()}`
+	]));
 
-	self.goals = ko.observableArray(newData.goals.map(data=>new GoalModel(data, self)));
-	self.addGoal    = ()=>self.goals.push(new GoalModel(undefined, self));
-	self.removeGoal = goal=>self.goals.remove(goal);
-
-	self.rewards = ko.observableArray(newData.rewards.map(data=>new RewardModel(data, self)));
-	self.addReward    = ()=>self.rewards.push(new RewardModel({type: 'Item', name: '', amount: 1}, self));
-	self.removeReward = reward=>self.rewards.remove(reward);
-
-	self.getTmpPreset = ()=>({location: self.location.export()});
-
-	self.getDuplicateCheckData = ko.computed(()=>[
-		self.location.area(),
-		self.location.stage(),
-		self.name()
-	].join('|'));
-	self.isDuplicate           = ko.computed(()=>GH.findDuplicates(self).length > 0);
-
-	self.hasMissingData = ko.pureComputed(()=>
+	self.hasMissingData        = ko.pureComputed(()=>
 		self.location.stage() == '' ||
 		self.name() == '' ||
 		self.goals().some(m=>m.hasMissingData()) ||
 		self.rewards().some(m=>m.hasMissingData())
 	);
+	self.getDuplicateCheckData = ko.pureComputed(()=>[
+		self.location.area(),
+		self.location.stage(),
+		self.name()
+	].join('|'));
 
-	self.eventType = ko.pureComputed(()=> {
+	self.getTmpPreset = ()=>({location: self.location.export()});
+	self.filter       = filter=>{
+		var results = [];
+
+		var showTypes = [];
+		filter.eventTypeNormal && showTypes.push('normal');
+		filter.eventTypeSilver && showTypes.push('silver');
+		filter.eventTypeGold && showTypes.push('gold');
+		filter.eventTypeBoss && showTypes.push('boss');
+		results.push(showTypes.includes(self.eventType()));
+
+		if (filter.location !== undefined) {
+			filter.location.area != undefined && results.push(self.location.area() == filter.location.area);
+			filter.location.stage != undefined && results.push(self.location.stage() == filter.location.stage);
+		} else {
+			results.push(true);
+		}
+		return results.every(r=>r === true);
+	};
+	self.export       = ()=>({
+		location:    self.location.export(),
+		name:        self.name(),
+		goals:       self.goals().map(m=>m.export()),
+		rewards:     self.rewards().map(m=>m.export()),
+		chainEvents: self.chainEvents()
+	});
+	//endregion
+
+	self.eventType = ko.pureComputed(()=>{
 		var result = 'normal';
 
-		self.rewards().some(m=> {
+		self.rewards().some(m=>{
 			if (m.type() == 'Chest') {
 				if (m.name() == 'Silver') {
 					result = 'silver';
@@ -77,62 +94,44 @@ function EventModel(newData = {
 		});
 		return result;
 	});
-	function getEventTypeSortIndex() {
-		switch (self.eventType()) {
-			case 'normal': return 0;
-			case 'silver': return 1;
-			case 'gold': return 2;
-			case 'boss': return 3;
-		}
+	function getEventTypeSortIndex(){
+		var sortIndex = {
+			normal: 0,
+			silver: 1,
+			gold: 2,
+			boss: 3
+		};
+		return sortIndex[[self.eventType()]];
 	}
+
+	self.location = new LocationModel(newData.location);
+	self.name     = ko.observable(newData.name);
+
+	self.goals      = ko.observableArray(newData.goals.map(data=>new GoalModel(data, self)));
+	self.addGoal    = ()=>self.goals.push(new GoalModel(undefined, self));
+	self.removeGoal = goal=>self.goals.remove(goal);
+
+	self.rewards      = ko.observableArray(newData.rewards.map(data=>new RewardModel(data, self)));
+	self.addReward    = ()=>self.rewards.push(new RewardModel({type: 'Item', name: '', amount: 1}, self));
+	self.removeReward = reward=>self.rewards.remove(reward);
 
 	self.chainEvents      = ko.observableArray(newData.chainEvents || []);
 	self.chainEventToAdd  = ko.observable('');
-	self.addChainEvent    = ()=> {
+	self.addChainEvent    = ()=>{
 		if (self.chainEventToAdd() != '') {
 			var toAdd = self.chainEventToAdd().split(' | ');
 			self.chainEvents.push({stage: toAdd[0], name: toAdd[1]});
 		}
 		self.chainEventToAdd('');
 	};
-	self.showChainEvent   = (chainEvent)=> {
+	self.showChainEvent   = (chainEvent)=>{
 		var events = GH.getData('events')()
 			.filter(m=>chainEvent.stage == m.location.stage() && chainEvent.name == m.name());
 		events.forEach(m=>GH.showModel(m));
 	};
 	self.removeChainEvent = (chainEvent)=>self.chainEvents.remove(chainEvent);
-	self.listAreaEvents   = ko.computed(()=>
+	self.listAreaEvents   = ko.pureComputed(()=>
 		GH.getData('events')()
 			.filter(m=>self.location.area() == m.location.area())
 	);
-
-	self.additionalCss = ko.observable('');
-	self.mediaCss      = ko.pureComputed(()=>`bg-event-${self.eventType()} ${self.isDuplicate() ? 'duplicateModel' : ''} ${self.additionalCss()} ${self.hasMissingData() ? 'hasMissingData' : ''}`);
-
-	self.filter = function (filter) {
-		var results = [];
-
-		var showTypes = [];
-		filter.eventTypeNormal && showTypes.push('normal');
-		filter.eventTypeSilver && showTypes.push('silver');
-		filter.eventTypeGold && showTypes.push('gold');
-		filter.eventTypeBoss && showTypes.push('boss');
-		results.push(showTypes.includes(self.eventType()));
-
-		if (filter.location !== undefined) {
-			filter.location.area != undefined && results.push(self.location.area() == filter.location.area);
-			filter.location.stage != undefined && results.push(self.location.stage() == filter.location.stage);
-		} else {
-			results.push(true);
-		}
-		return results.every(r=>r === true);
-	};
-
-	self.export = ()=>({
-		location:    self.location.export(),
-		name:        self.name(),
-		goals:       self.goals().map(m=>m.export()),
-		rewards:     self.rewards().map(m=>m.export()),
-		chainEvents: self.chainEvents()
-	});
 }
