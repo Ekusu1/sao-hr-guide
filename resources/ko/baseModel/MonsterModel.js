@@ -46,7 +46,6 @@ function MonsterModel(newData = {
 
 	self.filter = filter=>{
 		if (filter.location !== undefined) {
-			console.log(filter.location);
 			return self.locations().some(location=>{
 				var results = [];
 				filter.location.area != undefined && results.push(location.area() == filter.location.area);

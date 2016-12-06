@@ -83,7 +83,7 @@ var GH = new function (){
 	}
 
 	self.getLast = function (key){
-		return rootView.LAST[key] || rootView.LAST;
+		return key != undefined || key != '' ? rootView.LAST[key] : rootView.LAST;
 	}
 	self.setLast = function (key, value){
 		rootView.LAST[key] = value;
