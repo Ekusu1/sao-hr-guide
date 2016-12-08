@@ -3,20 +3,21 @@
 function RewardModel(newData = {
 	type:   'EXP',
 	name:   'EXP',
+	gear:   '',
 	amount: 0
-}, parent) {
-	var self  = this;
+}, parent){
+	var self      = this;
 	self.dataType = undefined;
-	var types = {
+	var types     = {
 		typeSwitch: {
-			'EXP':     ()=>self.name('EXP'),
-			'Col':     ()=>self.name('Col'),
-			'Item':    ()=>self.name('').amount(1),
+			'EXP':     ()=>self.name('EXP').gear(''),
+			'Col':     ()=>self.name('Col').gear(''),
+			'Item':    ()=>self.name('').amount(1).gear(''),
 			'Gear':    ()=>self.name('').amount(1),
 			'LastHit': ()=>self.name('').amount(1),
 			'Chest':   ()=>self.name('Silver').amount(1)
 		},
-		name:   {
+		name:       {
 			'EXP':     ()=>false,
 			'Col':     ()=>false,
 			'Item':    ()=>true,
@@ -24,7 +25,7 @@ function RewardModel(newData = {
 			'LastHit': ()=>true,
 			'Chest':   ()=>true
 		},
-		amount: {
+		amount:     {
 			'EXP':     ()=>true,
 			'Col':     ()=>true,
 			'Item':    ()=>true,
@@ -32,7 +33,7 @@ function RewardModel(newData = {
 			'LastHit': ()=>false,
 			'Chest':   ()=>false
 		},
-		preset: {
+		preset:     {
 			'Gear':    ()=>({name: self.name()}),
 			'LastHit': ()=>({name: self.name()}),
 			'Chest':   ()=>({location: parent.location.export(), rarity: self.name()})
@@ -42,7 +43,7 @@ function RewardModel(newData = {
 	self.type       = ko.observable(newData.type);
 	self.switchType = ()=>types.typeSwitch[self.getType()]();
 
-	self.getType = ()=>{
+	self.getType  = ()=>{
 		switch (self.type()) {
 			case 'Gear':
 			case 'GearSP':
@@ -62,18 +63,37 @@ function RewardModel(newData = {
 				return self.type();
 		}
 	};
-	self.gearType   = ko.pureComputed(()=> {
-		if (!(self.isGear() || self.isLastHit())) { return "&nbsp;"; }
-		var result = GH.findByKeyValue('gear', 'name', self.name());
-		return result.length > 0 ? result[0].type() : "&nbsp;";
-	});
+
 	self.name       = ko.observable(newData.name);
 	self.nameShow   = ko.pureComputed(()=>types.name[self.getType()]());
 	self.amount     = ko.observable(newData.amount);
 	self.amountShow = ko.pureComputed(()=>types.amount[self.getType()]());
 
-	self.listRewardType  = [
-		'EXP', 'Col', 'Item', 'Chest', 'Gear',/* 'LastHit',*/ 'GearSP', 'LastHitSP', 'GearMP', 'LastHitMP'
+	self.hasGear    = ko.pureComputed(()=>['Chest', 'Gear', 'LastHit'].includes(self.getType()));
+	self.gear       = ko.observable(newData.gear);
+	self.itemIcon   = ko.pureComputed(()=>{
+		var info   = {iconCss: '', stars: '&nbsp;'};
+		if (self.hasGear()) {
+			var result = GH.findByKeyValue('gear', 'name', self.gear());
+			if (result.length > 0) {
+				var m = result[0];
+				info  = m.iconInfo();
+			}
+		}
+		return info;
+	});
+	self.isNewGear = ko.pureComputed(()=>{
+		if (self.hasGear()) {
+			var curGear = self.gear();
+			var isNew   = !(GH.getData('gear')().some(m=>m.name() === curGear));
+			return curGear !== '' && isNew;
+		}
+		return false;
+	});
+	self.showGear = ()=>GH.findByName('gear', self.gear()).forEach(r=>GH.showModel(r))
+
+	self.listRewardType = [
+		'EXP', 'Col', 'Item', 'Chest', 'Gear', /* 'LastHit',*/ 'GearSP', 'LastHitSP', 'GearMP', 'LastHitMP'
 	];
 
 	self.isEXP     = ()=>['EXP'].includes(self.type());
@@ -83,36 +103,30 @@ function RewardModel(newData = {
 	self.isLastHit = ()=>['LastHit', 'LastHitSP', 'LastHitMP'].includes(self.type());
 	self.isChest   = ()=>['Chest'].includes(self.type());
 
-	self.isNewGear   = ko.pureComputed(()=> {
+	self.isNewOre = ko.pureComputed(()=>{
 		var curName   = self.name();
-		var isNew = !(GH.getData('gear')().some(m=>m.name() === curName));
-		return curName !== '' && isNew;
-	});
-
-	self.isNewOre = ko.pureComputed(()=> {
-		var curName = self.name();
 		var isNewName = !GH.getOptions('itemOre').includes(curName);
 		return curName !== '' && isNewName;
 	});
 
-	self.addNewOre = function () {
+	self.addNewOre = function (){
 		var OPTIONS = GH.getOptions();
 		OPTIONS.itemOre.push(self.name());
 		OPTIONS.itemOre = OPTIONS.itemOre.sort();
 		rootView.OPTIONS(OPTIONS);
 	};
 
-	self.showGear = ()=>GH.findByName('gear', self.name()).forEach(r=>GH.showModel(r))
-
 	self.getTmpPreset = ()=>types.preset[self.getType()]();
 
 	self.hasMissingData = ko.pureComputed(()=>
-		self.name() == ''
+		self.name() == '' &&
+		(['Chest', 'Gear', 'LastHit'].includes(self.getType()) && self.gear() == '')
 	);
 
 	self.export = ()=>({
 		type:   self.type(),
 		name:   self.name(),
+		gear:   self.gear(),
 		amount: self.amount()
 	});
 }

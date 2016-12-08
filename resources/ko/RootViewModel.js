@@ -1,6 +1,7 @@
 function RootViewModel(){
 	var self = this;
 
+	//region Main
 	self.OPTIONS  = ko.observable();
 	var dataTypes = {
 		gear:        GearModel,
@@ -21,47 +22,58 @@ function RootViewModel(){
 		stage: '',
 	};
 
-	self.filteredData = {
+	self.sortData            = ()=>{
+		$.each(self.DATA, (dataType, data)=>{
+			GH.pauseFilter(dataType);
+			var sortedData = data().sort((a, b)=>{
+				var aS = a.sortKey();
+				var bS = b.sortKey();
+				if (dataType == 'monster') {
+					a.sortLocations();
+					b.sortLocations();
+				}
+				return aS == bS ? 0 : aS < bS ? -1 : 1;
+			});
+			self.DATA[dataType](sortedData);
+			GH.resumeFilter(dataType);
+		});
+	};
+	//endregion
+
+	//region FilterData
+	self.FILTERS             = null;
+	var filterDialogInstance = null;
+	self.openFilter          = ()=>filterDialogInstance.open();
+	self.filteredData        = {
 		gear:        ko.pauseablePureComputed(()=>filterBase('gear')),
 		chests:      ko.pauseablePureComputed(()=>filterBase('chests')),
 		events:      ko.pauseablePureComputed(()=>filterBase('events')),
 		monster:     ko.pauseablePureComputed(()=>filterBase('monster')),
 		blacksmiths: ko.pauseablePureComputed(()=>filterBase('blacksmiths')),
 	};
-	function pauseFilter(){
-		$.each(self.filteredData, (dataType, data)=>data.pause());
+	self.displayAmount = {};
+	$.each(self.filteredData, (dataType,data)=>self.displayAmount[dataType] = ko.pureComputed(()=>data().length));
+	self.getDisplayAmountSum = function (){
+		var amount = 0;
+		$.each(self.filteredData, (dataType, data)=>amount += data().length)
+		return amount;
 	}
 
-	function resumeFilter(){
-		$.each(self.filteredData, (dataType, data)=>{
-			data.resume();
-			self.DATA[dataType].notifySubscribers();
-		});
-	}
-
-	self.FILTERS = null;
 	function filterBase(dataType){
-		if (self.FILTERS == null) return [];
-		return self.DATA[dataType]().filter(m=>m.filter(self.FILTERS.getFilter()));
-	}
-
-	var filterDialogInstance = null;
-	self.openFilter          = ()=>filterDialogInstance.open();
-
-	self.sortData            = ()=>{
-		pauseFilter();
-		$.each(self.DATA, (dataType, data)=>{
-			var sortedData = data().sort((a, b)=>{
-				if (dataType == 'monster') {
-					a.sortLocations();
-					b.sortLocations();
-				}
-				return a.sortKey() == b.sortKey() ? 0 : a.sortKey() < b.sortKey() ? -1 : 1;
+		filtered = [];
+		if (self.FILTERS != null) {
+			var filtered = self.DATA[dataType]().filter(m=>m.filter(self.FILTERS.getFilter()));
+			filtered.sort((a, b)=>{
+				var aS = a.sortKey();
+				var bS = b.sortKey();
+				return aS == bS ? 0 : aS < bS ? -1 : 1;
 			});
-			self.DATA[dataType](sortedData);
-		});
-		resumeFilter();
-	};
+		}
+		return filtered;
+	}
+	//endregion
+
+	//region editing
 	self.tmpModels           = ko.observableArray();
 	self.addAnim             = elem=>{
 		if (elem.nodeType === 1) {
@@ -164,18 +176,9 @@ function RootViewModel(){
 	self.removeMainModel     = m=>confirmRemoveDialog(m, r=>(r && self.DATA[m.dataType].remove(m)));
 	self.removeTmpModel      = m=>confirmRemoveDialog(m, r=>(r && self.tmpModels.remove(m)));
 	self.removeTmpMainModel  = m=>confirmRemoveDialog(m, r=>r && self.tmpModels.remove(m), self.DATA[m.dataType].remove(m));
+	//endregion
 
 	self.saveData   = ()=>GH.saveData();
-	self.exportData = function (){
-		self.saveData();
-		var regex1     = /"([A-Za-z0-9_]*)":/gm;
-		var regex2     = /\{:/gm;
-		var exportData =
-			    `var OPTIONS = ${localStorage.getItem('OPTIONS').replace(regex1, "$1:").replace(regex2, '{"":')};\n` +
-			    `var DATA = ${localStorage.getItem('DATA').replace(regex1, "$1:")};`;
-		GH.export.createFile('DATA.txt', exportData);
-		GH.notify('See downloaded file.', 'Data exported.');
-	};
 	self.loadData   = function (){
 		var options = GH.getLocalStorage('OPTIONS');
 		var data    = GH.getLocalStorage('DATA');
@@ -183,6 +186,16 @@ function RootViewModel(){
 		!$.isEmptyObject(options) && (OPTIONS = options);
 		!$.isEmptyObject(data) && (DATA = data);
 		!$.isEmptyObject(last) && (self.LAST = last);
+	};
+	self.exportData = function (){
+		self.saveData(true);
+		var regex1     = /"([A-Za-z0-9_]*)":/gm;
+		var regex2     = /\{:/gm;
+		var exportData =
+			    `var OPTIONS = ${localStorage.getItem('OPTIONS').replace(regex1, "$1:").replace(regex2, '{"":')};\n` +
+			    `var DATA = ${localStorage.getItem('DATA').replace(regex1, "$1:")};`;
+		GH.export.createFile('DATA.txt', exportData);
+		GH.notify('See downloaded file.', 'Data exported.');
 	};
 
 	self.listMonsterFamilies = ko.pureComputed(()=>{
@@ -196,19 +209,24 @@ function RootViewModel(){
 	// }
 
 	self.init = function (){
+		GH.timer.start('loading all')
 		self.loadData();
 		self.OPTIONS(OPTIONS);
 		var filters  = GH.getLocalStorage('FILTERS');
 		self.FILTERS = new FiltersModel(JSON.stringify(filters) != '{}' ? filters : undefined);
-		pauseFilter();
-		$.each(dataTypes, (dataType, model)=>self.DATA[dataType](DATA[dataType].map(data=>new model(data))));
-		resumeFilter();
+		GH.pauseFilter();
+		$.each(dataTypes, (dataType, model)=>{
+			GH.timer.start('loading '+dataType);
+			self.DATA[dataType](DATA[dataType].map(data=>new model(data)))
+			GH.timer.get('loading '+dataType);
+		});
 
 		filterDialogInstance = new BootstrapDialog({
 			id:          'filtersDialog',
+			title:       '<h1>Filters</h1>',
 			autodestroy: false,
-			onshow:      ()=>pauseFilter(),
-			onhide:      ()=>resumeFilter(),
+			onshow:      ()=>GH.pauseFilter(),
+			onhide:      ()=>GH.resumeFilter(),
 			message:     `<!-- ko template: 'template-filter' --><!-- /ko -->`,
 			buttons:     [
 				{
@@ -224,8 +242,14 @@ function RootViewModel(){
 			autodestroy:     false,
 			closeByBackdrop: false,
 			closeByKeyboard: false,
-			onshow:          ()=>self.tmpModels.valueHasMutated(),
-			onhide:          ()=>resetTmpModels(),
+			onshow:          ()=>{
+				GH.pauseFilter();
+				self.tmpModels.valueHasMutated();
+			},
+			onhide:          ()=>{
+				resetTmpModels();
+				GH.resumeFilter();
+			},
 			onhidden:        ()=>self.tmpModels([]),
 			message:         `<!-- ko template: 'template-tmp' --><!-- /ko -->`,
 			buttons:         [
@@ -264,22 +288,50 @@ function RootViewModel(){
 
 		filterDialogInstance.open();
 		addNewDialogInstance.open();
-		filterDialogInstance.getModalHeader().hide();
 		addNewDialogInstance.getModalHeader().hide();
 		filterDialogInstance.close();
 		addNewDialogInstance.close();
 
-		Mousetrap.bind(['1', 'alt+1'], ()=>{ self.createGear(); return false; });
+		Mousetrap.bind(['1', 'alt+1'], ()=>{
+			self.createGear();
+			return false;
+		});
 		Mousetrap.bind(['2', 'alt+2'], ()=>self.createChest(), false);
-		Mousetrap.bind(['3', 'alt+3'], ()=>{ self.createEvent(); return false; });
-		Mousetrap.bind(['4', 'alt+4'], ()=>{ self.createMonster(); return false; });
-		Mousetrap.bind(['5', 'alt+5'], ()=>{ self.createBlacksmith(); return false; });
-		Mousetrap.bind(['alt+6', 'ctrl+shift+f'], ()=>{ $('#filtersModal').modal('toggle'); return false; });
-		Mousetrap.bind(['ctrl+shift+s'], ()=>{ self.sortData(); return false; });
-		Mousetrap.bind(['ctrl+s'], ()=>{GH.saveData(); return false;});
-		Mousetrap.bind(['ctrl+e'], ()=>{ self.exportData(); return false; });
-		Mousetrap.bind(['ctrl+shift+r'], ()=>{ GH.clearLocalStorage(); return false; });
+		Mousetrap.bind(['3', 'alt+3'], ()=>{
+			self.createEvent();
+			return false;
+		});
+		Mousetrap.bind(['4', 'alt+4'], ()=>{
+			self.createMonster();
+			return false;
+		});
+		Mousetrap.bind(['5', 'alt+5'], ()=>{
+			self.createBlacksmith();
+			return false;
+		});
+		Mousetrap.bind(['alt+6', 'ctrl+shift+f'], ()=>{
+			$('#filtersModal').modal('toggle');
+			return false;
+		});
+		Mousetrap.bind(['ctrl+shift+s'], ()=>{
+			self.sortData();
+			return false;
+		});
+		Mousetrap.bind(['ctrl+s'], ()=>{
+			GH.saveData();
+			return false;
+		});
+		Mousetrap.bind(['ctrl+e'], ()=>{
+			self.exportData();
+			return false;
+		});
+		Mousetrap.bind(['ctrl+shift+r'], ()=>{
+			GH.clearLocalStorage();
+			return false;
+		});
 
+		GH.resumeFilter();
 		self.FILTERS.location.stage.notifySubscribers();
+		GH.timer.get('loading all');
 	};
 }

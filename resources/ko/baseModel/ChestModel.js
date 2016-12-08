@@ -9,11 +9,11 @@ function ChestModel(newData = {
 	where:    '',
 	item:     ''
 }){
+	GH.pauseFilter('chests');
 	//region base
 	GH.modelBaseGenerator(this);
 	var self           = this;
 	//endregion
-
 	//region require (probably has to be edited!)
 	self.dataType     = 'chests';
 	self.template     = 'item-chest';
@@ -52,12 +52,14 @@ function ChestModel(newData = {
 		filter.chestTypeGold && showTypes.push('Gold');
 		results.push(showTypes.includes(self.rarity()));
 
-		if (filter.location !== undefined) {
-			filter.location.area != undefined && results.push(self.location.area() == filter.location.area);
-			filter.location.stage != undefined && results.push(self.location.stage() == filter.location.stage);
-		} else {
-			return results.push(true);
+		if (filter.location.stage != '') {
+			results.push(self.location.stage() == filter.location.stage);
+		} else if (filter.location.area != '') {
+			results.push(self.location.area() == filter.location.area);
+		} else if (filter.location.area == '') {
+			results.push(true);
 		}
+
 		return results.every(r=>r === true);
 	};
 	self.export = ()=>({
@@ -67,7 +69,7 @@ function ChestModel(newData = {
 		item:     self.item()
 	});
 	//endregion
-
+	//region model
 	self.location     = new LocationModel(newData.location);
 	self.rarity       = ko.observable(newData.rarity);
 	self.changeRarity = ()=>{
@@ -95,13 +97,12 @@ function ChestModel(newData = {
 	self.where        = ko.observable(newData.where);
 	self.name         = ko.pureComputed(()=>`${self.location.stage()}<hr>${self.rarity()}-${self.where()}`);
 
-	self.itemInfo  = ko.pureComputed(()=>{
-		var info   = {type: '&nbsp;', rarity: '&nbsp;'},
+	self.itemIcon  = ko.pureComputed(()=>{
+		var info   = {iconCss: '', stars: '&nbsp;'},
 		    result = GH.findByKeyValue('gear', 'name', self.item());
 		if (result.length > 0) {
 			var m       = result[0];
-			info.type   = m.type();
-			info.rarity = m.rarity();
+			info = m.iconInfo();
 		}
 		return info;
 	});
@@ -109,4 +110,6 @@ function ChestModel(newData = {
 	self.isNewGear = ko.pureComputed(()=>GH.isNewData(self, 'item', 'gear', 'name'));
 
 	self.showGear = ()=>GH.findByName('gear', self.item()).forEach(r=>GH.showModel(r));
+	//endregion
+	GH.resumeFilter('chests');
 }

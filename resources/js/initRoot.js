@@ -1,6 +1,6 @@
 "use strict";
-Chart.defaults.global.defaultFontColor = "#999";
-
+var initialRenderTime
+GH.timer.start('initial render time')
 var rootView = null;
 try {
 	rootView = new RootViewModel();
@@ -24,3 +24,8 @@ $(`[href="${GH.getLast('tab')}"]`).tab('show');
 $('a[data-toggle="tab"]').on('shown.bs.tab', e=>
 	GH.setLast('tab', $(e.currentTarget).attr('href'))
 );
+
+$(()=>{
+	GH.timer.get('initial render time');
+	console.log('displaying: '+rootView.getDisplayAmountSum());
+})

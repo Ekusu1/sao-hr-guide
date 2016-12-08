@@ -29,11 +29,11 @@ function GearModel(newData = {
 	transformedFrom: '',
 	transformations: []
 }){
+	GH.pauseFilter('gear');
 	//region base
 	GH.modelBaseGenerator(this);
-	var self           = this;
+	var self = this;
 	//endregion
-
 	//region require (probably has to be edited!)
 	self.dataType = 'gear';
 	self.template = 'item-gear';
@@ -62,9 +62,10 @@ function GearModel(newData = {
 
 	self.filter = filter=>{
 		var results = [];
-		filter.gearType !== undefined && results.push(self.type() == filter.gearType);
+		filter.gearType != '' && results.push(self.type() == filter.gearType);
 		filter.gearType == '' && results.push(true);
-		filter.onlyTransformableGear !== undefined && results.push(self.transformable() == filter.onlyTransformableGear);
+
+		filter.onlyTransformableGear && results.push(self.transformable() == true);
 		return results.every(r=>r === true);
 	};
 	self.export = ()=>({
@@ -77,7 +78,7 @@ function GearModel(newData = {
 		effects:         self.effects().map(m=>m.export())
 	});
 	//endregion
-
+	//region model
 	self.name   = ko.observable(newData.name);
 	self.type   = ko.observable(newData.type);
 	self.rarity = ko.observable(newData.rarity);
@@ -130,4 +131,11 @@ function GearModel(newData = {
 		gear.push(self);
 		gear.forEach(r=>GH.showModel(r));
 	};
+
+	self.iconInfo = ko.pureComputed(()=>({
+		iconCss: self.iconCss(),
+		stars:   self.starsText()
+	}));
+	//endregion
+	GH.resumeFilter('gear');
 }

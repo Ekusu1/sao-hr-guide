@@ -2,7 +2,7 @@
 
 function FiltersModel(newData = {
 	location:              {
-		area:  'Great Plains of Rustoria',
+		area:  '',
 		stage: ''
 	},
 	gearType:              '1H Sword',
@@ -20,41 +20,32 @@ function FiltersModel(newData = {
 	eventTypeBoss:         true,
 }) {
 	var self      = this;
+
 	self.dataType = 'filter';
 	self.location = new LocationModel(newData.location);
 
-	self.gearType              = ko.observable(newData.gearType || '');
-	self.onlyTransformableGear = ko.observable(newData.onlyTransformableGear || false)
+	self.gearType              = ko.observable(newData.gearType);
+	self.onlyTransformableGear = ko.observable(newData.onlyTransformableGear)
 
-	self.chestTypeBrown  = ko.observable(newData.chestTypeBrown || true);
-	self.chestTypeBlue   = ko.observable(newData.chestTypeBlue || true);
-	self.chestTypeRed    = ko.observable(newData.chestTypeRed || true);
-	self.chestTypeSilver = ko.observable(newData.chestTypeSilver || true);
-	self.chestTypeGold   = ko.observable(newData.chestTypeGold || true);
+	self.chestTypeBrown  = ko.observable(newData.chestTypeBrown);
+	self.chestTypeBlue   = ko.observable(newData.chestTypeBlue);
+	self.chestTypeRed    = ko.observable(newData.chestTypeRed);
+	self.chestTypeSilver = ko.observable(newData.chestTypeSilver);
+	self.chestTypeGold   = ko.observable(newData.chestTypeGold);
 
-	self.eventTypeNormal = ko.observable(newData.eventTypeNormal || true);
-	self.eventTypeSilver = ko.observable(newData.eventTypeSilver || true);
-	self.eventTypeGold   = ko.observable(newData.eventTypeGold || true);
-	self.eventTypeBoss   = ko.observable(newData.eventTypeGold || true);
-
-	self.locationActive = ko.observable(newData.locationActive || true);
-	self.gearTypeActive = ko.observable(newData.gearTypeActive || true);
+	self.eventTypeNormal = ko.observable(newData.eventTypeNormal);
+	self.eventTypeSilver = ko.observable(newData.eventTypeSilver);
+	self.eventTypeGold   = ko.observable(newData.eventTypeGold);
+	self.eventTypeBoss   = ko.observable(newData.eventTypeGold);
 
 	self.getFilter = function () {
 		var filter            = {};
-		filter.locationActive = self.locationActive();
-		filter.gearTypeActive = self.gearTypeActive();
-		if (self.locationActive()) {
-			if (self.location.area() != '' || self.location.stage() != '') {
-				filter.location = {};
-				self.location.area() != '' && (filter.location.area = self.location.area());
-				self.location.stage() != '' && (filter.location.stage = self.location.stage());
-			}
-		}
-		if (self.gearTypeActive()) {
-			self.gearType() != '' && (filter.gearType = self.gearType());
-			self.onlyTransformableGear() && (filter.onlyTransformableGear = self.onlyTransformableGear())
-		}
+		filter.location = {};
+		filter.location.area = self.location.area();
+		filter.location.stage = self.location.stage();
+
+		filter.gearType = self.gearType();
+		filter.onlyTransformableGear = self.onlyTransformableGear();
 
 		filter.chestTypeBrown  = self.chestTypeBrown();
 		filter.chestTypeBlue   = self.chestTypeBlue();
@@ -75,8 +66,6 @@ function FiltersModel(newData = {
 			stage: self.location.stage()
 		},
 		gearType:              self.gearType(),
-		locationActive:        self.locationActive(),
-		gearTypeActive:        self.gearTypeActive(),
 		onlyTransformableGear: self.onlyTransformableGear(),
 		chestTypeBrown:        self.chestTypeBrown(),
 		chestTypeBlue:         self.chestTypeBlue(),

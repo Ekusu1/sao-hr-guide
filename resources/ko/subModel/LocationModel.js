@@ -6,8 +6,10 @@ function LocationModel(newData = {
 }) {
 	var self = this;
 
-	self.area  = ko.observable(newData.area || GH.getLast('area') || '');
-	self.stage = ko.observable(newData.stage || GH.getLast('stage') || '');
+	var lastArea = GH.getLast('area') || '';
+	var lastStage = GH.getLast('stage') || '';
+	self.area  = ko.observable(newData.area != undefined ? newData.area : lastArea);
+	self.stage = ko.observable(newData.stage != undefined ? newData.stage : lastStage);
 
 	self.listAreas  = GH.getOptions('areas');
 	self.listStages = ko.pureComputed(()=>{

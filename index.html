@@ -63,7 +63,7 @@
 </script>
 <script type="text/html" id="select-locations">
 	<div>
-		<!-- ko foreach: locations -->
+		<!-- ko foreach: locationsSorted -->
 			<div class="inputBox" data-bind="css: {hasHeader: $index() == 0}">
 				<!-- ko if: $index() == 0 -->
 				<header>Area / Stage</header>
@@ -137,7 +137,7 @@
 	<br>
 </script>
 <script type="text/html" id="preset-reward">
-	<div class="inputBox" data-bind="css: {hasHeader: $index() == 0}">
+	<div class="inputBox" data-bind="css: {hasHeader: $index() == 0, offsetTop: hasGear()}">
 		<!-- ko if: $index() == 0 -->
 		<header>Reward</header>
 		<!-- /ko -->
@@ -152,14 +152,22 @@
 		}} --><!-- /ko -->
 		<!-- /ko -->
 		<!-- ko if: isChest() -->
-		<select class="ChestRarity" data-bind="options: ['','Silver','Gold'], value: name, valueAllowUnset: true"></select>
+		<select class="RewardAmount" data-bind="options: ['','Silver','Gold'], value: name, valueAllowUnset: true"></select>
 		<!-- /ko -->
-		<!-- ko if: isGear() || isLastHit() -->
-			<span class="inputText GearType" data-bind="html: gearType">&nbsp;</span>
-			<input type="text" list="listGear" placeholder="Gear" class="Gear" data-bind="textInput: name"/>
-			<!-- ko template: {name: 'btn-span-add-show', data: {check: isNewGear,show: showGear}} --><!-- /ko -->
-		<!-- /ko -->
-		<input type="number" class="amount" data-bind="textInput: amount, visible: amountShow()"/>
+		<input type="number" class="RewardAmount" data-bind="textInput: amount, visible: amountShow()"/>
+	</div>
+	<!-- ko if: hasGear() -->
+	<div class="inputBox hasHeader hasTypeIcon">
+		<div class="typeIcon">
+			<i class="hr-icon" data-bind="css: itemIcon().iconCss"></i>
+			<i class="iconStars" data-bind="html: itemIcon().stars"></i>
+		</div>
+		<header>Gear</header>
+		<input type="text" list="listGear" placeholder="Gear" class="Gear" data-bind="textInput: gear"/>
+		<!-- ko template: {name: 'btn-span-add-show', data: {check: isNewGear,show: showGear}} --><!-- /ko -->
+	</div>
+	<!-- /ko -->
+	<div class="inputBox offsetTop hideOnLock">
 		<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeReward" tabindex="-1">
 			<i class="fa fa-minus"></i>
 		</button>
@@ -355,7 +363,7 @@
 	<article id="tempChestId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
-				<div class="col-xs-12 col-md-5">
+				<div class="col-xs-12 col-md-4">
 					<!-- ko template: 'select-location' --><!-- /ko -->
 					<div class="inputBox hasHeader hasTypeIcon">
 						<div class="typeIcon">
@@ -367,9 +375,12 @@
 					</div>
 				</div>
 				<div class="col-xs-12 col-md-4">
-					<div class="inputBox hasHeader">
+					<div class="inputBox hasHeader hasTypeIcon">
+						<div class="typeIcon">
+							<i class="hr-icon" data-bind="css: itemIcon().iconCss"></i>
+							<i class="iconStars" data-bind="html: itemIcon().stars"></i>
+						</div>
 						<header>Content</header>
-						<span class="inputText GearType" data-bind="css: 'bg-'+itemInfo().rarity.toLowerCase(),html: itemInfo().type">&nbsp;</span>
 						<input type="text" list="listGear" class="Gear" placeholder="Gear" data-bind="textInput: item"/>
 						<!-- ko template: {name: 'btn-span-add-show', data: {check: isNewGear,show: showGear}} --><!-- /ko -->
 					</div>
@@ -389,35 +400,37 @@
 						<header>Name</header>
 						<input type="text" class="EventName" data-bind="textInput: name, hasFocus: isTmp()" placeholder="Name">
 					</div>
-					<hr class="m-y-5" data-bind="visible: !locked() || chainEvents().length > 0">
-					<!-- ko foreach: chainEvents -->
-					<div class="inputBox" data-bind="css: {hasHeader: $index() == 0}">
-						<!-- ko if: $index() == 0 -->
-						<header>Chain Events</header>
+					<!-- ko if: hasChainEvents() -->
+						<hr class="m-y-5" data-bind="visible: !locked() || chainEvents().length > 0">
+						<!-- ko foreach: chainEvents -->
+							<div class="inputBox" data-bind="css: {hasHeader: $index() == 0}">
+								<!-- ko if: $index() == 0 -->
+								<header>Chain Events</header>
+								<!-- /ko -->
+								<span class="Areas" data-bind="text: $data.stage"></span>
+								<span class="EventName" data-bind="text: $data.name"></span>
+								<!-- ko template: {name: 'btn-span-if', data:{
+									btnClass: 'btn-info',
+									iconClass: 'fa-eye',
+									condition: true,
+									event: $parent.showChainEvent
+								}} --><!-- /ko -->
+								<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeChainEvent">
+									<i class="fa fa-minus"></i>
+								</button>
+							</div>
+							<br>
 						<!-- /ko -->
-						<span class="Areas" data-bind="text: $data.stage"></span>
-						<span class="EventName" data-bind="text: $data.name"></span>
-						<!-- ko template: {name: 'btn-span-if', data:{
-							btnClass: 'btn-info',
-							iconClass: 'fa-eye',
-							condition: true,
-							event: $parent.showChainEvent
-						}} --><!-- /ko -->
-						<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeChainEvent">
-							<i class="fa fa-minus"></i>
-						</button>
-					</div>
-					<br>
-					<!-- /ko -->
-					<div class="inputBox hideOnLock">
-						<input type="text" list="listAreaEvents-" class="AreaEvents" placeholder="Add Event to Chain" data-bind="attr: {list: 'listAreaEvents-'+id()}, textInput: chainEventToAdd">
-						<button type="button" class="inputBtn btn-primary" data-bind="click: addChainEvent">
-							<i class="fa fa-plus"></i>
-						</button>
-					</div>
-					<datalist id="listAreaEvents-" data-bind="attr: {id: 'listAreaEvents-'+id()}, foreach: listAreaEvents">
-						<option data-bind="value: $data.location.stage()+' | '+$data.name()"></option>
-					</datalist>
+						<div class="inputBox hideOnLock">
+							<input type="text" list="listAreaEvents-" class="AreaEvents" placeholder="Add Event to Chain" data-bind="attr: {list: 'listAreaEvents-'+id()}, textInput: chainEventToAdd">
+							<button type="button" class="inputBtn btn-primary" data-bind="click: addChainEvent">
+								<i class="fa fa-plus"></i>
+							</button>
+						</div>
+						<datalist id="listAreaEvents-" data-bind="attr: {id: 'listAreaEvents-'+id()}, foreach: listAreaEvents">
+							<option data-bind="value: $data.location.stage()+' | '+$data.name()"></option>
+						</datalist>
+					<!-- /ko-->
 				</div>
 				<div class="col-xs-12 col-md-3">
 					<!-- ko template: {name: 'preset-goal', foreach: goals} --><!-- /ko -->
@@ -555,36 +568,17 @@
 
 <script type="text/html" id="template-filter">
 	<!-- ko with: FILTERS -->
-		<h1 class="modal-title inputBox noBorder">
-			<span class="inputText">Filters</span>
-		</h1>
 		<hr class="m-y-5">
-		<h4 class="inputBox noBorder">
-			<span class="inputText">Location Active</span>
-			<label type="button" class="inputBtn">
-				<input type="checkbox" class="hidden" data-bind="checked: locationActive">
-				<i class="fa" data-bind="css: locationActive() ? 'fa-check-square' : 'fa-square'"></i>
-			</label>
-		</h4>
-		<div data-bind="visible: locationActive()">
-			<!-- ko template: 'select-location' --><!-- /ko -->
-		</div>
+		<h4>Location</h4>
+		<!-- ko template: 'select-location' --><!-- /ko -->
 		<hr class="m-y-5">
-		<h4 class="inputBox noBorder">
-			<span class="inputText">Gear Type Active</span>
-			<label type="button" class="inputBtn">
-				<input type="checkbox" class="hidden" data-bind="checked: gearTypeActive">
-				<i class="fa" data-bind="css: gearTypeActive() ? 'fa-check-square' : 'fa-square'"></i>
-			</label>
-		</h4>
-		<div data-bind="visible: gearTypeActive()">
-			<div class="inputBox hasHeader">
-				<header>Gear Type</header>
-				<select class="GearType" data-bind="options: $root.OPTIONS().itemTypeGear, value: gearType, valueAllowUnset: true"></select>
-			</div>
-			<br>
-			<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Show only transformable gear', value: onlyTransformableGear, cssClass: ''}} --><!-- /ko -->
+		<h4>Gear</h4>
+		<div class="inputBox hasHeader">
+			<header>Gear Type</header>
+			<select class="GearType" data-bind="options: $root.OPTIONS().itemTypeGear, value: gearType, valueAllowUnset: true"></select>
 		</div>
+		<br>
+		<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Show only transformable gear', value: onlyTransformableGear, cssClass: ''}} --><!-- /ko -->
 		<hr class="m-y-5">
 		<h4 class="m-5">Chests</h4>
 	<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Brown Chests', value: chestTypeBrown, cssClass: 'bg-brown'}} --><!-- /ko -->
@@ -720,7 +714,7 @@
 	</div>
 </main>
 
-<div id="loading"></div>
+<!--<div id="loading"></div>-->
 <div data-app-js>
 	<script src="resources/js/settings.js"></script>
 	<script src="resources/js/helpers.js"></script>

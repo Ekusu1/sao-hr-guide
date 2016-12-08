@@ -13,11 +13,11 @@ function MonsterModel(newData = {
 	name:      '',
 	drops:     []
 }){
+	GH.pauseFilter('monster');
 	//region base
 	GH.modelBaseGenerator(this);
 	var self = this;
 	//endregion
-
 	//region require (probably has to be edited!)
 	self.dataType = 'monster';
 	self.template = 'item-monster';
@@ -45,15 +45,20 @@ function MonsterModel(newData = {
 	].join('|'));
 
 	self.filter = filter=>{
-		if (filter.location !== undefined) {
-			return self.locations().some(location=>{
-				var results = [];
-				filter.location.area != undefined && results.push(location.area() == filter.location.area);
-				filter.location.stage != undefined && results.push(location.stage() == filter.location.stage);
-				return results.every(r=>r === true);
-			});
-		}
-		return true;
+		return self.locations().some(location=>{
+			var results = [];
+			if (filter.location.stage != '') {
+				results.push(location.stage() == filter.location.stage);
+			} else if (filter.location.area != '') {
+				results.push(location.area() == filter.location.area);
+			} else if (filter.location.area == '') {
+				results.push(true);
+			} else {
+				results.push(false);
+			}
+
+			return results.every(r=>r === true);
+		});
 	};
 	self.export = ()=>({
 		locations: self.locations().map(m=>m.export()),
@@ -64,12 +69,31 @@ function MonsterModel(newData = {
 		drops:     self.drops()
 	});
 	//endregion
-
+	//region model
 	self.locations     = ko.observableArray(newData.locations.map(data=>new LocationModel(data)));
-	self.addLocation   = ()=>{
-		self.locations.push(new LocationModel());
+	self.locationsSorted = ko.pureComputed(()=>{
 		self.sortLocations();
-	};
+		var locations = [...new Set(self.locations())];
+		var filter = rootView.FILTERS.getFilter().location;
+		if (filter.area !== '' && filter.stage !== '') {
+			var foundLocation = locations.find(location=>{
+				if (
+					(filter.stage != '' && (location.stage() === filter.stage)) ||
+					(location.area() === filter.area)
+				) {
+					return true;
+				}
+			});
+			if (foundLocation != undefined) {
+				var index = locations.indexOf(foundLocation);
+				var match = locations.splice(index, 1)[0];
+				locations.unshift(match);
+			}
+		}
+		return locations;
+	});
+
+	self.addLocation   = ()=>self.locations.push(new LocationModel());
 	self.sortLocations = location=>{
 		self.locations.sort((a, b)=>{
 			a = GH.getSortNumber('stages', a.stage());
@@ -78,7 +102,6 @@ function MonsterModel(newData = {
 		});
 		location && location.setLast();
 	};
-	self.sortLocations();
 	self.removeLocation = location=>self.locations.remove(location);
 
 	self.type   = ko.observable(newData.type);
@@ -94,7 +117,6 @@ function MonsterModel(newData = {
 	self.raceDrops = ko.pureComputed(()=>GH.getOptions('monsterRaceDrops.' + self.race()));
 	self.drops     = ko.observableArray(newData.drops);
 	self.dropToAdd = ko.observable(GH.getOptions('monsterRaceDropPrefix.' + self.race()));
-	cleanupDrops();
 
 	self.changeRace     = ()=>self.dropToAdd(GH.getOptions('monsterRaceDropPrefix.' + self.race()));
 	self.isNewDrop      = drop=>{
@@ -138,4 +160,9 @@ function MonsterModel(newData = {
 	self.loadMonsterAddLocation = ()=>{
 		rootView.loadOriginalModel(self).addLocation();
 	};
+
+	self.sortLocations();
+	cleanupDrops();
+	//endregion
+	GH.resumeFilter('monster');
 }

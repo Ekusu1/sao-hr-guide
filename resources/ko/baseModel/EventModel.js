@@ -15,11 +15,11 @@ function EventModel(newData = {
 	],
 	chainEvents: []
 }){
+	GH.pauseFilter('events');
 	//region base
 	GH.modelBaseGenerator(this);
 	var self           = this;
 	//endregion
-
 	//region require (probably has to be edited!)
 	self.dataType = 'events';
 	self.template = 'item-event';
@@ -55,12 +55,16 @@ function EventModel(newData = {
 		filter.eventTypeBoss && showTypes.push('boss');
 		results.push(showTypes.includes(self.eventType()));
 
-		if (filter.location !== undefined) {
-			filter.location.area != undefined && results.push(self.location.area() == filter.location.area);
-			filter.location.stage != undefined && results.push(self.location.stage() == filter.location.stage);
-		} else {
+		if (filter.location.stage != '') {
+			results.push(self.location.stage() == filter.location.stage);
+		} else if (filter.location.area != '') {
+			results.push(self.location.area() == filter.location.area);
+		} else if (filter.location.area == '') {
 			results.push(true);
+		} else {
+			results.push(false);
 		}
+
 		return results.every(r=>r === true);
 	};
 	self.export       = ()=>({
@@ -71,7 +75,7 @@ function EventModel(newData = {
 		chainEvents: self.chainEvents()
 	});
 	//endregion
-
+	//region model
 	self.eventType = ko.pureComputed(()=>{
 		var result = 'normal';
 
@@ -115,6 +119,7 @@ function EventModel(newData = {
 	self.addReward    = ()=>self.rewards.push(new RewardModel({type: 'Item', name: '', amount: 1}, self));
 	self.removeReward = reward=>self.rewards.remove(reward);
 
+	self.hasChainEvents   = ko.pureComputed(()=>self.rewards().some(m=>m.getType() == 'Chest' && m.name() == 'Silver'))
 	self.chainEvents      = ko.observableArray(newData.chainEvents || []);
 	self.chainEventToAdd  = ko.observable('');
 	self.addChainEvent    = ()=>{
@@ -134,4 +139,6 @@ function EventModel(newData = {
 		GH.getData('events')()
 			.filter(m=>self.location.area() == m.location.area())
 	);
+	//endregion
+	GH.resumeFilter('events');
 }

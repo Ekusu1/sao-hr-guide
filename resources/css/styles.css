@@ -149,7 +149,11 @@ option[value=Gold] {
 .inputBox.hasHeader.hasTypeIcon :nth-child(3) {
   border-left-width: 0px;
 }
+.inputBox.offsetTop {
+  padding-top: 1.1em;
+}
 .inputBox.hasTypeIcon {
+  padding-top: 1.1em;
   padding-left: 32px;
 }
 .inputBox.hasTypeIcon > .typeIcon {
@@ -226,6 +230,10 @@ option[value=Gold] {
 }
 .inputBox .GoalType {
   width: 20px;
+}
+.inputBox .RewardAmount {
+  width: 50px;
+  border-left-width: 0;
 }
 .inputBox .EventName {
   width: 220px;
@@ -767,19 +775,19 @@ option[value=Gold] {
 .hr-icon.gear-ring-legendary {
   background-position: -120px -540px;
 }
-.hr-icon.gear-carm-common {
+.hr-icon.gear-charm-common {
   background-position: 0px -570px;
 }
-.hr-icon.gear-carm-uncommon {
+.hr-icon.gear-charm-uncommon {
   background-position: -30px -570px;
 }
-.hr-icon.gear-carm-rare {
+.hr-icon.gear-charm-rare {
   background-position: -60px -570px;
 }
-.hr-icon.gear-carm-exotic {
+.hr-icon.gear-charm-exotic {
   background-position: -90px -570px;
 }
-.hr-icon.gear-carm-legendary {
+.hr-icon.gear-charm-legendary {
   background-position: -120px -570px;
 }
 .media {

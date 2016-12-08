@@ -83,7 +83,7 @@ var GH = new function (){
 	}
 
 	self.getLast = function (key){
-		return key != undefined || key != '' ? rootView.LAST[key] : rootView.LAST;
+		return key != undefined && key != '' ? rootView.LAST[key] : rootView.LAST;
 	}
 	self.setLast = function (key, value){
 		rootView.LAST[key] = value;
@@ -113,6 +113,28 @@ var GH = new function (){
 		if (!m1Identifier) return false;
 		var current = m1[m1Identifier]();
 		return current != '' && !(self.getData(m2DataType)().some(m2=>current === m2[m2Identifier]()));
+	}
+
+	self.pauseFilter = function (dataType = 'all'){
+		if (dataType != 'all') {
+			rootView.filteredData[dataType].pause();
+		} else {
+			$.each(rootView.filteredData, (dataType, data)=>data.pause());
+			console.log(`paused ${dataType} filters`);
+		}
+	}
+
+	self.resumeFilter = function (dataType = 'all'){
+		if (dataType != 'all') {
+			rootView.filteredData[dataType].resume();
+			rootView.DATA[dataType].notifySubscribers();
+		} else {
+			$.each(rootView.filteredData, (dataType, data)=>{
+				data.resume();
+				// rootView.DATA[dataType].notifySubscribers();
+				console.log(`resumed ${dataType} filters`);
+			});
+		}
 	}
 
 	self.padNumber = function (number, width = 4, padChar = '0'){
@@ -203,8 +225,8 @@ var GH = new function (){
 		dialog.getModalHeader().hide();
 	};
 
-	self.saveData = function (){
-		rootView.sortData();
+	self.saveData = function (sort = false){
+		sort && rootView.sortData();
 		var saveData = {};
 		$.each(self.getData(), (dataType, data)=>saveData[dataType] = data().map(m=>m.export()));
 		GH.setLocalStorage('OPTIONS', self.getOptions());
@@ -215,25 +237,38 @@ var GH = new function (){
 	};
 
 	self.notify = function (msg = '', title = undefined, type = 'success'){
-		toastr.options = {
-			"closeButton":       false,
-			"debug":             false,
-			"newestOnTop":       false,
-			"progressBar":       true,
-			"positionClass":     "toast-top-right",
-			"preventDuplicates": true,
-			"onclick":           null,
-			"showDuration":      "300",
-			"hideDuration":      "300",
-			"timeOut":           "2000",
-			"extendedTimeOut":   "1000",
-			"showEasing":        "swing",
-			"hideEasing":        "linear",
-			"showMethod":        "slideDown",
-			"hideMethod":        "slideUp"
-		}
-
 		toastr[type](msg, title)
+	}
+
+	self.timer = new function (){
+		var timerSelf = this;
+		var timers = {};
+
+		timerSelf.start = function (name){
+			timers[name] = {
+				start: performance.now(),
+				end: null
+			}
+		}
+		timerSelf.stop = function (name){
+			timers[name].end = performance.now();
+		}
+		timerSelf.get = function (name){
+			timers[name].end == null && (timers[name].end = performance.now());
+			var s = timers[name].start;
+			var e = timers[name].end;
+			var d = e - s;
+			var units = {
+				ms: ()=>parseFloat(d).toFixed(3),
+				s: ()=>parseFloat(d/1000).toFixed(3),
+				m: ()=>parseFloat(d/60000).toFixed(3)
+			};
+			d < 60000 && (unit = 's');
+			d < 1000 && (unit = 'ms');
+			var result = units[unit]();
+			console.log(`${result} ${unit} ${name}`);
+			return result;
+		}
 	}
 
 	return self;

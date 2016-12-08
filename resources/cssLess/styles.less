@@ -143,7 +143,12 @@ option {
 		}
 	}
 
+	&.offsetTop {
+		padding-top: 1.1em;
+	}
+
 	&.hasTypeIcon {
+		padding-top: 1.1em;
 		padding-left: 32px;
 		> .typeIcon {
 			//overflow: hidden;
@@ -205,6 +210,7 @@ option {
 	.ItemRarity { width: 75px; }
 	.ChestRarity { width: 46px; }
 	.GoalType { width: 20px; }
+	.RewardAmount { width: 50px; border-left-width: 0; }
 	.EventName { width: 220px; }
 	.RewardType { width: 70px; }
 	.MonsterType { width: 40px; }
@@ -363,7 +369,7 @@ option {
 	.hr-gear-icon-mixin(~'waist', 17);
 	.hr-gear-icon-mixin(~'wrist', 18);
 	.hr-gear-icon-mixin(~'ring', 19);
-	.hr-gear-icon-mixin(~'carm', 20);
+	.hr-gear-icon-mixin(~'charm', 20);
 }
 
 @import "_overrides";
