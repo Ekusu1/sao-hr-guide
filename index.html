@@ -636,6 +636,7 @@
 		<ul class="nav navbar-nav nav-tabs">
 			<li class="active"><a data-toggle="tab" href="#gear">
 				Gear
+				<span data-bind="text: '('+displayAmount.gear()+')'"></span>
 				<div class="inputBox smallBtn">
 					<button type="button" class="inputBtn btn-primary" data-bind="click: createGear">
 						<i class="fa fa-plus"></i>
@@ -644,6 +645,7 @@
 			</a></li>
 			<li><a data-toggle="tab" href="#chests">
 				Chests
+				<span data-bind="text: '('+displayAmount.chests()+')'"></span>
 				<div class="inputBox smallBtn">
 					<button type="button" class="inputBtn btn-primary" data-bind="click: createChest">
 						<i class="fa fa-plus"></i>
@@ -652,6 +654,7 @@
 			</a></li>
 			<li><a data-toggle="tab" href="#events">
 				Events
+				<span data-bind="text: '('+displayAmount.events()+')'"></span>
 				<div class="inputBox smallBtn">
 					<button type="button" class="inputBtn btn-primary" data-bind="click: createEvent">
 						<i class="fa fa-plus"></i>
@@ -660,6 +663,7 @@
 			</a></li>
 			<li><a data-toggle="tab" href="#monster">
 				Monster
+				<span data-bind="text: '('+displayAmount.monster()+')'"></span>
 				<div class="inputBox smallBtn">
 					<button type="button" class="inputBtn btn-primary" data-bind="click: createMonster">
 						<i class="fa fa-plus"></i>
@@ -675,7 +679,8 @@
 				</div>
 			</a></li>
 			<li><a href="#" data-bind="click: openFilter">
-				Filter
+				Filters
+				<span data-bind="text: '('+displayAmountSum()+')'"></span>
 			</a></li>
 			<li>
 				<a href="#">

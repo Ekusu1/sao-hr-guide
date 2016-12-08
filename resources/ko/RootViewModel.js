@@ -53,11 +53,11 @@ function RootViewModel(){
 	};
 	self.displayAmount = {};
 	$.each(self.filteredData, (dataType,data)=>self.displayAmount[dataType] = ko.pureComputed(()=>data().length));
-	self.getDisplayAmountSum = function (){
+	self.displayAmountSum = ko.pureComputed(()=>{
 		var amount = 0;
 		$.each(self.filteredData, (dataType, data)=>amount += data().length)
 		return amount;
-	}
+	})
 
 	function filterBase(dataType){
 		filtered = [];

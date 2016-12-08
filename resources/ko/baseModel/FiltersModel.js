@@ -25,7 +25,7 @@ function FiltersModel(newData = {
 	self.location = new LocationModel(newData.location);
 
 	self.gearType              = ko.observable(newData.gearType);
-	self.onlyTransformableGear = ko.observable(newData.onlyTransformableGear)
+	self.onlyTransformableGear = ko.observable(newData.onlyTransformableGear);
 
 	self.chestTypeBrown  = ko.observable(newData.chestTypeBrown);
 	self.chestTypeBlue   = ko.observable(newData.chestTypeBlue);

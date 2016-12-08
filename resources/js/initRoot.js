@@ -27,5 +27,5 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', e=>
 
 $(()=>{
 	GH.timer.get('initial render time');
-	console.log('displaying: '+rootView.getDisplayAmountSum());
+	console.log('displaying: '+rootView.displayAmountSum());
 })
