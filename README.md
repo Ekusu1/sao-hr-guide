@@ -11,9 +11,10 @@ and email them to me (Ekusu1@gmail.com).
 - Monster List + Drops
 - export function
 - filter for the lists
+- Craftsmen List
 
 PS: I'm working on all of the lists so they are not complete, infact a lot is missing.
 
 ## Planned Features
 
-- Craftsmen List
+for now only new data
