@@ -83,10 +83,10 @@ var GH = new function (){
 	}
 
 	self.getLast = function (key){
-		return key != undefined && key != '' ? rootView.LAST[key] : rootView.LAST;
+		return key != undefined && key != '' ? rootView.LAST()[key] : rootView.LAST();
 	}
 	self.setLast = function (key, value){
-		rootView.LAST[key] = value;
+		rootView.LAST()[key] = value;
 	}
 
 	self.findDuplicates = function (m1){

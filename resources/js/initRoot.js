@@ -17,14 +17,6 @@ try {
 	throw e;
 }
 
-$(window).bind('beforeunload', ()=>'Are you sure you want to leave?');
-// $(window).unload(()=>GH.saveData());
-
-$(`[href="${GH.getLast('tab')}"]`).tab('show');
-$('a[data-toggle="tab"]').on('shown.bs.tab', e=>
-	GH.setLast('tab', $(e.currentTarget).attr('href'))
-);
-
 $(()=>{
 	GH.timer.get('initial render time');
 	console.log('displaying: '+rootView.displayAmountSum());

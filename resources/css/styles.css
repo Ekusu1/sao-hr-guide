@@ -4,7 +4,11 @@ body {
   font-size: 12px;
 }
 main {
-  margin-top: 60px;
+  margin-top: 84px;
+}
+.navbar-fixed-top {
+  border: 0;
+  box-shadow: 0 0 5px 5px #111;
 }
 .navbar-form-no-border {
   border: none;
@@ -79,6 +83,9 @@ option[value=Gold] {
   margin-bottom: 3px;
   vertical-align: top;
 }
+.nav .inputBox {
+  margin-bottom: 0;
+}
 .inputBox.indent {
   margin-left: 30px;
 }
@@ -144,6 +151,19 @@ option[value=Gold] {
 }
 .inputBox.hasHeader :nth-child(2) {
   border-left-width: 1px;
+}
+.nav .inputBox.hasHeader {
+  padding-top: 0;
+}
+.nav .inputBox.hasHeader > header {
+  position: initial;
+  top: initial;
+  z-index: initial;
+  font-size: 100%;
+  padding-bottom: initial;
+}
+.nav .inputBox.hasHeader :nth-child(2) {
+  border-left-width: 0px;
 }
 .inputBox.hasHeader.hasTypeIcon :nth-child(2),
 .inputBox.hasHeader.hasTypeIcon :nth-child(3) {

@@ -17,10 +17,11 @@ function RootViewModel(){
 		monster:     ko.observableArray(),
 		blacksmiths: ko.observableArray(),
 	};
-	self.LAST     = {
+	self.LAST     = ko.observable({
 		area:  '',
 		stage: '',
-	};
+		tab: ''
+	});
 
 	self.sortData            = ()=>{
 		$.each(self.DATA, (dataType, data)=>{
@@ -75,13 +76,10 @@ function RootViewModel(){
 
 	//region editing
 	self.tmpModels           = ko.observableArray();
-	self.addAnim             = elem=>{
-		if (elem.nodeType === 1) {
-			// var article = $(elem),
-			//     offset = article.offset().top;
-			/*animate({scrollBottom: 0}, 250)*/
-			// ()=>$('#tmpModelsDialog').animate({scrollTop: $(document).height()-$(window).height()},500)
-			$(elem).hide().slideDown(500);
+	self.addAnim             = domNode=>{
+		if (domNode.nodeType === 1) {
+			domNode.scrollIntoView(false);
+			$(domNode).hide().slideDown(500, ()=>domNode.scrollIntoView(false));
 		}
 	};
 	self.removeAnim          = elem=>elem.nodeType === 1 && $(elem).slideUp(500);
@@ -185,7 +183,7 @@ function RootViewModel(){
 		var last    = GH.getLocalStorage('LAST');
 		!$.isEmptyObject(options) && (OPTIONS = options);
 		!$.isEmptyObject(data) && (DATA = data);
-		!$.isEmptyObject(last) && (self.LAST = last);
+		!$.isEmptyObject(last) && (self.LAST(last));
 	};
 	self.exportData = function (){
 		self.saveData(true);
@@ -204,9 +202,10 @@ function RootViewModel(){
 		return list.sort();
 	})
 
-	// self.btnSpanKeyboardAction = function (current, event, trigger){
-	// 	[0, 13, 32].includes(event.keyCode) && trigger(current);
-	// }
+	self.btnSpanKeyboardAction = function (current, event){
+		console.log(current)
+		[0, 13, 32].includes(event.keyCode) && current.event(current, event);
+	}
 
 	self.init = function (){
 		GH.timer.start('loading all')
@@ -292,6 +291,13 @@ function RootViewModel(){
 		filterDialogInstance.close();
 		addNewDialogInstance.close();
 
+		$(window).bind('beforeunload', ()=>'Are you sure you want to leave?');
+		$(`[href="${GH.getLast('tab')}"]`).tab('show');
+		$('a[data-toggle="tab"]').on('shown.bs.tab', e=>{
+				GH.setLast('tab', $(e.currentTarget).attr('href'));
+				self.LAST.valueHasMutated();
+			}
+		);
 		Mousetrap.bind(['1', 'alt+1'], ()=>{
 			self.createGear();
 			return false;
