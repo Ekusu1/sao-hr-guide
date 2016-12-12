@@ -3,6 +3,11 @@ body {
   color: #ffffff;
   font-size: 12px;
 }
+body.switchingTheme * {
+  transition-property: background-color, color, border-color !important;
+  transition-duration: 1s !important;
+  transition-delay: 0s !important;
+}
 main {
   margin-top: 70px;
 }

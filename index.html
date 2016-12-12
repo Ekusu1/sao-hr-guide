@@ -25,8 +25,7 @@
 	<script src="resources/vendor/knockout/extension/chart.js"></script>
 </head>
 <body>
-<!-- ko if: lightTheme() --><link rel="stylesheet" href="resources/css/styles-light.css"><!-- /ko -->
-
+<link rel="stylesheet" href="" data-bind="attr:{href: lightTheme() ? 'resources/css/styles-light.css' : ''}">
 <div data-lists>
 	<datalist id="listGear" data-bind="foreach: DATA.gear">
 		<option data-bind="value: name"></option>

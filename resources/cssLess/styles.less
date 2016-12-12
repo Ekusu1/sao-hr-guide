@@ -1,12 +1,18 @@
 @import "_variables";
 @import "_mixins";
 
-//* { transition: background-color 1s, color 1s; }
-
 body {
 	background: @body-bg;
 	color: @body-color;
 	font-size: 12px;
+
+	&.switchingTheme {
+		* {
+			transition-property: background-color, color, border-color !important;
+			transition-duration: 1s !important;
+			transition-delay: 0s !important;
+		}
+	}
 }
 
 main {

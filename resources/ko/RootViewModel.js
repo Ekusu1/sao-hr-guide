@@ -26,9 +26,11 @@ function RootViewModel(){
 
 	self.lightTheme = ko.observable(true);
 	self.switchTheme = ()=>{
+		$('body').addClass('switchingTheme');
 		self.LAST().lightTheme = !self.LAST().lightTheme;
 		self.lightTheme(self.LAST().lightTheme);
 		self.LAST.valueHasMutated();
+		setTimeout(()=>$('body').removeClass('switchingTheme'), 1250)
 	}
 
 	self.sortData            = ()=>{
