@@ -3,7 +3,7 @@
 	padding: 5px;
 	margin-top: 0;
 	margin-bottom: 5px;
-	background: #222;
+	background: @color-media-default;
 
 	.media-actions {
 		opacity: .1;
@@ -19,12 +19,12 @@
 
 	.mediaGlow(@color: transparent) { box-shadow: inset 0 0 5px 2px @color, 0 0 2px 1px @color; }
 	@glow: inset 0 0 5px 2px;
-	&.newModel { .mediaGlow(#0A0); }
-	&.cloneModel { .mediaGlow(#0AA); }
-	&.showModel { .mediaGlow(); }
-	&.duplicateModel { .mediaGlow(#A0A); }
-	&.duplicateFoundModel { .mediaGlow(#00A); }
-	&.hasMissingData { .mediaGlow(#A00); }
+	&.newModel { .mediaGlow(@color-media-new); }
+	&.cloneModel { .mediaGlow(@color-media-clone); }
+	&.showModel { .mediaGlow(@color-media-show); }
+	&.duplicateModel { .mediaGlow(@color-media-duplicate); }
+	&.duplicateFoundModel { .mediaGlow(@color-media-duplicate-found); }
+	&.hasMissingData { .mediaGlow(@color-media-has-missing-data); }
 }
 
 .modal-body {
@@ -40,8 +40,8 @@
 }
 
 .modal-content {
-	background: #111;
-	border: 1px solid #FFF;
+	background: @body-bg;
+	border: 1px solid @body-color;
 	border-radius: 0;
 }
 
@@ -53,6 +53,8 @@
 input[type="radio"], input[type="checkbox"] {
 	margin: 0;
 }
+
+@import "imports/_navbar-custom";
 
 .padding-mix(~'n', ~'', 0px);
 .padding-mix(~'', ~'-5', 5px);

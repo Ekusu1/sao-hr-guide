@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="lightTheme">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta charset="UTF-8">
@@ -25,6 +25,8 @@
 	<script src="resources/vendor/knockout/extension/chart.js"></script>
 </head>
 <body>
+<!-- ko if: lightTheme() --><link rel="stylesheet" href="resources/css/styles-light.css"><!-- /ko -->
+
 <div data-lists>
 	<datalist id="listGear" data-bind="foreach: DATA.gear">
 		<option data-bind="value: name"></option>
@@ -632,150 +634,124 @@
 </script>
 </div>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<script type="text/html" id="preset-nav-tab">
+	<li class="fixed-width" data-bind="css: {active: active}">
+		<a data-toggle="tab" href="#" data-bind="attr: {href: '#'+id}">
+			<span data-bind="text: name"></span>
+			<div class="inputBox pull-right">
+				<button type="button" class="inputBtn btn-primary" data-bind="click: create">
+					<i class="fa fa-fw fa-plus"></i>
+				</button>
+			</div>
+			<span class="filterAmount pull-right" data-bind="text: '('+$root.displayAmount[id]()+') '"></span>
+		</a>
+	</li>
+</script>
+<nav class="navbar navbar-fixed-top navbar-custom">
+	<div class="container-fluid p-y-5" data-bind="visible: $root.LAST().tab != '#blacksmiths', with: FILTERS">
+		<div class="nav">
+			<div class="inputBox">
+					<span class="inputName bg-info">
+						<span class="fa fa-filter"></span>
+					</span>
+			</div>
+
+			<!-- ko if: $root.LAST().tab == '#gear' -->
+			<div class="inputBox hasHeader">
+				<header>Gear Type</header>
+				<select class="GearType" data-bind="options: $root.OPTIONS().itemTypeGear, value: gearType, valueAllowUnset: true"></select>
+			</div>
+			<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Show only transformable gear', value: onlyTransformableGear, cssClass: '', br: false}} -->
+			<!-- /ko -->
+			<!-- /ko -->
+			<!-- ko if: ['#chests','#events','#monster'].includes($root.LAST().tab) -->
+			<!-- ko template: 'select-location' --><!-- /ko -->
+			<!-- /ko -->
+			<!-- ko if: $root.LAST().tab == '#chests' -->
+			<div class="inputBox">
+				<header>Chest types</header>
+				<label type="button" class="inputBtn bg-brown">
+					<input type="checkbox" class="hidden" data-bind="checked: chestTypeBrown">
+					<i class="fa fa-fw" data-bind="css: chestTypeBrown() ? 'fa-check' : ''"></i>
+				</label>
+				<label type="button" class="inputBtn bg-blue">
+					<input type="checkbox" class="hidden" data-bind="checked: chestTypeBlue">
+					<i class="fa fa-fw" data-bind="css: chestTypeBlue() ? 'fa-check' : ''"></i>
+				</label>
+				<label type="button" class="inputBtn bg-red">
+					<input type="checkbox" class="hidden" data-bind="checked: chestTypeRed">
+					<i class="fa fa-fw" data-bind="css: chestTypeRed() ? 'fa-check' : ''"></i>
+				</label>
+				<label type="button" class="inputBtn bg-silver">
+					<input type="checkbox" class="hidden" data-bind="checked: chestTypeSilver">
+					<i class="fa fa-fw" data-bind="css: chestTypeSilver() ? 'fa-check' : ''"></i>
+				</label>
+				<label type="button" class="inputBtn bg-gold">
+					<input type="checkbox" class="hidden" data-bind="checked: chestTypeGold">
+					<i class="fa fa-fw" data-bind="css: chestTypeGold() ? 'fa-check' : ''"></i>
+				</label>
+			</div>
+			<!-- /ko -->
+			<!-- ko if: $root.LAST().tab == '#events' -->
+			<div class="inputBox">
+				<header>Event types</header>
+				<label type="button" class="inputBtn bg-event-normal">
+					<input type="checkbox" class="hidden" data-bind="checked: eventTypeNormal">
+					<i class="fa fa-fw" data-bind="css: eventTypeNormal() ? 'fa-check' : ''"></i>
+				</label>
+				<label type="button" class="inputBtn bg-event-silver">
+					<input type="checkbox" class="hidden" data-bind="checked: eventTypeSilver">
+					<i class="fa fa-fw" data-bind="css: eventTypeSilver() ? 'fa-check' : ''"></i>
+				</label>
+				<label type="button" class="inputBtn bg-event-gold">
+					<input type="checkbox" class="hidden" data-bind="checked: eventTypeGold">
+					<i class="fa fa-fw" data-bind="css: eventTypeGold() ? 'fa-check' : ''"></i>
+				</label>
+				<label type="button" class="inputBtn bg-event-boss">
+					<input type="checkbox" class="hidden" data-bind="checked: eventTypeBoss">
+					<i class="fa fa-fw" data-bind="css: eventTypeBoss() ? 'fa-check' : ''"></i>
+				</label>
+			</div>
+			<!-- /ko -->
+			<!-- ko if: $root.LAST().tab == '#monster' --><!-- /ko -->
+		</div>
+	</div>
 	<div class="container-fluid">
 		<ul class="nav navbar-nav nav-pills">
-			<li class="active"><a data-toggle="tab" href="#gear">
-				Gear
-				<span data-bind="text: '('+displayAmount.gear()+')'"></span>
-				<div class="inputBox smallBtn">
-					<button type="button" class="inputBtn btn-primary" data-bind="click: createGear">
-						<i class="fa fa-plus"></i>
-					</button>
-				</div>
-			</a></li>
-			<li><a data-toggle="tab" href="#chests">
-				Chests
-				<span data-bind="text: '('+displayAmount.chests()+')'"></span>
-				<div class="inputBox smallBtn">
-					<button type="button" class="inputBtn btn-primary" data-bind="click: createChest">
-						<i class="fa fa-plus"></i>
-					</button>
-				</div>
-			</a></li>
-			<li><a data-toggle="tab" href="#events">
-				Events
-				<span data-bind="text: '('+displayAmount.events()+')'"></span>
-				<div class="inputBox smallBtn">
-					<button type="button" class="inputBtn btn-primary" data-bind="click: createEvent">
-						<i class="fa fa-plus"></i>
-					</button>
-				</div>
-			</a></li>
-			<li><a data-toggle="tab" href="#monster">
-				Monster
-				<span data-bind="text: '('+displayAmount.monster()+')'"></span>
-				<div class="inputBox smallBtn">
-					<button type="button" class="inputBtn btn-primary" data-bind="click: createMonster">
-						<i class="fa fa-plus"></i>
-					</button>
-				</div>
-			</a></li>
-			<li><a data-toggle="tab" href="#blacksmiths">
-				Blacksmiths
-				<div class="inputBox smallBtn">
-					<button type="button" class="inputBtn btn-primary" data-bind="click: createBlacksmith">
-						<i class="fa fa-plus"></i>
-					</button>
-				</div>
-			</a></li>
+			<!-- ko template: {name: 'preset-nav-tab', data:{id: 'gear', name: 'Gear', create: createGear, active: true}} --><!-- /ko -->
+			<!-- ko template: {name: 'preset-nav-tab', data:{id: 'chests', name: 'Chests', create: createChest, active: false}} --><!-- /ko -->
+			<!-- ko template: {name: 'preset-nav-tab', data:{id: 'events', name: 'Events', create: createEvent, active: false}} --><!-- /ko -->
+			<!-- ko template: {name: 'preset-nav-tab', data:{id: 'monster', name: 'Monster', create: createMonster, active: false}} --><!-- /ko -->
+			<!-- ko template: {name: 'preset-nav-tab', data:{id: 'blacksmiths', name: 'Blacksmiths', create: createBlacksmith, active: false}} --><!-- /ko -->
 			<li><a href="#" data-bind="click: openFilter">
 				Filters
 				<span data-bind="text: '('+displayAmountSum()+')'"></span>
 			</a></li>
 			<li>
 				<a href="#">
-					<div class="inputBox smallBtn">
+					<div class="inputBox">
 						<button type="button" class="inputBtn btn-primary" title="Sort Data" data-bind="click: sortData">
-							<i class="fa fa-sort"></i>
+							<i class="fa fa-fw fa-sort"></i>
 						</button>
-					</div>
-					<div class="inputBox smallBtn">
 						<button type="button" class="inputBtn btn-success" title="Save Data" data-bind="click: saveData">
-							<i class="fa fa-floppy-o"></i>
+							<i class="fa fa-fw fa-floppy-o"></i>
 						</button>
-					</div>
-					<div class="inputBox smallBtn">
 						<button type="button" class="inputBtn btn-success" title="export Data" data-bind="click: exportData">
-							<i class="fa fa-download"></i>
+							<i class="fa fa-fw fa-download"></i>
+						</button>
+						<button type="button" class="inputBtn btn-danger" title="clear Save Data" data-bind="click: function(){GH.clearLocalStorage()}">
+							<i class="fa fa-fw fa-remove"></i>
 						</button>
 					</div>
-					<div class="inputBox smallBtn">
-						<button type="button" class="inputBtn btn-danger" title="clear Save Data" data-bind="click: function(){GH.clearLocalStorage()}">
-							<i class="fa fa-remove"></i>
+
+					<div class="inputBox">
+						<button type="button" class="inputBtn btn-primary" title="Sort Data" data-bind="click: switchTheme">
+							Switch to <!-- ko text: lightTheme() ? 'Dark':'Light' --><!-- /ko --> Theme
 						</button>
 					</div>
 				</a>
 			</li>
 		</ul>
-	</div>
-	<div class="container-fluid p-y-5" data-bind="visible: $root.LAST().tab != '#blacksmiths', with: FILTERS">
-		<div class="nav">
-			<div class="inputBox">
-				<span class="inputName bg-info">
-					<span class="fa fa-filter"></span>
-				</span>
-			</div>
-
-			<!-- ko if: $root.LAST().tab == '#gear' -->
-				<div class="inputBox hasHeader">
-					<header>Gear Type</header>
-					<select class="GearType" data-bind="options: $root.OPTIONS().itemTypeGear, value: gearType, valueAllowUnset: true"></select>
-				</div>
-				<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Show only transformable gear', value: onlyTransformableGear, cssClass: '', br: false}} -->
-				<!-- /ko -->
-			<!-- /ko -->
-			<!-- ko if: ['#chests','#events','#monster'].includes($root.LAST().tab) -->
-				<!-- ko template: 'select-location' --><!-- /ko -->
-			<!-- /ko -->
-			<!-- ko if: $root.LAST().tab == '#chests' -->
-				<div class="inputBox">
-					<header>Chest types</header>
-					<label type="button" class="inputBtn bg-brown">
-						<input type="checkbox" class="hidden" data-bind="checked: chestTypeBrown">
-						<i class="fa fa-fw" data-bind="css: chestTypeBrown() ? 'fa-check' : ''"></i>
-					</label>
-					<label type="button" class="inputBtn bg-blue">
-						<input type="checkbox" class="hidden" data-bind="checked: chestTypeBlue">
-						<i class="fa fa-fw" data-bind="css: chestTypeBlue() ? 'fa-check' : ''"></i>
-					</label>
-					<label type="button" class="inputBtn bg-red">
-						<input type="checkbox" class="hidden" data-bind="checked: chestTypeRed">
-						<i class="fa fa-fw" data-bind="css: chestTypeRed() ? 'fa-check' : ''"></i>
-					</label>
-					<label type="button" class="inputBtn bg-silver">
-						<input type="checkbox" class="hidden" data-bind="checked: chestTypeSilver">
-						<i class="fa fa-fw" data-bind="css: chestTypeSilver() ? 'fa-check' : ''"></i>
-					</label>
-					<label type="button" class="inputBtn bg-gold">
-						<input type="checkbox" class="hidden" data-bind="checked: chestTypeGold">
-						<i class="fa fa-fw" data-bind="css: chestTypeGold() ? 'fa-check' : ''"></i>
-					</label>
-				</div>
-			<!-- /ko -->
-			<!-- ko if: $root.LAST().tab == '#events' -->
-				<div class="inputBox">
-					<header>Event types</header>
-					<label type="button" class="inputBtn bg-event-normal">
-						<input type="checkbox" class="hidden" data-bind="checked: eventTypeNormal">
-						<i class="fa fa-fw" data-bind="css: eventTypeNormal() ? 'fa-check' : ''"></i>
-					</label>
-					<label type="button" class="inputBtn bg-event-silver">
-						<input type="checkbox" class="hidden" data-bind="checked: eventTypeSilver">
-						<i class="fa fa-fw" data-bind="css: eventTypeSilver() ? 'fa-check' : ''"></i>
-					</label>
-					<label type="button" class="inputBtn bg-event-gold">
-						<input type="checkbox" class="hidden" data-bind="checked: eventTypeGold">
-						<i class="fa fa-fw" data-bind="css: eventTypeGold() ? 'fa-check' : ''"></i>
-					</label>
-					<label type="button" class="inputBtn bg-event-boss">
-						<input type="checkbox" class="hidden" data-bind="checked: eventTypeBoss">
-						<i class="fa fa-fw" data-bind="css: eventTypeBoss() ? 'fa-check' : ''"></i>
-					</label>
-				</div>
-			<!-- /ko -->
-			<!-- ko if: $root.LAST().tab == '#monster' --><!-- /ko -->
-		</div>
 	</div>
 </nav>
 <main class="container-fluid">

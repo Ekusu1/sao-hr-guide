@@ -18,10 +18,18 @@ function RootViewModel(){
 		blacksmiths: ko.observableArray(),
 	};
 	self.LAST     = ko.observable({
-		area:  '',
-		stage: '',
-		tab: ''
+		area:  'Great Plains of Rustoria',
+		stage: 'Phoeniath Knoll',
+		tab: '#gear',
+		lightTheme: false
 	});
+
+	self.lightTheme = ko.observable(true);
+	self.switchTheme = ()=>{
+		self.LAST().lightTheme = !self.LAST().lightTheme;
+		self.lightTheme(self.LAST().lightTheme);
+		self.LAST.valueHasMutated();
+	}
 
 	self.sortData            = ()=>{
 		$.each(self.DATA, (dataType, data)=>{
@@ -210,6 +218,8 @@ function RootViewModel(){
 	self.init = function (){
 		GH.timer.start('loading all')
 		self.loadData();
+		self.lightTheme = ko.observable(self.LAST().lightTheme);
+
 		self.OPTIONS(OPTIONS);
 		var filters  = GH.getLocalStorage('FILTERS');
 		self.FILTERS = new FiltersModel(JSON.stringify(filters) != '{}' ? filters : undefined);
