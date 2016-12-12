@@ -270,7 +270,7 @@ option[value=Gold] {
   width: 24px;
 }
 .inputBox .CommonDrop {
-  background-color: #000;
+  background-color: #000000;
   border-color: #ffffff;
   color: #ffffff;
 }
@@ -903,6 +903,7 @@ input[type="checkbox"] {
   box-shadow: none;
 }
 .navbar-custom {
+  min-height: 0;
   background-color: #222222;
   border-color: #080808;
   border-bottom: 1px solid #ffffff;

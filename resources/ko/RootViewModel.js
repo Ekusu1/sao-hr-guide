@@ -303,49 +303,51 @@ function RootViewModel(){
 		filterDialogInstance.close();
 		addNewDialogInstance.close();
 
-		$(window).bind('beforeunload', ()=>'Are you sure you want to leave?');
-		$(`[href="${GH.getLast('tab')}"]`).tab('show');
-		$('a[data-toggle="tab"]').on('shown.bs.tab', e=>{
-				GH.setLast('tab', $(e.currentTarget).attr('href'));
-				self.LAST.valueHasMutated();
-			}
-		);
-		Mousetrap.bind(['1', 'alt+1'], ()=>{
-			self.createGear();
-			return false;
-		});
-		Mousetrap.bind(['2', 'alt+2'], ()=>self.createChest(), false);
-		Mousetrap.bind(['3', 'alt+3'], ()=>{
-			self.createEvent();
-			return false;
-		});
-		Mousetrap.bind(['4', 'alt+4'], ()=>{
-			self.createMonster();
-			return false;
-		});
-		Mousetrap.bind(['5', 'alt+5'], ()=>{
-			self.createBlacksmith();
-			return false;
-		});
-		Mousetrap.bind(['alt+6', 'ctrl+shift+f'], ()=>{
-			$('#filtersModal').modal('toggle');
-			return false;
-		});
-		Mousetrap.bind(['ctrl+shift+s'], ()=>{
-			self.sortData();
-			return false;
-		});
-		Mousetrap.bind(['ctrl+s'], ()=>{
-			GH.saveData();
-			return false;
-		});
-		Mousetrap.bind(['ctrl+e'], ()=>{
-			self.exportData();
-			return false;
-		});
-		Mousetrap.bind(['ctrl+shift+r'], ()=>{
-			GH.clearLocalStorage();
-			return false;
+		$(()=>{
+			$(window).bind('beforeunload', ()=>'Are you sure you want to leave?');
+			$(`[href="${GH.getLast('tab')}"]`).tab('show');
+			$('a[data-toggle="tab"]').on('shown.bs.tab', e=>{
+					GH.setLast('tab', $(e.currentTarget).attr('href'));
+					self.LAST.valueHasMutated();
+				}
+			);
+			Mousetrap.bind(['1', 'alt+1'], ()=>{
+				self.createGear();
+				return false;
+			});
+			Mousetrap.bind(['2', 'alt+2'], ()=>self.createChest(), false);
+			Mousetrap.bind(['3', 'alt+3'], ()=>{
+				self.createEvent();
+				return false;
+			});
+			Mousetrap.bind(['4', 'alt+4'], ()=>{
+				self.createMonster();
+				return false;
+			});
+			Mousetrap.bind(['5', 'alt+5'], ()=>{
+				self.createBlacksmith();
+				return false;
+			});
+			Mousetrap.bind(['alt+6', 'ctrl+shift+f'], ()=>{
+				$('#filtersModal').modal('toggle');
+				return false;
+			});
+			Mousetrap.bind(['ctrl+shift+s'], ()=>{
+				self.sortData();
+				return false;
+			});
+			Mousetrap.bind(['ctrl+s'], ()=>{
+				GH.saveData();
+				return false;
+			});
+			Mousetrap.bind(['ctrl+e'], ()=>{
+				self.exportData();
+				return false;
+			});
+			Mousetrap.bind(['ctrl+shift+r'], ()=>{
+				GH.clearLocalStorage();
+				return false;
+			});
 		});
 
 		GH.resumeFilter();

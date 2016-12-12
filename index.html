@@ -162,7 +162,6 @@
 	<div class="inputBox hasHeader hasTypeIcon">
 		<div class="typeIcon">
 			<i class="hr-icon" data-bind="css: itemIcon().iconCss"></i>
-			<i class="iconStars" data-bind="html: itemIcon().stars"></i>
 		</div>
 		<header>Gear</header>
 		<input type="text" list="listGear" placeholder="Gear" class="Gear" data-bind="textInput: gear"/>
@@ -380,7 +379,6 @@
 					<div class="inputBox hasHeader hasTypeIcon">
 						<div class="typeIcon">
 							<i class="hr-icon" data-bind="css: itemIcon().iconCss"></i>
-							<i class="iconStars" data-bind="html: itemIcon().stars"></i>
 						</div>
 						<header>Content</header>
 						<input type="text" list="listGear" class="Gear" placeholder="Gear" data-bind="textInput: item"/>
@@ -656,61 +654,60 @@
 			</div>
 
 			<!-- ko if: $root.LAST().tab == '#gear' -->
-			<div class="inputBox hasHeader">
-				<header>Gear Type</header>
-				<select class="GearType" data-bind="options: $root.OPTIONS().itemTypeGear, value: gearType, valueAllowUnset: true"></select>
-			</div>
-			<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Show only transformable gear', value: onlyTransformableGear, cssClass: '', br: false}} -->
-			<!-- /ko -->
+				<div class="inputBox hasHeader">
+					<header>Gear Type</header>
+					<select class="GearType" data-bind="options: $root.OPTIONS().itemTypeGear, value: gearType, valueAllowUnset: true"></select>
+				</div>
+				<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Show only transformable gear', value: onlyTransformableGear, cssClass: '', br: false}} --><!-- /ko -->
 			<!-- /ko -->
 			<!-- ko if: ['#chests','#events','#monster'].includes($root.LAST().tab) -->
-			<!-- ko template: 'select-location' --><!-- /ko -->
+				<!-- ko template: 'select-location' --><!-- /ko -->
 			<!-- /ko -->
 			<!-- ko if: $root.LAST().tab == '#chests' -->
-			<div class="inputBox">
-				<header>Chest types</header>
-				<label type="button" class="inputBtn bg-brown">
-					<input type="checkbox" class="hidden" data-bind="checked: chestTypeBrown">
-					<i class="fa fa-fw" data-bind="css: chestTypeBrown() ? 'fa-check' : ''"></i>
-				</label>
-				<label type="button" class="inputBtn bg-blue">
-					<input type="checkbox" class="hidden" data-bind="checked: chestTypeBlue">
-					<i class="fa fa-fw" data-bind="css: chestTypeBlue() ? 'fa-check' : ''"></i>
-				</label>
-				<label type="button" class="inputBtn bg-red">
-					<input type="checkbox" class="hidden" data-bind="checked: chestTypeRed">
-					<i class="fa fa-fw" data-bind="css: chestTypeRed() ? 'fa-check' : ''"></i>
-				</label>
-				<label type="button" class="inputBtn bg-silver">
-					<input type="checkbox" class="hidden" data-bind="checked: chestTypeSilver">
-					<i class="fa fa-fw" data-bind="css: chestTypeSilver() ? 'fa-check' : ''"></i>
-				</label>
-				<label type="button" class="inputBtn bg-gold">
-					<input type="checkbox" class="hidden" data-bind="checked: chestTypeGold">
-					<i class="fa fa-fw" data-bind="css: chestTypeGold() ? 'fa-check' : ''"></i>
-				</label>
-			</div>
+				<div class="inputBox">
+					<header>Chest types</header>
+					<label type="button" class="inputBtn bg-brown">
+						<input type="checkbox" class="hidden" data-bind="checked: chestTypeBrown">
+						<i class="fa fa-fw" data-bind="css: chestTypeBrown() ? 'fa-check' : ''"></i>
+					</label>
+					<label type="button" class="inputBtn bg-blue">
+						<input type="checkbox" class="hidden" data-bind="checked: chestTypeBlue">
+						<i class="fa fa-fw" data-bind="css: chestTypeBlue() ? 'fa-check' : ''"></i>
+					</label>
+					<label type="button" class="inputBtn bg-red">
+						<input type="checkbox" class="hidden" data-bind="checked: chestTypeRed">
+						<i class="fa fa-fw" data-bind="css: chestTypeRed() ? 'fa-check' : ''"></i>
+					</label>
+					<label type="button" class="inputBtn bg-silver">
+						<input type="checkbox" class="hidden" data-bind="checked: chestTypeSilver">
+						<i class="fa fa-fw" data-bind="css: chestTypeSilver() ? 'fa-check' : ''"></i>
+					</label>
+					<label type="button" class="inputBtn bg-gold">
+						<input type="checkbox" class="hidden" data-bind="checked: chestTypeGold">
+						<i class="fa fa-fw" data-bind="css: chestTypeGold() ? 'fa-check' : ''"></i>
+					</label>
+				</div>
 			<!-- /ko -->
 			<!-- ko if: $root.LAST().tab == '#events' -->
-			<div class="inputBox">
-				<header>Event types</header>
-				<label type="button" class="inputBtn bg-event-normal">
-					<input type="checkbox" class="hidden" data-bind="checked: eventTypeNormal">
-					<i class="fa fa-fw" data-bind="css: eventTypeNormal() ? 'fa-check' : ''"></i>
-				</label>
-				<label type="button" class="inputBtn bg-event-silver">
-					<input type="checkbox" class="hidden" data-bind="checked: eventTypeSilver">
-					<i class="fa fa-fw" data-bind="css: eventTypeSilver() ? 'fa-check' : ''"></i>
-				</label>
-				<label type="button" class="inputBtn bg-event-gold">
-					<input type="checkbox" class="hidden" data-bind="checked: eventTypeGold">
-					<i class="fa fa-fw" data-bind="css: eventTypeGold() ? 'fa-check' : ''"></i>
-				</label>
-				<label type="button" class="inputBtn bg-event-boss">
-					<input type="checkbox" class="hidden" data-bind="checked: eventTypeBoss">
-					<i class="fa fa-fw" data-bind="css: eventTypeBoss() ? 'fa-check' : ''"></i>
-				</label>
-			</div>
+				<div class="inputBox">
+					<header>Event types</header>
+					<label type="button" class="inputBtn bg-event-normal">
+						<input type="checkbox" class="hidden" data-bind="checked: eventTypeNormal">
+						<i class="fa fa-fw" data-bind="css: eventTypeNormal() ? 'fa-check' : ''"></i>
+					</label>
+					<label type="button" class="inputBtn bg-event-silver">
+						<input type="checkbox" class="hidden" data-bind="checked: eventTypeSilver">
+						<i class="fa fa-fw" data-bind="css: eventTypeSilver() ? 'fa-check' : ''"></i>
+					</label>
+					<label type="button" class="inputBtn bg-event-gold">
+						<input type="checkbox" class="hidden" data-bind="checked: eventTypeGold">
+						<i class="fa fa-fw" data-bind="css: eventTypeGold() ? 'fa-check' : ''"></i>
+					</label>
+					<label type="button" class="inputBtn bg-event-boss">
+						<input type="checkbox" class="hidden" data-bind="checked: eventTypeBoss">
+						<i class="fa fa-fw" data-bind="css: eventTypeBoss() ? 'fa-check' : ''"></i>
+					</label>
+				</div>
 			<!-- /ko -->
 			<!-- ko if: $root.LAST().tab == '#monster' --><!-- /ko -->
 		</div>
