@@ -1,5 +1,11 @@
 const DEFAULT_TREE_SEPERATOR = '.';
 const DEFAULT_LOCK_STATUS    = true;
+const LOGGING = {
+	timer: false,
+	pauseFilter: false
+}
+
+ko.setTemplateEngine(new ko.cachedTemplateEngine());
 
 toastr.options = {
 	"closeButton":       false,

@@ -5,6 +5,7 @@ var rootView = null;
 try {
 	rootView = new RootViewModel();
 	rootView.init();
+	GH.timer.start('render time only (applyBindings)');
 	ko.applyBindings(rootView);
 	setTimeout(()=>GH.showLoader(false), 1000);
 } catch (e) {
@@ -19,5 +20,6 @@ try {
 
 $(()=>{
 	GH.timer.get('initial render time');
+	GH.timer.get('render time only (applyBindings)');
 	console.log('displaying: '+rootView.displayAmountSum());
 })

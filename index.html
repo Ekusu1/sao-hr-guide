@@ -19,6 +19,7 @@
 	<script src="resources/vendor/mousetrap-1.6.0/mousetrap.min.js"></script>
 	<script src="resources/vendor/Chart.js-2.1.2/Chart.js"></script>
 	<script src="resources/vendor/knockout/knockout-3.4.1.min.js"></script>
+	<script src="resources/vendor/knockout/extension/cachedTemplateEngine.js"></script>
 	<script src="resources/vendor/knockout/extension/pausableComputed.js"></script>
 	<script src="resources/vendor/knockout/extension/foreachprop.js"></script>
 	<script src="resources/vendor/knockout/extension/spanBtnConfirm.js"></script>
@@ -54,7 +55,7 @@
 	</datalist>
 </div>
 <div data-templates>
-<script type="text/html" id="select-location">
+<template id="select-location">
 	<!-- ko with: location -->
 	<div class="inputBox hasHeader">
 		<header>Area / Stage</header>
@@ -62,8 +63,8 @@
 		<select class="Stages" data-bind="options: listStages, value: stage, event: {change:setLast}, valueAllowUnset: true"></select>
 	</div>
 	<!-- /ko -->
-</script>
-<script type="text/html" id="select-locations">
+</template>
+<template id="select-locations">
 	<div>
 		<!-- ko foreach: locationsSorted -->
 			<div class="inputBox" data-bind="css: {hasHeader: $index() == 0}">
@@ -84,14 +85,14 @@
 			</button>
 		</div>
 	</div>
-</script>
-<script type="text/html" id="input-gear-stat">
+</template>
+<template id="input-gear-stat">
 	<div class="inputBox hasHeader effect" data-bind="visible: !$parent.locked() || value() != 0">
 		<header data-bind="html: name">&nbsp;</header>
 		<input type="number" class="Stat" data-bind="textInput: value"/>
 	</div>
-</script>
-<script type="text/html" id="preset-required-material">
+</template>
+<template id="preset-required-material">
 	<br>
 	<div class="inputBox indent"data-bind="css: {hasHeader: $index() == 0}">
 		<!-- ko if: $index() == 0 -->
@@ -103,8 +104,8 @@
 			<i class="fa fa-minus"></i>
 		</button>
 	</div>
-</script>
-<script type="text/html" id="preset-gear-transformation">
+</template>
+<template id="preset-gear-transformation">
 	<hr class="m-y-5">
 	<div class="inputBox hasHeader">
 		<header>Transform to</header>
@@ -121,8 +122,8 @@
 			<i class="fa fa-plus"></i>
 		</button>
 	</div>
-</script>
-<script type="text/html" id="preset-goal">
+</template>
+<template id="preset-goal">
 	<div class="inputBox" data-goal-type data-bind="css: {hasHeader: $index() == 0}, attr: {'data-goal-type': type}">
 		<!-- ko if: $index() == 0 -->
 		<header>Goal</header>
@@ -137,8 +138,8 @@
 		</button>
 	</div>
 	<br>
-</script>
-<script type="text/html" id="preset-reward">
+</template>
+<template id="preset-reward">
 	<div class="inputBox" data-bind="css: {hasHeader: $index() == 0, offsetTop: hasGear()}">
 		<!-- ko if: $index() == 0 -->
 		<header>Reward</header>
@@ -174,14 +175,14 @@
 		</button>
 	</div>
 	<br>
-</script>
-<script type="text/html" id="input-blacksmith-skill">
+</template>
+<template id="input-blacksmith-skill">
 	<div class="inputBox hasHeader" name="" data-bind="attr: {name: name}">
 		<header class="BlacksmithStat" data-bind="text: $data.name">Precision</header>
 		<input type="number" class="BlacksmithStat" min="0" max="5" data-bind="textInput: $data.value"/>
 	</div>
-</script>
-<script type="text/html" id="select-blacksmith-skill">
+</template>
+<template id="select-blacksmith-skill">
 	<div class="inputBox" data-bind="css: {hasHeader: $index() == 0}">
 		<!-- ko if: $index() == 0 -->
 		<header>Skills</header>
@@ -193,8 +194,8 @@
 		<span class="inputText" data-bind="text: description"></span>
 	</div>
 	<br>
-</script>
-<script type="text/html" id="preset-media-actions">
+</template>
+<template id="preset-media-actions">
 	<div class="media-actions">
 		<!-- ko if: isDuplicate() -->
 			<!-- ko if: isTmp() -->
@@ -253,19 +254,32 @@
 			</div>
 		<!-- /ko -->
 	</div>
-</script>
+</template>
+<template id="preset-nav-tab">
+	<li class="fixed-width" data-bind="css: {active: active}">
+		<a data-toggle="tab" href="#" data-bind="attr: {href: '#'+id}">
+			<span data-bind="text: name"></span>
+			<div class="inputBox pull-right">
+				<button type="button" class="inputBtn btn-primary" data-bind="click: create">
+					<i class="fa fa-fw fa-plus"></i>
+				</button>
+			</div>
+			<span class="filterAmount pull-right" data-bind="text: '('+$root.displayAmount[id]()+') '"></span>
+		</a>
+	</li>
+</template>
 
-<script type="text/html" id="btn-span-add-show">
+<template id="btn-span-add-show">
 	<span type="button" tabindex="0" class="inputBtn showOnLock" data-bind="css: check() ? 'btn-success' : 'btn-info', spanBtnConfirm: check() ? function(){$root.createPresetModel($parent)} : show">
 		<i class="fa" data-bind="css: check() ? 'fa-sign-in' : 'fa-eye'"></i>
 	</span>
-</script>
-<script type="text/html" id="btn-span-if">
+</template>
+<template id="btn-span-if">
 	<span type="button" tabindex="0" class="inputBtn showOnLock" data-bind="css: btnClass, visible: condition, spanBtnConfirm: event">
 		<i class="fa" data-bind="css: iconClass"></i>
 	</span>
-</script>
-<script type="text/html" id="preset-inputBox-check">
+</template>
+<template id="preset-inputBox-check">
 	<div class="inputBox" data-bind="css: $data.cssClass">
 		<span class="inputText" data-bind="html: name"></span>
 		<label type="button" class="inputBtn">
@@ -274,9 +288,9 @@
 		</label>
 	</div>
 	<!-- ko if: $data.br !== false --><br><!-- /ko -->
-</script>
+</template>
 
-<script type="text/html" id="item-gear">
+<template id="item-gear">
 	<article id="tempGearId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
@@ -359,8 +373,8 @@
 			<!-- ko template: "preset-media-actions" --><!-- /ko -->
 		</div>
 	</article>
-</script>
-<script type="text/html" id="item-chest">
+</template>
+<template id="item-chest">
 	<article id="tempChestId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
@@ -389,8 +403,8 @@
 			<!-- ko template: "preset-media-actions" --><!-- /ko -->
 		</div>
 	</article>
-</script>
-<script type="text/html" id="item-event">
+</template>
+<template id="item-event">
 	<article id="tempEventId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
@@ -452,8 +466,8 @@
 			<!-- ko template: "preset-media-actions" --><!-- /ko -->
 		</div>
 	</article>
-</script>
-<script type="text/html" id="item-monster">
+</template>
+<template id="item-monster">
 	<article id="tempMonsterId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
@@ -529,8 +543,8 @@
 			<!-- ko template: "preset-media-actions" --><!-- /ko -->
 		</div>
 	</article>
-</script>
-<script type="text/html" id="item-blacksmith">
+</template>
+<template id="item-blacksmith">
 	<article id="tempBlacksmithId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
@@ -564,9 +578,9 @@
 			<!-- ko template: "preset-media-actions" --><!-- /ko -->
 		</div>
 	</article>
-</script>
+</template>
 
-<script type="text/html" id="template-filter">
+<template id="template-filter">
 	<!-- ko with: FILTERS -->
 		<hr class="m-y-5">
 		<h4>Location</h4>
@@ -593,8 +607,8 @@
 		<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Gold', value: eventTypeGold, cssClass: 'bg-event-gold'}} --><!-- /ko -->
 		<!-- ko template:{name:'preset-inputBox-check',data:{name: 'Boss', value: eventTypeBoss, cssClass: 'bg-event-boss'}} --><!-- /ko -->
 	<!-- /ko -->
-</script>
-<script type="text/html" id="template-tmp">
+</template>
+<template id="template-tmp">
 	<section class="media-list" data-bind="foreach: {data: tmpModels, afterAdd: addAnim, beforeRemove: removeAnim}">
 		<!-- ko template: template --><!-- /ko -->
 	</section>
@@ -628,22 +642,9 @@
 			</div>
 		</div>
 	</div>
-</script>
+</template>
 </div>
 
-<script type="text/html" id="preset-nav-tab">
-	<li class="fixed-width" data-bind="css: {active: active}">
-		<a data-toggle="tab" href="#" data-bind="attr: {href: '#'+id}">
-			<span data-bind="text: name"></span>
-			<div class="inputBox pull-right">
-				<button type="button" class="inputBtn btn-primary" data-bind="click: create">
-					<i class="fa fa-fw fa-plus"></i>
-				</button>
-			</div>
-			<span class="filterAmount pull-right" data-bind="text: '('+$root.displayAmount[id]()+') '"></span>
-		</a>
-	</li>
-</script>
 <nav class="navbar navbar-fixed-top navbar-custom">
 	<div class="container-fluid p-y-5" data-bind="visible: $root.LAST().tab != '#blacksmiths', with: FILTERS">
 		<div class="nav">

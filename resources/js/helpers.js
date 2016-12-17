@@ -120,7 +120,7 @@ var GH = new function (){
 			rootView.filteredData[dataType].pause();
 		} else {
 			$.each(rootView.filteredData, (dataType, data)=>data.pause());
-			console.log(`paused ${dataType} filters`);
+			LOGGING.pauseFilter && console.log(`paused ${dataType} filters`);
 		}
 	}
 
@@ -132,7 +132,7 @@ var GH = new function (){
 			$.each(rootView.filteredData, (dataType, data)=>{
 				data.resume();
 				// rootView.DATA[dataType].notifySubscribers();
-				console.log(`resumed ${dataType} filters`);
+				LOGGING.pauseFilter && console.log(`resumed ${dataType} filters`);
 			});
 		}
 	}
@@ -266,7 +266,7 @@ var GH = new function (){
 			d < 60000 && (unit = 's');
 			d < 1000 && (unit = 'ms');
 			var result = units[unit]();
-			console.log(`${result} ${unit} ${name}`);
+			LOGGING.timer && console.log(`${result} ${unit} ${name}`);
 			return result;
 		}
 	}
