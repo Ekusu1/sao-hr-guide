@@ -87,10 +87,20 @@
 	</div>
 </template>
 <template id="input-gear-stat">
-	<div class="inputBox hasHeader effect" data-bind="visible: !$parent.locked() || value() != 0">
-		<header data-bind="html: name">&nbsp;</header>
-		<input type="number" class="Stat" data-bind="textInput: value"/>
-	</div>
+	<!-- ko if: $root.showGearTendence() && $parent.locked() -->
+		<div class="inputBox effect" data-bind="visible: value() != 0">
+			<header data-bind="attr:{title: value}, style:{color:valueTendance()=='+'?'#0af':'#f00'}">
+				<span data-bind="html: name"></span>
+				<i class="fa" data-bind="css: 'fa-'+(valueTendance()=='+'?'plus':'minus')"></i>
+			</header>
+		</div>
+	<!-- /ko -->
+	<!-- ko if: !$parent.locked() || !$root.showGearTendence()-->
+		<div class="inputBox hasHeader effect" data-bind="visible: !$parent.locked() || value() != 0">
+			<header data-bind="html: name">&nbsp;</header>
+			<input type="number" class="Stat" data-bind="textInput: value"/>
+		</div>
+	<!-- /ko -->
 </template>
 <template id="preset-required-material">
 	<br>
@@ -289,6 +299,20 @@
 	</div>
 	<!-- ko if: $data.br !== false --><br><!-- /ko -->
 </template>
+<template id="preset-location-row">
+	<div class="col-xs-12 m-t-10 m-b-5">
+		<!-- ko if: $root.showLocationStage($index(), $data) -->
+			<!-- ko with: dataType != 'monster' ? location : locations()[0] -->
+				<h5 class="pull-left nm-y m-r-5" style="margin-top: 3px !important;" data-bind="text: stage"></h5>
+			<!-- /ko -->
+		<!-- /ko -->
+		<!-- ko if: $root.showLocationArea($index(), $data) -->
+			<!-- ko with: dataType != 'monster' ? location : locations()[0] -->
+				<h4 class="pull-left nm-y" data-bind="text: area"></h4>
+			<!-- /ko -->
+		<!-- /ko -->
+	</div>
+</template>
 
 <template id="item-gear">
 	<article id="tempGearId" class="media" data-bind="css: mediaCss, attr: {id: id}">
@@ -328,19 +352,29 @@
 					<div data-bind="template: {name: 'input-gear-stat', foreach: groupedEffects().resistance}"></div>
 					<div>
 						<!-- ko foreach: groupedEffects().other -->
-						<div class="inputBox effect">
-							<input class="inputName GearEffect" type="text" list="listGearEffect" placeholder="Effect" data-bind="textInput: name"/>
-							<!-- ko template: {name: 'btn-span-if', data:{
-								btnClass: 'btn-success',
-								iconClass: 'fa-sign-in',
-								condition: isNewEffect(),
-								event: addNewEffect
-							}} --><!-- /ko -->
-							<input type="number" class="Stat" data-bind="textInput: value"/>
-							<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeEffect" tabindex="-1">
-								<i class="fa fa-minus"></i>
-							</button>
-						</div>
+							<!-- ko if: $root.showGearTendence() && $parent.locked() -->
+								<div class="inputBox effect" data-bind="visible: value() != 0">
+									<header data-bind="attr:{title: value}, style:{color:valueTendance()=='+'?'#0af':'#f00'}">
+										<span data-bind="html: name"></span>
+										<i class="fa" data-bind="css: 'fa-'+(valueTendance()=='+'?'plus':'minus')"></i>
+									</header>
+								</div>
+							<!-- /ko -->
+							<!-- ko if: !$parent.locked() || !$root.showGearTendence()-->
+								<div class="inputBox effect">
+									<input class="inputName GearEffect" type="text" list="listGearEffect" placeholder="Effect" data-bind="textInput: name"/>
+									<!-- ko template: {name: 'btn-span-if', data:{
+										btnClass: 'btn-success',
+										iconClass: 'fa-sign-in',
+										condition: isNewEffect(),
+										event: addNewEffect
+									}} --><!-- /ko -->
+									<input type="number" class="Stat" data-bind="textInput: value"/>
+									<button type="button" class="inputBtn btn-danger" data-bind="click: $parent.removeEffect" tabindex="-1">
+									<i class="fa fa-minus"></i>
+								</button>
+								</div>
+							<!-- /ko -->
 						<!-- /ko -->
 						<div class="inputBox">
 							<button type="button" class="inputBtn btn-primary" data-bind="click: addEffect">
@@ -375,6 +409,7 @@
 	</article>
 </template>
 <template id="item-chest">
+	<!-- ko template: {name:'preset-location-row',if:$root.showLocationRow($index(), $data)} --><!-- /ko -->
 	<article id="tempChestId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
@@ -405,6 +440,7 @@
 	</article>
 </template>
 <template id="item-event">
+	<!-- ko template: {name:'preset-location-row',if:$root.showLocationRow($index(), $data)} --><!-- /ko -->
 	<article id="tempEventId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
@@ -468,6 +504,7 @@
 	</article>
 </template>
 <template id="item-monster">
+	<!-- ko template: {name:'preset-location-row',if:$root.showLocationRow($index(), $data)} --><!-- /ko -->
 	<article id="tempMonsterId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
@@ -545,6 +582,7 @@
 	</article>
 </template>
 <template id="item-blacksmith">
+	<!-- ko template: {name:'preset-location-row',if:$root.showLocationRow($index(), $data)} --><!-- /ko -->
 	<article id="tempBlacksmithId" class="media" data-bind="css: mediaCss, attr: {id: id}">
 		<div class="media-body">
 			<fieldset class="row" data-bind="disable: locked">
@@ -753,7 +791,7 @@
 </nav>
 <main class="container-fluid">
 	<div class="tab-content">
-		<section class="media-list tab-pane active" id="gear" data-bind="template: {name: 'item-gear', foreach: filteredData.gear}"></section>
+		<section class="media-list tab-pane" id="gear" data-bind="template: {name: 'item-gear', foreach: filteredData.gear}"></section>
 		<section class="media-list tab-pane" id="chests" data-bind="template: {name: 'item-chest', foreach: filteredData.chests}"></section>
 		<section class="media-list tab-pane" id="events" data-bind="template: {name: 'item-event', foreach: filteredData.events}"></section>
 		<section class="media-list tab-pane" id="monster" data-bind="template: {name: 'item-monster', foreach: filteredData.monster}"></section>

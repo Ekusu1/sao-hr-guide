@@ -134,7 +134,7 @@ option {
 			width: 32px !important;
 			height: 32px !important;
 			padding: 0;
-			background: @inputBox-frontcolor-default;
+			background: @inputBox-backcolor-editable;
 
 			.iconStars {
 				position: absolute;
@@ -346,6 +346,14 @@ option {
 	.hr-gear-icon-mixin(~'wrist', 18);
 	.hr-gear-icon-mixin(~'ring', 19);
 	.hr-gear-icon-mixin(~'charm', 20);
+}
+
+.locationRow {
+	position: sticky;
+	top: 70px;
+	z-index: 100;
+	background: @body-bg;
+	box-shadow: 0 0 5px 5px @body-bg;
 }
 
 @import "_overrides";

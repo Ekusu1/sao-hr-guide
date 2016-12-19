@@ -18,22 +18,79 @@ function RootViewModel(){
 		blacksmiths: ko.observableArray(),
 	};
 	self.LAST     = ko.observable({
-		area:  'Great Plains of Rustoria',
-		stage: 'Phoeniath Knoll',
-		tab: '#gear',
+		area:       'Great Plains of Rustoria',
+		stage:      'Phoeniath Knoll',
+		tab:        '#gear',
 		lightTheme: false
 	});
 
-	self.lightTheme = ko.observable(true);
+	self.lightTheme  = ko.observable(true);
+	var $body        = $('body');
 	self.switchTheme = ()=>{
-		$('body').addClass('switchingTheme');
+		$body.addClass('switchingTheme');
 		self.LAST().lightTheme = !self.LAST().lightTheme;
 		self.lightTheme(self.LAST().lightTheme);
 		self.LAST.valueHasMutated();
-		setTimeout(()=>$('body').removeClass('switchingTheme'), 1250)
-	}
+		setTimeout(()=>$body.removeClass('switchingTheme'), 1250)
+	};
 
-	self.sortData            = ()=>{
+	/**
+	 * @param {Number} index
+	 * @param {ChestModel|EventModel|MonsterModel} current
+	 * @typeDef {ChestModel|EventModel|MonsterModel} last
+	 * @return {boolean}
+	 */
+	self.showLocationRow = (index, current)=>{
+		if (index == 0) return true;
+		var dataType = current.dataType;
+		var lastArray = dataType == 'blacksmiths' ? self.DATA[dataType]() : self.filteredData[dataType]();
+		var last = lastArray[index - 1];
+		var currentLocation = dataType == 'monster' ? current.locations()[0] : current.location;
+		var lastLocation = dataType == 'monster' ? last.locations()[0] : last.location;
+
+		var show = [
+			currentLocation.area() != lastLocation.area(),
+			currentLocation.stage() != lastLocation.stage()
+		];
+		return show.some((con)=>con);
+	};
+	/**
+	 * @param {Number} index
+	 * @param {ChestModel|EventModel|MonsterModel} current
+	 * @typeDef {ChestModel|EventModel|MonsterModel} last
+	 * @return {boolean}
+	 */
+	self.showLocationArea = (index, current)=>{
+		if (index == 0) return true;
+		var dataType = current.dataType;
+		var lastArray = dataType == 'blacksmiths' ? self.DATA[dataType]() : self.filteredData[dataType]();
+		var last = lastArray[index - 1];
+		var currentArea = (dataType == 'monster' ? current.locations()[0] : current.location).area();
+		var lastArea = (dataType == 'monster' ? last.locations()[0] : last.location).area();
+
+		return currentArea != lastArea;
+	};
+	/**
+	 * @param {Number} index
+	 * @param {ChestModel|EventModel|MonsterModel} current
+	 * @typeDef {ChestModel|EventModel|MonsterModel} last
+	 * @return {boolean}
+	 */
+	self.showLocationStage = (index, current)=>{
+		if (index == 0) return true;
+		var dataType = current.dataType;
+		var lastArray = dataType == 'blacksmiths' ? self.DATA[dataType]() : self.filteredData[dataType]();
+		var last = lastArray[index - 1];
+		var currentStage = (dataType == 'monster' ? current.locations()[0] : current.location).stage();
+		var lastStage = (dataType == 'monster' ? last.locations()[0] : last.location).stage();
+
+		return currentStage != lastStage;
+	};
+
+	self.showGearTendence   = ko.observable(true);
+	self.switchGearTendence = ()=>self.showGearTendence(!self.showGearTendence());
+
+	self.sortData = ()=>{
 		$.each(self.DATA, (dataType, data)=>{
 			GH.pauseFilter(dataType);
 			var sortedData = data().sort((a, b)=>{
@@ -62,13 +119,13 @@ function RootViewModel(){
 		monster:     ko.pauseablePureComputed(()=>filterBase('monster')),
 		blacksmiths: ko.pauseablePureComputed(()=>filterBase('blacksmiths')),
 	};
-	self.displayAmount = {};
-	$.each(self.filteredData, (dataType,data)=>self.displayAmount[dataType] = ko.pureComputed(()=>data().length));
+	self.displayAmount       = {};
+	$.each(self.filteredData, (dataType, data)=>self.displayAmount[dataType] = ko.pureComputed(()=>data().length));
 	self.displayAmountSum = ko.pureComputed(()=>{
 		var amount = 0;
-		$.each(self.filteredData, (dataType, data)=>amount += data().length)
+		$.each(self.filteredData, (dataType, data)=>amount += data().length);
 		return amount;
-	})
+	});
 
 	function filterBase(dataType){
 		filtered = [];
@@ -82,6 +139,7 @@ function RootViewModel(){
 		}
 		return filtered;
 	}
+
 	//endregion
 
 	//region editing
@@ -210,15 +268,14 @@ function RootViewModel(){
 		var list = [""];
 		GH.getData('monster')().forEach(m=>!list.includes(m.family()) && list.push(m.family()));
 		return list.sort();
-	})
+	});
 
 	self.btnSpanKeyboardAction = function (current, event){
-		console.log(current)
-		[0, 13, 32].includes(event.keyCode) && current.event(current, event);
-	}
+			[0, 13, 32].includes(event.keyCode) && current.event(current, event);
+	};
 
 	self.init = function (){
-		GH.timer.start('loading all')
+		GH.timer.start('loading all');
 		self.loadData();
 		self.lightTheme = ko.observable(self.LAST().lightTheme);
 
@@ -227,9 +284,9 @@ function RootViewModel(){
 		self.FILTERS = new FiltersModel(JSON.stringify(filters) != '{}' ? filters : undefined);
 		GH.pauseFilter();
 		$.each(dataTypes, (dataType, model)=>{
-			GH.timer.start('loading '+dataType);
-			self.DATA[dataType](DATA[dataType].map(data=>new model(data)))
-			GH.timer.get('loading '+dataType);
+			GH.timer.start('loading ' + dataType);
+			self.DATA[dataType](DATA[dataType].map(data=>new model(data)));
+			GH.timer.get('loading ' + dataType);
 		});
 
 		filterDialogInstance = new BootstrapDialog({

@@ -154,7 +154,7 @@ option[value=Gold] {
   width: 32px !important;
   height: 32px !important;
   padding: 0;
-  background: #ffffff;
+  background: #262626;
 }
 .inputBox.hasTypeIcon > .typeIcon .iconStars {
   position: absolute;
@@ -780,6 +780,13 @@ option[value=Gold] {
 }
 .hr-icon.gear-charm-legendary {
   background-position: -120px -570px;
+}
+.locationRow {
+  position: sticky;
+  top: 70px;
+  z-index: 100;
+  background: #111111;
+  box-shadow: 0 0 5px 5px #111111;
 }
 .media {
   position: relative;

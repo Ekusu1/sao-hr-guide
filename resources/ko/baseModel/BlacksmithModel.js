@@ -19,7 +19,6 @@ function BlacksmithModel(newData = {
 	GH.modelBaseGenerator(this);
 	var self           = this;
 	//endregion
-
 	//region require (probably has to be edited!)
 	self.dataType = 'blacksmiths';
 	self.template = 'item-blacksmith';
