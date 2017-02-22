@@ -684,8 +684,8 @@
 </div>
 
 <nav class="navbar navbar-fixed-top navbar-custom">
-	<div class="container-fluid p-y-5" data-bind="visible: $root.LAST().tab != '#blacksmiths', with: FILTERS">
-		<div class="nav">
+	<div class="container-fluid p-t-5">
+		<div class="nav col-xs-12 col-sm-9 m-b-5" data-bind="visible: $root.LAST().tab != '#blacksmiths', with: FILTERS">
 			<div class="inputBox">
 					<span class="inputName bg-info">
 						<span class="fa fa-filter"></span>
@@ -750,7 +750,31 @@
 			<!-- /ko -->
 			<!-- ko if: $root.LAST().tab == '#monster' --><!-- /ko -->
 		</div>
+		<div class="nav col-xs-12 col-sm-3">
+			<div class="pull-right">
+				<div class="inputBox">
+					<button type="button" class="inputBtn btn-primary" title="Sort Data" data-bind="click: sortData">
+						<i class="fa fa-fw fa-sort"></i>
+					</button>
+					<button type="button" class="inputBtn btn-success" title="Save Data" data-bind="click: saveData">
+						<i class="fa fa-fw fa-floppy-o"></i>
+					</button>
+					<button type="button" class="inputBtn btn-success" title="export Data" data-bind="click: exportData">
+						<i class="fa fa-fw fa-download"></i>
+					</button>
+					<button type="button" class="inputBtn btn-danger" title="clear Save Data" data-bind="click: function(){GH.clearLocalStorage()}">
+						<i class="fa fa-fw fa-remove"></i>
+					</button>
+				</div>
+				<div class="inputBox">
+					<button type="button" class="inputBtn btn-primary" title="Sort Data" data-bind="click: switchTheme">
+						Switch to <!-- ko text: lightTheme() ? 'Dark':'Light' --><!-- /ko --> Theme
+					</button>
+				</div>
+			</div>
+		</div>
 	</div>
+
 	<div class="container-fluid">
 		<ul class="nav navbar-nav nav-pills">
 			<!-- ko template: {name: 'preset-nav-tab', data:{id: 'gear', name: 'Gear', create: createGear, active: true}} --><!-- /ko -->
@@ -762,40 +786,16 @@
 				Filters
 				<span data-bind="text: '('+displayAmountSum()+')'"></span>
 			</a></li>
-			<li>
-				<a href="#">
-					<div class="inputBox">
-						<button type="button" class="inputBtn btn-primary" title="Sort Data" data-bind="click: sortData">
-							<i class="fa fa-fw fa-sort"></i>
-						</button>
-						<button type="button" class="inputBtn btn-success" title="Save Data" data-bind="click: saveData">
-							<i class="fa fa-fw fa-floppy-o"></i>
-						</button>
-						<button type="button" class="inputBtn btn-success" title="export Data" data-bind="click: exportData">
-							<i class="fa fa-fw fa-download"></i>
-						</button>
-						<button type="button" class="inputBtn btn-danger" title="clear Save Data" data-bind="click: function(){GH.clearLocalStorage()}">
-							<i class="fa fa-fw fa-remove"></i>
-						</button>
-					</div>
-
-					<div class="inputBox">
-						<button type="button" class="inputBtn btn-primary" title="Sort Data" data-bind="click: switchTheme">
-							Switch to <!-- ko text: lightTheme() ? 'Dark':'Light' --><!-- /ko --> Theme
-						</button>
-					</div>
-				</a>
-			</li>
 		</ul>
 	</div>
 </nav>
 <main class="container-fluid">
 	<div class="tab-content">
-		<section class="media-list tab-pane" id="gear" data-bind="template: {name: 'item-gear', foreach: filteredData.gear}"></section>
-		<section class="media-list tab-pane" id="chests" data-bind="template: {name: 'item-chest', foreach: filteredData.chests}"></section>
-		<section class="media-list tab-pane" id="events" data-bind="template: {name: 'item-event', foreach: filteredData.events}"></section>
-		<section class="media-list tab-pane" id="monster" data-bind="template: {name: 'item-monster', foreach: filteredData.monster}"></section>
-		<section class="media-list tab-pane" id="blacksmiths" data-bind="template: {name: 'item-blacksmith', foreach: DATA.blacksmiths}"></section>
+		<section class="media-list tab-pane fade" id="gear" data-bind="template: {name: 'item-gear', foreach: filteredData.gear}"></section>
+		<section class="media-list tab-pane fade" id="chests" data-bind="template: {name: 'item-chest', foreach: filteredData.chests}"></section>
+		<section class="media-list tab-pane fade" id="events" data-bind="template: {name: 'item-event', foreach: filteredData.events}"></section>
+		<section class="media-list tab-pane fade" id="monster" data-bind="template: {name: 'item-monster', foreach: filteredData.monster}"></section>
+		<section class="media-list tab-pane fade" id="blacksmiths" data-bind="template: {name: 'item-blacksmith', foreach: DATA.blacksmiths}"></section>
 	</div>
 </main>
 
