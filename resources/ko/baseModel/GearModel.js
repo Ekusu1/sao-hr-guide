@@ -122,7 +122,7 @@ function GearModel(newData = {
 
 	self.transformedFrom      = ko.observable(newData.transformedFrom || '');
 	self.transformations      = ko.observableArray(newData.transformations.map(data=>new TransformationModel(data, self)));
-	self.transformable        = ko.pureComputed(()=>self.transformedFrom() !== '' || self.transformations().length > 0);
+	self.transformable        = ko.pureComputed(()=>self.transformations().length > 0);
 	self.addTransformation    = ()=>self.transformations.push(new TransformationModel(undefined, self));
 	self.removeTransformation = transformation=>self.transformations.remove(transformation);
 
